@@ -11,17 +11,16 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import Paper from '@mui/material/Paper';
+import LoginForm from '../LoginForm/LoginForm';
 
 export default function ButtonAppBar() {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+    const [showLoginForm, setLoginForm] = React.useState(false)
 
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
-    const handleProfileMenuOpen = (event) => {
-        setAnchorEl(event.currentTarget);
-    };
+    const profileCircleClicked = () => showLoginForm === false ? setLoginForm(true) : setLoginForm(false)
 
     const handleMobileMenuClose = () => {
         setMobileMoreAnchorEl(null);
@@ -32,12 +31,6 @@ export default function ButtonAppBar() {
     };
 
     const menuId = 'primary-search-account-menu';
-
-    const renderMenu = (
-            <Paper>
-
-            </Paper>
-    );
 
     const mobileMenuId = 'primary-search-account-menu-mobile';
     const renderMobileMenu = (
@@ -64,7 +57,7 @@ export default function ButtonAppBar() {
                 </IconButton>
                 <p>Cart</p>
             </MenuItem>
-            <MenuItem onClick={handleProfileMenuOpen}>
+            <MenuItem onClick={profileCircleClicked}>
                 <IconButton
                     size="large"
                     aria-label="account of current user"
@@ -108,7 +101,7 @@ export default function ButtonAppBar() {
                             aria-label="account of current user"
                             aria-controls={menuId}
                             aria-haspopup="true"
-                            onClick={handleProfileMenuOpen}
+                            onClick={profileCircleClicked}
                             color="inherit"
                         >
                             <AccountCircleIcon />
@@ -129,7 +122,7 @@ export default function ButtonAppBar() {
                 </Toolbar>
             </AppBar>
             {renderMobileMenu}
-            {renderMenu}
+            { showLoginForm ? <LoginForm /> : null }
         </Box>
     );
 }
