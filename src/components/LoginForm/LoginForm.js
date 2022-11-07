@@ -48,7 +48,8 @@ export default function LoginForm() {
         return (
             <Box
                 sx={{
-                    display: 'flex'
+                    display: 'flex',
+                    justifyContent: 'flex-end'
                 }}
             >
                 <Paper>
