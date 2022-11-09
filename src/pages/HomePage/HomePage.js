@@ -12,7 +12,7 @@ function HomePage(props) {
     return (
         <div>
             <AppBar />
-            <Grid container spacing={{ xs: 0, md: 2 }} columns={{ xs: 12, md: 4 }}>
+            <Grid container spacing={{ xs: 0, md: 2 }} columns={{ xs: 12, md: 4 }} sx={{m: 2}}>
                 {products.map((product) => {
                     return (
                         <Card sx={{ maxWidth: 512 }}>

@@ -73,8 +73,8 @@ export default function ButtonAppBar() {
     );
 
     return (
-        <Box sx={{ flexGrow: 1 }}>
-            <AppBar position="fixed">
+        <>
+            <AppBar position="sticky">
                 <Toolbar>
                     <IconButton
                         size="large"
@@ -123,6 +123,6 @@ export default function ButtonAppBar() {
             </AppBar>
             {renderMobileMenu}
             { showLoginForm ? <LoginForm /> : null }
-        </Box>
+        </>
     );
 }

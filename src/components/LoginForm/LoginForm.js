@@ -56,7 +56,7 @@ export default function LoginForm() {
         >
             <Paper>
                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                    <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+                    <Tabs value={value} onChange={handleChange} aria-label="tabs">
                         <Tab label="Sign in" {...a11yProps(0)} />
                         <Tab label="Register" {...a11yProps(1)} />
                     </Tabs>
@@ -81,7 +81,7 @@ export default function LoginForm() {
                     </Box>
                 </TabPanel>
                 <TabPanel value={value} index={1}>
-                <Box
+                    <Box
                         component="form"
                         sx={{
                             '& > :not(style)': { m: 1, width: '25ch' },
