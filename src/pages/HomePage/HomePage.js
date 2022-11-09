@@ -32,6 +32,9 @@ function HomePage(props) {
                                 <Typography variant="body2" color="text.secondary">
                                     {product.description}
                                 </Typography>
+                                <Typography variant="body2" color="text.secondary">
+                                    ${product.price}
+                                </Typography>
                             </CardContent>
                             <CardActions>
                                 <Button size="small">Add to cart</Button>
