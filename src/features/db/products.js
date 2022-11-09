@@ -1,7 +1,7 @@
 export const products = [
     {
         productId: '1',
-        image: 'https://i.imgur.com/hAV6F86.jpeg',
+        image: null,
         imageDescription: 'Blank image',
         title: 'Product',
         description: 'Just a product',
