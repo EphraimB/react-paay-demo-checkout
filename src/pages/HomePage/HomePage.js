@@ -20,7 +20,7 @@ function HomePage(props) {
                                 component="img"
                                 height="140"
                                 image={product.image}
-                                alt="blank image"
+                                alt={product.imageDescription}
                             />
                             <CardContent>
                                 <Typography gutterBottom variant="h5" component="div">
