@@ -42,6 +42,20 @@ export default function LoginForm() {
         };
     }
     const [value, setValue] = React.useState(0);
+    const [username, setUsername] = React.useState("");
+    const [password, setPassword] = React.useState("");
+
+    function validateForm() {
+
+        return username.length > 0 && password.length > 0;
+
+    }
+
+    function handleSubmit(event) {
+
+        
+
+    }
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -50,8 +64,10 @@ export default function LoginForm() {
     return (
         <Box
             sx={{
+                position: 'absolute',
                 display: 'flex',
-                justifyContent: 'flex-end'
+                justifyContent: 'flex-end',
+                right: 0
             }}
         >
             <Paper>
@@ -64,7 +80,7 @@ export default function LoginForm() {
                 <TabPanel value={value} index={0}>
                     <Box
                         component="form"
-                        // onSubmit={handleSubmit(onSubmitHandler)}
+                        onSubmit={handleSubmit()}
                         sx={{
                             '& > :not(style)': { m: 1, width: '25ch' },
                         }}
