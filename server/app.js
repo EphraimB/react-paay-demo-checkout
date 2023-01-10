@@ -46,6 +46,18 @@ app.get("/products/:id", async (req, res) => {
   }
 });
 
+app.put("/products/:id", async (req, res) => {
+  try {
+      const { id } = req.params;
+      const { product_title, product_description, product_price } = req.body;
+      const updateTodo = await pool.query("UPDATE products SET product_title = $1, product_description = $2, product_price = $3 WHERE product_id = $4", [product_title, product_description, product_price, id])
+
+      res.json("Todo was updated");
+  } catch (err) {
+      console.error(err.message);
+  }
+});
+
 app.post("/products", async (req, res) => {
   try {
       const { product_title, product_description, product_price } = req.body;
