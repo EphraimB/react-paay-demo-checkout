@@ -21,8 +21,6 @@ const pool = new Pool({
   port: process.env.PORT,
 });
 
-console.log(process.env.PASSWORD);
-
 app.get('/', (req, res) => {
   res.send('Hello World!')
 });
@@ -32,6 +30,19 @@ app.get("/products", async (req, res) => {
       const allProducts = await pool.query("SELECT * FROM products");
 
       res.json(allProducts.rows);
+  } catch (err) {
+      console.error(err.message);
+  }
+});
+
+app.post("/products", async (req, res) => {
+  try {
+      const { product_title, product_description, product_price } = req.body;
+      const newProduct = await pool.query("INSERT INTO products (product_title, product_description, product_price) VALUES ($1, $2, $3) RETURNING *",
+          [product_title, product_description, product_price]
+      );
+
+      res.json(newProduct.rows[0], newProduct.rows[1], newProduct.rows[2]);
   } catch (err) {
       console.error(err.message);
   }
