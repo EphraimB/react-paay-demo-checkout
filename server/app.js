@@ -3,7 +3,7 @@ const app = express();
 const cors = require("cors");
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
-const crypto = require('crypto');
+const bcrypt = require('bcrypt');
 const { Pool, Client } = require('pg');
 const dotenv = require('dotenv');
 const port = 5000;
@@ -112,10 +112,12 @@ app.post("/products", async (req, res) => {
 app.post('/signup', async (req, res, next) => {
   try {
     const { username, password } = req.body;
-    const newUser = await pool.query("INSERT INTO users (username, password, is_admin) VALUES ($1, $2, $3) RETURNING *",
-      [username, password, 0]
-    );
-    res.json(newUser.rows[0], newUser.rows[1], newUser.rows[2]);
+    bcrypt.hash(password, 10, async (err, hash) => {
+      const newUser = await pool.query("INSERT INTO users (username, password, is_admin) VALUES ($1, $2, $3) RETURNING *",
+        [username, hash, 0]
+      );
+      res.json("Added user");
+    });
   } catch (err) {
     console.error(err.message);
   }
