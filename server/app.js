@@ -35,6 +35,17 @@ app.get("/products", async (req, res) => {
   }
 });
 
+app.get("/products/:id", async (req, res) => {
+  try {
+      const { id } = req.params;
+      const product = await pool.query("SELECT * FROM products WHERE product_id = $1", [id]);
+
+      res.json(product.rows[0]);
+  } catch (err) {
+      console.error(err.message);
+  }
+});
+
 app.post("/products", async (req, res) => {
   try {
       const { product_title, product_description, product_price } = req.body;
