@@ -135,11 +135,15 @@ app.post('/login', async (req, res) => {
   }
 });
 
-// app.post('/login/password',
-//   passport.authenticate('local', { failureRedirect: '/login', failureMessage: true }),
-//   function (req, res) {
-//     res.redirect('/~' + req.user.username);
-//   });
+app.post('/logout', async (req, res) => {
+  try {
+      await req.session.destroy()
+      return res.sendStatus(200)
+  } catch (e) {
+      console.error(e)
+      return res.sendStatus(500)
+  }
+});
 
 app.post('/signup', async (req, res, next) => {
   try {
