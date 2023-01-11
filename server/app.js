@@ -4,6 +4,7 @@ const cors = require("cors");
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const bcrypt = require('bcrypt');
+const session = require('express-session');
 const { Pool, Client } = require('pg');
 const dotenv = require('dotenv');
 const port = 5000;
@@ -21,21 +22,23 @@ const pool = new Pool({
   port: process.env.PORT,
 });
 
-// passport.use(new LocalStrategy(function verify(username, password, cb) {
-//   db.get('SELECT * FROM users WHERE username = ?', [username], function (err, user) {
-//     if (err) { return cb(err); }
-//     if (!user) { return cb(null, false, { message: 'Incorrect username or password.' }); }
+// session store and session config
+const store = new (require('connect-pg-simple')(session))({
+  pool,
+})
 
-//     crypto.pbkdf2(password, user.salt, 310000, 32, 'sha256', function (err, hashedPassword) {
-//       if (err) { return cb(err); }
-//       if (!crypto.timingSafeEqual(user.hashed_password, hashedPassword)) {
-//         return cb(null, false, { message: 'Incorrect username or password.' });
-//       }
-//       return cb(null, user);
-//     });
-//   });
-// })
-// );
+app.use(session({
+  store: store,
+  secret: process.env.SESSION_SECRET,
+  saveUninitialized: false,
+  resave: false,
+  cookie: {
+    secure: false,
+    httpOnly: false,
+    sameSite: false,
+    maxAge: 1000 * 60 * 60 * 24,
+  },
+}));
 
 app.get('/', (req, res) => {
   res.send('Hello World!')
@@ -98,10 +101,39 @@ app.post("/products", async (req, res) => {
   }
 });
 
-// app.get('/login',
-//   function (req, res, next) {
-//     res.render('login');
-//   });
+app.post('/login', async (req, res) => {
+  const { username, password } = req.body
+
+  if (password == null) {
+    return res.sendStatus(403);
+  }
+
+  try {
+    const data = await pool.query("SELECT * FROM users WHERE username = $1",
+      [username]
+    )
+
+    if (data.rows.length === 0) {
+      return res.sendStatus(403);
+    }
+
+    const matches = bcrypt.compareSync(password, data.rows[0].password)
+    if (!matches) {
+      return res.sendStatus(403);
+    }
+
+    req.session.user = {
+      id: data.rows[0].user_id,
+      username: data.rows[0].username,
+    }
+
+    res.status(200)
+    return res.json({ user: req.session.user })
+  } catch (e) {
+    console.error(e);
+    return res.sendStatus(403);
+  }
+});
 
 // app.post('/login/password',
 //   passport.authenticate('local', { failureRedirect: '/login', failureMessage: true }),
