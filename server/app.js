@@ -101,7 +101,7 @@ app.post("/products", async (req, res) => {
   }
 });
 
-app.post('/login', async (req, res) => {
+app.post('/login/password', async (req, res) => {
   const { username, password } = req.body
 
   if (password == null) {
@@ -127,8 +127,8 @@ app.post('/login', async (req, res) => {
       username: data.rows[0].username,
     }
 
-    res.status(200)
-    return res.json({ user: req.session.user })
+    res.status(200);
+    res.redirect('/');
   } catch (e) {
     console.error(e);
     return res.sendStatus(403);
@@ -137,11 +137,11 @@ app.post('/login', async (req, res) => {
 
 app.post('/logout', async (req, res) => {
   try {
-      await req.session.destroy()
-      return res.sendStatus(200)
+      await req.session.destroy();
+      res.redirect('/');
   } catch (e) {
-      console.error(e)
-      return res.sendStatus(500)
+      console.error(e);
+      return res.sendStatus(500);
   }
 });
 
@@ -153,6 +153,7 @@ app.post('/signup', async (req, res, next) => {
         [username, hash, 0]
       );
       res.json("Added user");
+      res.redirect('/');
     });
   } catch (err) {
     console.error(err.message);
