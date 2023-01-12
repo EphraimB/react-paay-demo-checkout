@@ -102,7 +102,7 @@ app.post("/products", async (req, res) => {
 });
 
 app.post('/login/password', async (req, res) => {
-  const { username, password } = req.body
+  const { username, password } = req.body;
 
   if (password == null) {
     return res.sendStatus(403);
@@ -111,7 +111,7 @@ app.post('/login/password', async (req, res) => {
   try {
     const data = await pool.query("SELECT * FROM users WHERE username = $1",
       [username]
-    )
+    );
 
     if (data.rows.length === 0) {
       return res.sendStatus(403);
