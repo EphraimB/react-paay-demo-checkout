@@ -41,7 +41,7 @@ app.use(session({
 }));
 
 app.get('/', (req, res) => {
-  res.send('Hello World!')
+  res.send("<h1 style='text-align: center'>PAAY demo checkout</h1>")
 });
 
 app.get("/products", async (req, res) => {
