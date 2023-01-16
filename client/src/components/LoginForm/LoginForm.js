@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import PropTypes from 'prop-types';
@@ -9,26 +9,27 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import axios from 'axios';
 
-export default function LoginForm() {
-    function TabPanel(props) {
-        const { children, value, index, ...other } = props;
+function TabPanel(props) {
+    const { children, value, index, ...other } = props;
 
-        return (
-            <div
-                role="tabpanel"
-                hidden={value !== index}
-                id={`simple-tabpanel-${index}`}
-                aria-labelledby={`simple-tab-${index}`}
-                {...other}
-            >
-                {value === index && (
-                    <Box sx={{ p: 3 }}>
-                        <Typography>{children}</Typography>
-                    </Box>
-                )}
-            </div>
-        );
-    }
+    return (
+        <div
+            role="tabpanel"
+            hidden={value !== index}
+            id={`simple-tabpanel-${index}`}
+            aria-labelledby={`simple-tab-${index}`}
+            {...other}
+        >
+            {value === index && (
+                <Box sx={{ p: 3 }}>
+                    <Typography>{children}</Typography>
+                </Box>
+            )}
+        </div>
+    );
+}
+
+export default function LoginForm() {
 
     TabPanel.propTypes = {
         children: PropTypes.node,
@@ -42,14 +43,12 @@ export default function LoginForm() {
             'aria-controls': `simple-tabpanel-${index}`,
         };
     }
-    const [value, setValue] = React.useState(0);
-    const [username, setUsername] = React.useState("");
-    const [password, setPassword] = React.useState("");
+    const [value, setValue] = useState(0);
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
 
     function validateForm() {
-
         return username.length > 0 && password.length > 0;
-
     }
 
     function handleRegistrationSubmit(event) {
@@ -66,14 +65,14 @@ export default function LoginForm() {
     }
 
     function handleLoginSubmit(event) {
-        axios.post('http://localhost:5000/login/password', {
+        axios.post('http://localhost:5000/login', {
             username: username,
             password: password
         })
-            .then(function (response) {
+            .then((response) => {
                 console.log(response);
             })
-            .catch(function (error) {
+            .catch((error) => {
                 console.log(error);
             });
     }
@@ -105,7 +104,6 @@ export default function LoginForm() {
                             '& > :not(style)': { m: 1, width: '25ch' },
                         }}
                         noValidate
-                        autoComplete="off"
                         onSubmit={handleLoginSubmit}
                     >
                         <div>
@@ -126,10 +124,10 @@ export default function LoginForm() {
                         noValidate
                         onSubmit={handleRegistrationSubmit}
                     >
-                        <div key="usernamediv">
+                        <div>
                             <TextField id="username" key="username" label="Username" value={username} onChange={(e) => setUsername(e.target.value)} variant="standard" />
                         </div>
-                        <div key="passworddiv">
+                        <div>
                             <TextField id="password" key="password" type="password" label="Password" value={password} onChange={(e) => setPassword(e.target.value)} variant="standard" />
                         </div>
                         <div>

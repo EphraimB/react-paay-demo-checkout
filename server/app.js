@@ -101,7 +101,7 @@ app.post("/products", async (req, res) => {
   }
 });
 
-app.post('/login/password', async (req, res) => {
+app.post('/login', async (req, res) => {
   const { username, password } = req.body;
 
   if (password == null) {
@@ -128,7 +128,6 @@ app.post('/login/password', async (req, res) => {
     }
 
     res.status(200);
-    res.redirect('/');
   } catch (e) {
     console.error(e);
     return res.sendStatus(403);
