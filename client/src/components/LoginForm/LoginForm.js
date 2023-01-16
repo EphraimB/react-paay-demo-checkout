@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, {useState} from 'react';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import PropTypes from 'prop-types';
@@ -7,6 +7,7 @@ import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import axios from 'axios';
 
 export default function LoginForm() {
     function TabPanel(props) {
@@ -51,10 +52,30 @@ export default function LoginForm() {
 
     }
 
-    function handleSubmit(event) {
+    function handleRegistrationSubmit(event) {
+        axios.post('http://localhost:5000/signup', {
+            username: username,
+            password: password
+        })
+            .then((response) => {
+                console.log(response);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }
 
-        
-
+    function handleLoginSubmit(event) {
+        axios.post('http://localhost:5000/login/password', {
+            username: username,
+            password: password
+        })
+            .then(function (response) {
+                console.log(response);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
     }
 
     const handleChange = (event, newValue) => {
@@ -80,12 +101,12 @@ export default function LoginForm() {
                 <TabPanel value={value} index={0}>
                     <Box
                         component="form"
-                        onSubmit={handleSubmit()}
                         sx={{
                             '& > :not(style)': { m: 1, width: '25ch' },
                         }}
                         noValidate
                         autoComplete="off"
+                        onSubmit={handleLoginSubmit}
                     >
                         <div>
                             <TextField id="username" label="Username" variant="standard" />
@@ -103,13 +124,13 @@ export default function LoginForm() {
                             '& > :not(style)': { m: 1, width: '25ch' },
                         }}
                         noValidate
-                        autoComplete="off"
+                        onSubmit={handleRegistrationSubmit}
                     >
-                        <div>
-                            <TextField id="username" label="Username" variant="standard" />
+                        <div key="usernamediv">
+                            <TextField id="username" key="username" label="Username" value={username} onChange={(e) => setUsername(e.target.value)} variant="standard" />
                         </div>
-                        <div>
-                            <TextField id="password" type="password" label="Password" variant="standard" />
+                        <div key="passworddiv">
+                            <TextField id="password" key="password" type="password" label="Password" value={password} onChange={(e) => setPassword(e.target.value)} variant="standard" />
                         </div>
                         <div>
                             <TextField id="confirmPassword" type="password" label="Confirm password" variant="standard" />
