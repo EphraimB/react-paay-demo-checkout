@@ -8,32 +8,32 @@ import Typography from '@mui/material/Typography';
 import AppBar from '../../components/AppBar/AppBar';
 import ImageIcon from '@mui/icons-material/Image';
 
-function HomePage(props) {
-    const { products } = props;
+function HomePage({ products }) {
+    console.log(products);
     return (
         <div>
             <AppBar />
             <Grid container spacing={{ xs: 0, md: 2 }} columns={{ xs: 12, md: 4 }} sx={{ m: 2 }}>
-                {products.map((product) => {
+                {Object.values(products).map((product) => {
                     return (
                         <Card sx={{ maxWidth: 512 }}>
-                            {product.image === null ? <ImageIcon /> :
+                            {/* {product.image === null ? <ImageIcon /> :
                                 <CardMedia
                                     component="img"
                                     height="140"
                                     image={product.image}
                                     alt={product.imageDescription}
                                 />
-                            }
+                            } */}
                             <CardContent>
                                 <Typography gutterBottom variant="h5" component="div">
-                                    {product.title}
+                                    {product.product_title}
                                 </Typography>
                                 <Typography variant="body2" color="text.secondary">
-                                    {product.description}
+                                    {product.product_description}
                                 </Typography>
                                 <Typography variant="body2" color="text.secondary">
-                                    ${product.price}
+                                    {product.product_price}
                                 </Typography>
                             </CardContent>
                             <CardActions>
@@ -42,7 +42,8 @@ function HomePage(props) {
                             </CardActions>
                         </Card>
                     )
-                })}
+                })
+                }
             </Grid>
         </div>
     );
