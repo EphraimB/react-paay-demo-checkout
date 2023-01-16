@@ -117,7 +117,7 @@ app.post('/login', async (req, res) => {
       return res.sendStatus(403);
     }
 
-    const matches = bcrypt.compareSync(password, data.rows[0].password)
+    const matches = bcrypt.compareSync(password, data.rows[0].password);
     if (!matches) {
       return res.sendStatus(403);
     }
