@@ -127,7 +127,7 @@ app.post('/login', async (req, res) => {
       username: data.rows[0].username,
     }
 
-    res.status(200);
+    return res.status(200);
   } catch (e) {
     console.error(e);
     return res.sendStatus(403);
