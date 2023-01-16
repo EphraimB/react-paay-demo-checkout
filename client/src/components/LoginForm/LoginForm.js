@@ -46,6 +46,8 @@ export default function LoginForm() {
     const [value, setValue] = useState(0);
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [loginUsername, setLoginUsername] = useState("");
+    const [loginPassword, setLoginPassword] = useState("");
 
     function validateForm() {
         return username.length > 0 && password.length > 0;
@@ -66,8 +68,8 @@ export default function LoginForm() {
 
     function handleLoginSubmit(event) {
         axios.post('http://localhost:5000/login', {
-            username: username,
-            password: password
+            username: loginUsername,
+            password: loginPassword
         })
             .then((response) => {
                 console.log(response);
@@ -107,10 +109,10 @@ export default function LoginForm() {
                         onSubmit={handleLoginSubmit}
                     >
                         <div>
-                            <TextField id="username" label="Username" variant="standard" />
+                            <TextField id="username" label="Username" value={loginUsername} onChange={(e) => setLoginUsername(e.target.value)} variant="standard" />
                         </div>
                         <div>
-                            <TextField id="password" type="password" label="Password" variant="standard" />
+                            <TextField id="password" type="password" value={loginPassword} onChange={(e) => setLoginPassword(e.target.value)} label="Password" variant="standard" />
                         </div>
                         <Button type="submit" variant="contained">Log in</Button>
                     </Box>

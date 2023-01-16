@@ -137,7 +137,6 @@ app.post('/login', async (req, res) => {
 app.post('/logout', async (req, res) => {
   try {
       await req.session.destroy();
-      res.redirect('/');
   } catch (e) {
       console.error(e);
       return res.sendStatus(500);
