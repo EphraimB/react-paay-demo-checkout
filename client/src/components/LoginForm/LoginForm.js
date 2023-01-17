@@ -109,10 +109,10 @@ export default function LoginForm() {
                         onSubmit={handleLoginSubmit}
                     >
                         <div>
-                            <TextField id="username" label="Username" value={loginUsername} onChange={(e) => setLoginUsername(e.target.value)} variant="standard" />
+                            <TextField id="username" key="loggedInUsername" label="Username" value={loginUsername} onChange={(e) => setLoginUsername(e.target.value)} variant="standard" />
                         </div>
                         <div>
-                            <TextField id="password" type="password" value={loginPassword} onChange={(e) => setLoginPassword(e.target.value)} label="Password" variant="standard" />
+                            <TextField id="password" key="loggedInPassword" type="password" value={loginPassword} onChange={(e) => setLoginPassword(e.target.value)} label="Password" variant="standard" />
                         </div>
                         <Button type="submit" variant="contained">Log in</Button>
                     </Box>

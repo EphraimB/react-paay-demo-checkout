@@ -9,12 +9,19 @@ function App() {
   const [loggedInUser, setLoggedInUser] = useState(0);
 
   useEffect(() => {
+    axios.get('http://localhost:5000/user').then((response) => {
+      console.log(response);
+      setLoggedInUser(response.data);
+    }).catch(err => {
+      console.log(err);
+    });
+
     axios.get('http://localhost:5000/products').then((response) => {
       console.log(response);
-        setProducts(response.data);
-      }).catch(err => {
-        console.log(err);
-      });
+      setProducts(response.data);
+    }).catch(err => {
+      console.log(err);
+    });
   }, []);
 
   return (

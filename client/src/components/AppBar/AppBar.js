@@ -124,7 +124,7 @@ export default function ButtonAppBar({ loggedIn }) {
             </AppBar>
             {renderMobileMenu}
             {console.log(loggedIn)}
-            { showLoginForm && loggedIn === 0 ? <LoginForm /> : showLoginForm && loggedIn > 0 ? <LogoutForm /> : null }
+            { showLoginForm ? loggedIn === 0 ? <LoginForm /> : <LogoutForm /> : null }
         </>
     );
 }
