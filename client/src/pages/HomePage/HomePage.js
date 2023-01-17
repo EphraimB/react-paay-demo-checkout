@@ -15,48 +15,52 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import { Box } from '@mui/system';
 
-const AddProductForm = () => {
-    return (
-        <div>
-            <Card sx={{ maxWidth: 512 }} component="form">
-                {/* {product.image === null ? <ImageIcon /> :
-                <CardMedia
-                    component="img"
-                    height="140"
-                    image={product.image}
-                    alt={product.imageDescription}
-                />
-            } */}
-                <Box sx={{
-                    display: "flex",
-                    justifyContent: "flex-end"
-                }}>
-                    <IconButton>
-                        <CloseIcon />
-                    </IconButton>
-                </Box>
-                <CardContent>
-                    <Typography gutterBottom variant="h5" component="div">
-                        <TextField id="title" label="Title" variant="standard" />
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                        <TextField id="description" label="Description" variant="standard" />
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                        <TextField id="price" label="Price" type="number" min="1" step="any" variant="standard" />
-                    </Typography>
-                </CardContent>
-                <Button type="submit" variant="contained">Add Product</Button>
-            </Card>
-        </div>
-    )
-}
-
 function HomePage({ products, loggedIn, isAdmin }) {
     const [showAddProductForm, setShowAddProductForm] = useState(false);
 
-    const toggleProductForm = () => {
+    const showProductForm = () => {
         setShowAddProductForm(true);
+    }
+
+    const hideProductForm = () => {
+        setShowAddProductForm(false);
+    }
+
+    const AddProductForm = () => {
+        return (
+            <div>
+                <Card sx={{ maxWidth: 512 }} component="form">
+                    {/* {product.image === null ? <ImageIcon /> :
+                    <CardMedia
+                        component="img"
+                        height="140"
+                        image={product.image}
+                        alt={product.imageDescription}
+                    />
+                } */}
+                    <Box sx={{
+                        display: "flex",
+                        justifyContent: "flex-end"
+                    }}>
+                        <IconButton>
+                            <CloseIcon onClick={hideProductForm} />
+                        </IconButton>
+                    </Box>
+                    <CardContent>
+                        <Typography gutterBottom variant="h5" component="div">
+                            <TextField id="title" label="Title" variant="standard" />
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                            <TextField id="description" label="Description" variant="standard" />
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                            <TextField id="price" label="Price" type="number" min="1" step="any" variant="standard" />
+                        </Typography>
+                    </CardContent>
+                    <Button type="submit" variant="contained">Add Product</Button>
+                </Card>
+            </div>
+        )
     }
 
     return (
@@ -100,7 +104,7 @@ function HomePage({ products, loggedIn, isAdmin }) {
                 bottom: 16,
                 right: 16,
             }}>
-                <AddIcon onClick={toggleProductForm} />
+                <AddIcon onClick={showProductForm} />
             </Fab> : null}
         </div>
     );
