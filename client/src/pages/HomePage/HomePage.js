@@ -7,8 +7,10 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import AppBar from '../../components/AppBar/AppBar';
 import ImageIcon from '@mui/icons-material/Image';
+import Fab from '@mui/material/Fab';
+import AddIcon from '@mui/icons-material/Add';
 
-function HomePage({ products, loggedIn }) {
+function HomePage({ products, loggedIn, isAdmin }) {
     console.log(products);
     return (
         <div>
@@ -45,6 +47,13 @@ function HomePage({ products, loggedIn }) {
                 })
                 }
             </Grid>
+            {isAdmin === 1 ? <Fab color="primary" aria-label="add" sx={{
+                position: "absolute",
+                bottom: 16,
+                right: 16,
+            }}>
+                <AddIcon />
+            </Fab> : null}
         </div>
     );
 }

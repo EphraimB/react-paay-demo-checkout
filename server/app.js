@@ -11,10 +11,10 @@ const port = 5000;
 
 dotenv.config({ override: true });
 
-const corsOptions ={
-  origin:'http://localhost:3000', 
-  credentials:true,            //access-control-allow-credentials:true
-  optionSuccessStatus:200
+const corsOptions = {
+  origin: 'http://localhost:3000',
+  credentials: true,            //access-control-allow-credentials:true
+  optionSuccessStatus: 200
 }
 
 app.use(cors(corsOptions));
@@ -131,9 +131,9 @@ app.post('/login', async (req, res) => {
     req.session.user = {
       id: data.rows[0].user_id,
       username: data.rows[0].username,
+      isAdmin: data.rows[0].is_admin,
     }
     req.session.save();
-    console.log(req.session.user);
     res.json(req.session.user);
   } catch (e) {
     console.error(e);
@@ -143,7 +143,13 @@ app.post('/login', async (req, res) => {
 
 app.get('/user', async (req, res) => {
   try {
-    res.json(req.session.user ? req.session.user.id : 0);
+    const userLoggedIn = {
+      id: req.session.user ? req.session.user.id : 0,
+      username: req.session.user ? req.session.user.username : "guest",
+      isAdmin: req.session.user ? req.session.user.isAdmin : 0,
+    }
+
+    res.json(userLoggedIn);
   } catch (err) {
     console.log(err);
   }
@@ -151,11 +157,11 @@ app.get('/user', async (req, res) => {
 
 app.post('/logout', async (req, res) => {
   try {
-      await req.session.destroy();
-      res.json("Logged out succesfully.");
+    await req.session.destroy();
+    res.json("Logged out succesfully.");
   } catch (e) {
-      console.error(e);
-      return res.sendStatus(500);
+    console.error(e);
+    return res.sendStatus(500);
   }
 });
 

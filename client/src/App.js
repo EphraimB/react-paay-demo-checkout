@@ -9,11 +9,13 @@ function App() {
 
   const [products, setProducts] = useState('');
   const [loggedInUser, setLoggedInUser] = useState(0);
+  const [isAdmin, setIsAdmin] = useState(0);
 
   useEffect(() => {
     axios.get('http://localhost:5000/user').then((response) => {
       console.log(response);
-      setLoggedInUser(response.data);
+      setLoggedInUser(response.data.id);
+      setIsAdmin(response.data.isAdmin);
     }).catch(err => {
       console.log(err);
     });
@@ -28,7 +30,7 @@ function App() {
   return (
     <div className="App" >
       <Routes>
-        <Route path="/" element={<HomePage products={products} loggedIn={loggedInUser} />} />
+        <Route path="/" element={<HomePage products={products} loggedIn={loggedInUser} isAdmin={isAdmin} />} />
       </Routes>
     </div>
   )
