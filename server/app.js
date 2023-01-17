@@ -36,8 +36,8 @@ const store = new (require('connect-pg-simple')(session))({
 app.use(session({
   store: store,
   secret: process.env.SESSION_SECRET,
-  saveUninitialized: false,
-  resave: false,
+  saveUninitialized: true,
+  resave: true,
   cookie: {
     secure: false,
     httpOnly: false,
