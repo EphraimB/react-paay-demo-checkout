@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import Grid from '@mui/material/Unstable_Grid2';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
@@ -9,13 +10,60 @@ import AppBar from '../../components/AppBar/AppBar';
 import ImageIcon from '@mui/icons-material/Image';
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
+import TextField from '@mui/material/TextField';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
+import { Box } from '@mui/system';
+
+const AddProductForm = () => {
+    return (
+        <div>
+            <Card sx={{ maxWidth: 512 }} component="form">
+                {/* {product.image === null ? <ImageIcon /> :
+                <CardMedia
+                    component="img"
+                    height="140"
+                    image={product.image}
+                    alt={product.imageDescription}
+                />
+            } */}
+                <Box sx={{
+                    display: "flex",
+                    justifyContent: "flex-end"
+                }}>
+                    <IconButton>
+                        <CloseIcon />
+                    </IconButton>
+                </Box>
+                <CardContent>
+                    <Typography gutterBottom variant="h5" component="div">
+                        <TextField id="title" label="Title" variant="standard" />
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                        <TextField id="description" label="Description" variant="standard" />
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                        <TextField id="price" label="Price" type="number" min="1" step="any" variant="standard" />
+                    </Typography>
+                </CardContent>
+                <Button type="submit" variant="contained">Add Product</Button>
+            </Card>
+        </div>
+    )
+}
 
 function HomePage({ products, loggedIn, isAdmin }) {
-    console.log(products);
+    const [showAddProductForm, setShowAddProductForm] = useState(false);
+
+    const toggleProductForm = () => {
+        setShowAddProductForm(true);
+    }
+
     return (
         <div>
             <AppBar loggedIn={loggedIn} />
             <Grid container spacing={{ xs: 0, md: 2 }} columns={{ xs: 12, md: 4 }} sx={{ m: 2 }}>
+                {showAddProductForm ? <AddProductForm /> : null}
                 {Object.values(products).map((product) => {
                     return (
                         <Card sx={{ maxWidth: 512 }}>
@@ -52,7 +100,7 @@ function HomePage({ products, loggedIn, isAdmin }) {
                 bottom: 16,
                 right: 16,
             }}>
-                <AddIcon />
+                <AddIcon onClick={toggleProductForm} />
             </Fab> : null}
         </div>
     );
