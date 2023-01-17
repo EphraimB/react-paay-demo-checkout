@@ -12,8 +12,9 @@ import MoreIcon from '@mui/icons-material/MoreVert';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import LoginForm from '../LoginForm/LoginForm';
+import LogoutForm from '../LogoutForm/LogoutForm';
 
-export default function ButtonAppBar() {
+export default function ButtonAppBar({ loggedIn }) {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
     const [showLoginForm, setLoginForm] = React.useState(false)
@@ -122,7 +123,8 @@ export default function ButtonAppBar() {
                 </Toolbar>
             </AppBar>
             {renderMobileMenu}
-            { showLoginForm ? <LoginForm /> : null }
+            {console.log(loggedIn)}
+            { showLoginForm && loggedIn === 0 ? <LoginForm /> : showLoginForm && loggedIn > 0 ? <LogoutForm /> : null }
         </>
     );
 }

@@ -8,11 +8,11 @@ import Typography from '@mui/material/Typography';
 import AppBar from '../../components/AppBar/AppBar';
 import ImageIcon from '@mui/icons-material/Image';
 
-function HomePage({ products }) {
+function HomePage({ products, loggedIn }) {
     console.log(products);
     return (
         <div>
-            <AppBar />
+            <AppBar loggedIn={loggedIn} />
             <Grid container spacing={{ xs: 0, md: 2 }} columns={{ xs: 12, md: 4 }} sx={{ m: 2 }}>
                 {Object.values(products).map((product) => {
                     return (

@@ -6,6 +6,7 @@ import axios from 'axios';
 
 function App() {
   const [products, setProducts] = useState('');
+  const [loggedInUser, setLoggedInUser] = useState(0);
 
   useEffect(() => {
     axios.get('http://localhost:5000/products').then((response) => {
@@ -19,7 +20,7 @@ function App() {
   return (
     <div className="App" >
       <Routes>
-        <Route path="/" element={<HomePage products={products} />} />
+        <Route path="/" element={<HomePage products={products} loggedIn={loggedInUser} />} />
       </Routes>
     </div>
   )
