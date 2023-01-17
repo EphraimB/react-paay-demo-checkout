@@ -126,8 +126,8 @@ app.post('/login', async (req, res) => {
       id: data.rows[0].user_id,
       username: data.rows[0].username,
     }
-
-    return res.sendStatus(200);
+    res.json(`Successfully logged in as ${req.session.user.username}`);
+    // return res.sendStatus(200);
   } catch (e) {
     console.error(e);
     return res.sendStatus(403);
@@ -137,7 +137,8 @@ app.post('/login', async (req, res) => {
 app.post('/logout', async (req, res) => {
   try {
       await req.session.destroy();
-      return res.sendStatus(200);
+      res.json("Logged out succesfully.");
+      // return res.sendStatus(200);
   } catch (e) {
       console.error(e);
       return res.sendStatus(500);
