@@ -36,12 +36,12 @@ const store = new (require('connect-pg-simple')(session))({
 app.use(session({
   store: store,
   secret: process.env.SESSION_SECRET,
-  saveUninitialized: true,
-  resave: true,
+  saveUninitialized: false,
+  resave: false,
   cookie: {
     secure: false,
     httpOnly: false,
-    sameSite: true,
+    sameSite: false,
     maxAge: 1000 * 60 * 60 * 24,
   },
 }));
@@ -133,8 +133,7 @@ app.post('/login', async (req, res) => {
       username: data.rows[0].username,
       isAdmin: data.rows[0].is_admin,
     }
-    req.session.save();
-    res.json(req.session.user);
+    res.send(req.session.connect.sid);
   } catch (e) {
     console.error(e);
     return res.sendStatus(403);
