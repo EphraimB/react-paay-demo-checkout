@@ -35,7 +35,7 @@ app.use(session({
   cookie: {
     secure: false,
     httpOnly: false,
-    sameSite: false,
+    sameSite: true,
     maxAge: 1000 * 60 * 60 * 24,
   },
 }));
@@ -126,6 +126,8 @@ app.post('/login', async (req, res) => {
       id: data.rows[0].user_id,
       username: data.rows[0].username,
     }
+    req.session.save();
+    console.log(req.session.user);
     res.json(req.session.user);
   } catch (e) {
     console.error(e);
@@ -135,7 +137,8 @@ app.post('/login', async (req, res) => {
 
 app.get('/user', async (req, res) => {
   try {
-    res.json(req.session.user ? req.session.user : 0);
+    console.log(req.session.user);
+    res.json(req.session.user ? req.session.user.id : 0);
   } catch (err) {
     console.log(err);
   }

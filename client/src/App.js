@@ -5,6 +5,8 @@ import HomePage from "./pages/HomePage/HomePage";
 import axios from 'axios';
 
 function App() {
+  axios.defaults.withCredentials = true;
+  
   const [products, setProducts] = useState('');
   const [loggedInUser, setLoggedInUser] = useState(0);
 
