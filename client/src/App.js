@@ -6,7 +6,7 @@ import axios from 'axios';
 
 function App() {
   axios.defaults.withCredentials = true;
-  
+
   const [products, setProducts] = useState('');
   const [loggedInUser, setLoggedInUser] = useState(0);
 
@@ -19,7 +19,6 @@ function App() {
     });
 
     axios.get('http://localhost:5000/products').then((response) => {
-      console.log(response);
       setProducts(response.data);
     }).catch(err => {
       console.log(err);

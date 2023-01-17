@@ -143,7 +143,6 @@ app.post('/login', async (req, res) => {
 
 app.get('/user', async (req, res) => {
   try {
-    console.log(req.session.user);
     res.json(req.session.user ? req.session.user.id : 0);
   } catch (err) {
     console.log(err);
