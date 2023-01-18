@@ -43,10 +43,12 @@ export default function LoginForm({ onLoginSubmit }) {
     const submitForm = (data) => {
         if (data.username.length === 0) {
             alert('Enter username');
+            return false;
         }
         // check if passwords match
         if (data.password !== data.confirmPassword) {
             alert('Password mismatch');
+            return false;
         }
         dispatch(registerUser(data));
         dispatch(hide());
