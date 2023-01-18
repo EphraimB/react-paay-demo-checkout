@@ -7,7 +7,6 @@ import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import LoginAlert from '../LoginAlert/LoginAlert';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { registerUser } from '../../features/auth/authActions';
@@ -36,9 +35,20 @@ function TabPanel(props) {
 export default function LoginForm({ onLoginSubmit }) {
     const { loading, userInfo, error, success } = useSelector(
         (state) => state.auth
-    )
-    const dispatch = useDispatch()
-    const { register, handleSubmit } = useForm()
+    );
+    const dispatch = useDispatch();
+    const { register, handleSubmit } = useForm();
+
+    const submitForm = (data) => {
+        if (data.username.length === 0) {
+            alert('Enter username');
+        }
+        // check if passwords match
+        if (data.password !== data.confirmPassword) {
+          alert('Password mismatch');
+        }
+        dispatch(registerUser(data))
+      }
 
     TabPanel.propTypes = {
         children: PropTypes.node,
@@ -53,27 +63,8 @@ export default function LoginForm({ onLoginSubmit }) {
         };
     }
     const [value, setValue] = useState(0);
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
     const [loginUsername, setLoginUsername] = useState("");
     const [loginPassword, setLoginPassword] = useState("");
-
-    function validateForm() {
-        return username.length > 0 && password.length > 0;
-    }
-
-    function handleRegistrationSubmit(event) {
-        axios.post('http://localhost:5000/signup', {
-            username: username,
-            password: password
-        })
-            .then((response) => {
-                console.log(response);
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-    }
 
     function handleLoginSubmit(event) {
         event.preventDefault();
@@ -136,18 +127,18 @@ export default function LoginForm({ onLoginSubmit }) {
                             '& > :not(style)': { m: 1, width: '25ch' },
                         }}
                         noValidate
-                        onSubmit={handleRegistrationSubmit}
+                        onSubmit={handleSubmit(submitForm)}
                     >
                         <div>
-                            <TextField id="username" key="username" label="Username" value={username} onChange={(e) => setUsername(e.target.value)} variant="standard" />
+                            <TextField id="username" key="username" label="Username" {...register('username')} variant="standard" required />
                         </div>
                         <div>
-                            <TextField id="password" key="password" type="password" label="Password" value={password} onChange={(e) => setPassword(e.target.value)} variant="standard" />
+                            <TextField id="password" key="password" type="password" label="Password" {...register('password')} variant="standard" required />
                         </div>
                         <div>
-                            <TextField id="confirmPassword" type="password" label="Confirm password" variant="standard" />
+                            <TextField id="confirmPassword" type="password" label="Confirm password" {...register('confirmPassword')} variant="standard" required />
                         </div>
-                        <Button type="submit" variant="contained">Register</Button>
+                        <Button type="submit" variant="contained" disabled={loading}>Register</Button>
                     </Box>
                 </TabPanel>
             </Paper>

@@ -14,6 +14,7 @@ import TextField from '@mui/material/TextField';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import { Box } from '@mui/system';
+import Alerts from '../../Alerts/Alerts';
 
 function HomePage({ products, loggedIn, isAdmin }) {
     const [showAddProductForm, setShowAddProductForm] = useState(false);
