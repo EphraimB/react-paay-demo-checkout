@@ -8,6 +8,9 @@ import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import LoginAlert from '../LoginAlert/LoginAlert';
+import { useForm } from 'react-hook-form';
+import { useDispatch, useSelector } from 'react-redux';
+import { registerUser } from '../../features/auth/authActions';
 import axios from 'axios';
 
 function TabPanel(props) {
@@ -30,7 +33,12 @@ function TabPanel(props) {
     );
 }
 
-export default function LoginForm({onLoginSubmit}) {
+export default function LoginForm({ onLoginSubmit }) {
+    const { loading, userInfo, error, success } = useSelector(
+        (state) => state.auth
+    )
+    const dispatch = useDispatch()
+    const { register, handleSubmit } = useForm()
 
     TabPanel.propTypes = {
         children: PropTypes.node,
@@ -79,7 +87,7 @@ export default function LoginForm({onLoginSubmit}) {
             .catch((error) => {
                 console.log(error);
             });
-        
+
         onLoginSubmit();
     }
 

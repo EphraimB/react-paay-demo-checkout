@@ -5,7 +5,7 @@ const backendURL = 'http://localhost:5000'
 
 export const registerUser = createAsyncThunk(
   'auth/register',
-  async ({ firstName, email, password }, { rejectWithValue }) => {
+  async ({ username, password }, { rejectWithValue }) => {
     try {
       const config = {
         headers: {
