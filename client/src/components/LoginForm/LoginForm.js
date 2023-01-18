@@ -10,6 +10,7 @@ import Button from '@mui/material/Button';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { registerUser } from '../../features/auth/authActions';
+import { hide } from '../../features/Popup/popupSlice';
 import axios from 'axios';
 
 function TabPanel(props) {
@@ -45,10 +46,11 @@ export default function LoginForm({ onLoginSubmit }) {
         }
         // check if passwords match
         if (data.password !== data.confirmPassword) {
-          alert('Password mismatch');
+            alert('Password mismatch');
         }
-        dispatch(registerUser(data))
-      }
+        dispatch(registerUser(data));
+        dispatch(hide());
+    }
 
     TabPanel.propTypes = {
         children: PropTypes.node,

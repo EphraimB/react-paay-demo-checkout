@@ -13,16 +13,19 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import LoginForm from '../LoginForm/LoginForm';
 import LogoutForm from '../LogoutForm/LogoutForm';
-import axios from 'axios';
+import { useSelector, useDispatch } from 'react-redux'
+import { show, hide } from '../../features/Popup/popupSlice';
 
 export default function ButtonAppBar({ loggedIn }) {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-    const [showLoginForm, setLoginForm] = React.useState(false);
+
+    const popup = useSelector((state) => state.popup.show);
+    const dispatch = useDispatch()
 
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
-    const profileCircleClicked = () => showLoginForm === false ? setLoginForm(true) : setLoginForm(false)
+    const profileCircleClicked = () => popup ? dispatch(hide()) : dispatch(show());
 
     const handleMobileMenuClose = () => {
         setMobileMoreAnchorEl(null);
@@ -31,10 +34,6 @@ export default function ButtonAppBar({ loggedIn }) {
     const handleMobileMenuOpen = (event) => {
         setMobileMoreAnchorEl(event.currentTarget);
     };
-
-    function onLoginFormSubmit(event) {
-        setLoginForm(false);
-    }
 
     const menuId = 'primary-search-account-menu';
 
@@ -128,7 +127,7 @@ export default function ButtonAppBar({ loggedIn }) {
                 </Toolbar>
             </AppBar>
             {renderMobileMenu}
-            { showLoginForm ? loggedIn === 0 ? <LoginForm onLoginSubmit={onLoginFormSubmit} /> : <LogoutForm /> : null }
+            { popup ? loggedIn === 0 ? <LoginForm /> : <LogoutForm /> : null }
         </>
     );
 }
