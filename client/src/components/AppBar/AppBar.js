@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, {useState} from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -13,11 +13,12 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import LoginForm from '../LoginForm/LoginForm';
 import LogoutForm from '../LogoutForm/LogoutForm';
+import axios from 'axios';
 
 export default function ButtonAppBar({ loggedIn }) {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-    const [showLoginForm, setLoginForm] = React.useState(false)
+    const [showLoginForm, setLoginForm] = React.useState(false);
 
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
@@ -30,6 +31,10 @@ export default function ButtonAppBar({ loggedIn }) {
     const handleMobileMenuOpen = (event) => {
         setMobileMoreAnchorEl(event.currentTarget);
     };
+
+    function onLoginFormSubmit(event) {
+        setLoginForm(false);
+    }
 
     const menuId = 'primary-search-account-menu';
 
@@ -123,8 +128,7 @@ export default function ButtonAppBar({ loggedIn }) {
                 </Toolbar>
             </AppBar>
             {renderMobileMenu}
-            {console.log(loggedIn)}
-            { showLoginForm ? loggedIn === 0 ? <LoginForm /> : <LogoutForm /> : null }
+            { showLoginForm ? loggedIn === 0 ? <LoginForm onLoginSubmit={onLoginFormSubmit} /> : <LogoutForm /> : null }
         </>
     );
 }

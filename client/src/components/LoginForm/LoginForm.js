@@ -7,6 +7,7 @@ import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import LoginAlert from '../LoginAlert/LoginAlert';
 import axios from 'axios';
 
 function TabPanel(props) {
@@ -29,7 +30,7 @@ function TabPanel(props) {
     );
 }
 
-export default function LoginForm() {
+export default function LoginForm({onLoginSubmit}) {
 
     TabPanel.propTypes = {
         children: PropTypes.node,
@@ -67,6 +68,7 @@ export default function LoginForm() {
     }
 
     function handleLoginSubmit(event) {
+        event.preventDefault();
         axios.post('http://localhost:5000/login', {
             username: loginUsername,
             password: loginPassword
@@ -77,6 +79,8 @@ export default function LoginForm() {
             .catch((error) => {
                 console.log(error);
             });
+        
+        onLoginSubmit();
     }
 
     const handleChange = (event, newValue) => {
