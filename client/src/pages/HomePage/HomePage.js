@@ -69,13 +69,13 @@ function HomePage({ products, loggedIn, isAdmin }) {
                 </Box>
                 <CardContent>
                     <Typography gutterBottom variant="h5" component="div">
-                        <TextField id="title" label="Title" {...register('title')} variant="standard" required />
+                        <TextField id="title" label="Title" {...register('product_title')} variant="standard" required />
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
-                        <TextField id="description" label="Description" {...register('description')} variant="standard" required />
+                        <TextField id="description" label="Description" {...register('product_description')} variant="standard" required />
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
-                        <TextField id="price" label="Price" type="number" min="1" step="any" {...register('price')} variant="standard" required />
+                        <TextField id="price" label="Price" type="number" min="1" step="any" {...register('product_price')} variant="standard" required />
                     </Typography>
                 </CardContent>
                 <Button type="submit" variant="contained" disabled={loading}>Add Product</Button>
