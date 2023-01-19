@@ -9,7 +9,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
-import { registerUser } from '../../features/auth/authActions';
+import { registerUser, userLogin } from '../../features/auth/authActions';
 import { hide } from '../../features/Popup/popupSlice';
 import axios from 'axios';
 
@@ -54,6 +54,20 @@ export default function LoginForm({ onLoginSubmit }) {
         dispatch(hide());
     }
 
+    const submitLoginForm = (data) => {
+        if (data.username.length === 0) {
+            alert('Enter username');
+            return false;
+        }
+        // check if passwords match
+        if (data.password.length === 0) {
+            alert('Enter password');
+            return false;
+        }
+        dispatch(userLogin(data));
+        dispatch(hide());
+    }
+
     TabPanel.propTypes = {
         children: PropTypes.node,
         index: PropTypes.number.isRequired,
@@ -67,24 +81,6 @@ export default function LoginForm({ onLoginSubmit }) {
         };
     }
     const [value, setValue] = useState(0);
-    const [loginUsername, setLoginUsername] = useState("");
-    const [loginPassword, setLoginPassword] = useState("");
-
-    function handleLoginSubmit(event) {
-        event.preventDefault();
-        axios.post('http://localhost:5000/login', {
-            username: loginUsername,
-            password: loginPassword
-        })
-            .then((response) => {
-                console.log(response);
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-
-        onLoginSubmit();
-    }
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -113,13 +109,13 @@ export default function LoginForm({ onLoginSubmit }) {
                             '& > :not(style)': { m: 1, width: '25ch' },
                         }}
                         noValidate
-                        onSubmit={handleLoginSubmit}
+                        onSubmit={handleSubmit(submitLoginForm)}
                     >
                         <div>
-                            <TextField id="username" key="loggedInUsername" label="Username" value={loginUsername} onChange={(e) => setLoginUsername(e.target.value)} variant="standard" />
+                            <TextField id="username" key="loggedInUsername" label="Username" {...register('username')} variant="standard" />
                         </div>
                         <div>
-                            <TextField id="password" key="loggedInPassword" type="password" value={loginPassword} onChange={(e) => setLoginPassword(e.target.value)} label="Password" variant="standard" />
+                            <TextField id="password" key="loggedInPassword" type="password" {...register('password')} label="Password" variant="standard" />
                         </div>
                         <Button type="submit" variant="contained">Log in</Button>
                     </Box>
