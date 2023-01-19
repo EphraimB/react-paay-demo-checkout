@@ -11,7 +11,6 @@ import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { registerUser, userLogin } from '../../features/auth/authActions';
 import { hide } from '../../features/Popup/popupSlice';
-import axios from 'axios';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -33,7 +32,7 @@ function TabPanel(props) {
     );
 }
 
-export default function LoginForm({ onLoginSubmit }) {
+export default function LoginForm() {
     const { loading, userInfo, error, success } = useSelector(
         (state) => state.auth
     );
@@ -112,12 +111,12 @@ export default function LoginForm({ onLoginSubmit }) {
                         onSubmit={handleSubmit(submitLoginForm)}
                     >
                         <div>
-                            <TextField id="username" key="loggedInUsername" label="Username" {...register('username')} variant="standard" />
+                            <TextField id="username" key="loggedInUsername" label="Username" {...register('username')} variant="standard" required />
                         </div>
                         <div>
-                            <TextField id="password" key="loggedInPassword" type="password" {...register('password')} label="Password" variant="standard" />
+                            <TextField id="password" key="loggedInPassword" type="password" {...register('password')} label="Password" variant="standard" required />
                         </div>
-                        <Button type="submit" variant="contained">Log in</Button>
+                        <Button type="submit" variant="contained" disabled={loading}>Log in</Button>
                     </Box>
                 </TabPanel>
                 <TabPanel value={value} index={1}>
