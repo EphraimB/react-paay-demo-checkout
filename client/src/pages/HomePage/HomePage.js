@@ -18,9 +18,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addProduct } from '../../features/Products/productActions';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import Stack from '@mui/material/Stack';
+import ProductsMenu from '../../components/ProductsMenu/ProductsMenu';
 
 function HomePage({ products, loggedIn, isAdmin }) {
     const [showAddProductForm, setShowAddProductForm] = useState(false);
+    const [showProductsMenu, setShowProductsMenu] = useState(null);
 
     const { loading, error, success } = useSelector(
         (state) => state.product
@@ -39,6 +41,18 @@ function HomePage({ products, loggedIn, isAdmin }) {
     const submitForm = (data) => {
         dispatch(addProduct(data));
         hideProductForm();
+    }
+
+    const handleClose = () => {
+        setShowProductsMenu(null);
+    };
+
+    const handleOpen = (event) => {
+        setShowProductsMenu(event.currentTarget);
+    };
+
+    const handleClick = () => {
+
     }
 
     const AddProductForm = () => {
@@ -79,22 +93,17 @@ function HomePage({ products, loggedIn, isAdmin }) {
                     return (
                         <Card sx={{ maxWidth: 512, m: 2 }}>
                             {isAdmin === 1 ? (
-                                <Stack
-                                    direction="row"
-                                    justifyContent="flex-end">
-                                    <IconButton>
-                                        <MoreVertIcon />
-                                    </IconButton>
-                                </Stack>
+                                <>
+                                    <Stack
+                                        direction="row"
+                                        justifyContent="flex-end">
+                                        <IconButton onClick={handleClick}>
+                                            <MoreVertIcon />
+                                        </IconButton>
+                                    </Stack>
+                                    <ProductsMenu />
+                                </>
                             ) : null}
-                            {/* {product.image === null ? <ImageIcon /> :
-                                <CardMedia
-                                    component="img"
-                                    height="140"
-                                    image={product.image}
-                                    alt={product.imageDescription}
-                                />
-                            } */}
                             <CardContent>
                                 <Typography gutterBottom variant="h5" component="div">
                                     {product.product_title}
