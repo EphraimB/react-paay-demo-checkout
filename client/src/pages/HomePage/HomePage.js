@@ -16,6 +16,8 @@ import Box from '@mui/system/Box';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { addProduct } from '../../features/Products/productActions';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import Stack from '@mui/material/Stack';
 
 function HomePage({ products, loggedIn, isAdmin }) {
     const [showAddProductForm, setShowAddProductForm] = useState(false);
@@ -76,8 +78,8 @@ function HomePage({ products, loggedIn, isAdmin }) {
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
                         <TextField id="price" label="Price" type="number" inputProps={{
-                  step: 0.01,
-                }} {...register('product_price')} variant="standard" required />
+                            step: 0.01,
+                        }} {...register('product_price')} variant="standard" required />
                     </Typography>
                 </CardContent>
                 <Button type="submit" variant="contained" disabled={loading}>Add Product</Button>
@@ -93,6 +95,15 @@ function HomePage({ products, loggedIn, isAdmin }) {
                 {Object.values(products).map((product) => {
                     return (
                         <Card sx={{ maxWidth: 512, m: 2 }}>
+                            {isAdmin === 1 ? (
+                                <Stack
+                                    direction="row"
+                                    justifyContent="flex-end">
+                                    <IconButton>
+                                        <MoreVertIcon />
+                                    </IconButton>
+                                </Stack>
+                            ) : null}
                             {/* {product.image === null ? <ImageIcon /> :
                                 <CardMedia
                                     component="img"
