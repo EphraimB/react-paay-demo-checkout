@@ -75,7 +75,9 @@ function HomePage({ products, loggedIn, isAdmin }) {
                         <TextField id="description" label="Description" {...register('product_description')} variant="standard" required />
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
-                        <TextField id="price" label="Price" type="number" min="1" step="any" {...register('product_price')} variant="standard" required />
+                        <TextField id="price" label="Price" type="number" inputProps={{
+                  step: 0.01,
+                }} {...register('product_price')} variant="standard" required />
                     </Typography>
                 </CardContent>
                 <Button type="submit" variant="contained" disabled={loading}>Add Product</Button>
