@@ -37,15 +37,6 @@ function HomePage({ products, loggedIn, isAdmin }) {
     }
 
     const submitForm = (data) => {
-        // if (data.username.length === 0) {
-        //     alert('Enter username');
-        //     return false;
-        // }
-        // // check if passwords match
-        // if (data.password !== data.confirmPassword) {
-        //     alert('Password mismatch');
-        //     return false;
-        // }
         dispatch(addProduct(data));
         hideProductForm();
     }
@@ -53,14 +44,6 @@ function HomePage({ products, loggedIn, isAdmin }) {
     const AddProductForm = () => {
         return (
             <Card sx={{ maxWidth: 512 }} component="form" onSubmit={handleSubmit(submitForm)}>
-                {/* {product.image === null ? <ImageIcon /> :
-                    <CardMedia
-                        component="img"
-                        height="140"
-                        image={product.image}
-                        alt={product.imageDescription}
-                    />
-                } */}
                 <Box sx={{
                     display: "flex",
                     justifyContent: "flex-end"
