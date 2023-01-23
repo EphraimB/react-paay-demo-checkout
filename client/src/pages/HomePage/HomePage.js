@@ -18,7 +18,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addProduct } from '../../features/Products/productActions';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import Stack from '@mui/material/Stack';
-import ProductsMenu from '../../components/ProductsMenu/ProductsMenu';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
 
 function HomePage({ products, loggedIn, isAdmin }) {
     const [showAddProductForm, setShowAddProductForm] = useState(false);
@@ -26,6 +27,7 @@ function HomePage({ products, loggedIn, isAdmin }) {
     const { loading, error, success } = useSelector(
         (state) => state.product
     );
+
     const dispatch = useDispatch();
     const { register, handleSubmit } = useForm();
 
@@ -42,9 +44,14 @@ function HomePage({ products, loggedIn, isAdmin }) {
         hideProductForm();
     }
 
-    const handleClick = () => {
-
-    }
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const open = Boolean(anchorEl);
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
 
     const AddProductForm = () => {
         return (
@@ -92,7 +99,19 @@ function HomePage({ products, loggedIn, isAdmin }) {
                                             <MoreVertIcon />
                                         </IconButton>
                                     </Stack>
-                                    <ProductsMenu />
+                                    <Menu
+                                        id="basic-menu"
+                                        anchorEl={anchorEl}
+                                        open={open}
+                                        onClose={handleClose}
+                                        MenuListProps={{
+                                            'aria-labelledby': 'basic-button',
+                                        }}
+                                    >
+                                        <MenuItem onClick={handleClose}>Profile</MenuItem>
+                                        <MenuItem onClick={handleClose}>My account</MenuItem>
+                                        <MenuItem onClick={handleClose}>Logout</MenuItem>
+                                    </Menu>
                                 </>
                             ) : null}
                             <CardContent>
