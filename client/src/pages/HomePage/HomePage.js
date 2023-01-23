@@ -28,11 +28,12 @@ export default function HomePage({ products, loggedIn, isAdmin }) {
         (state) => state.product
     );
 
-    const productsState = useSelector((state) => state.productState.mode);
+    const productState = useSelector((state) => state.productState.mode);
 
     const dispatch = useDispatch();
 
-    console.log(productsState);
+
+    console.log(productState);
 
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
@@ -44,10 +45,6 @@ export default function HomePage({ products, loggedIn, isAdmin }) {
     };
 
     const handleEdit = () => {
-
-    }
-
-    const handleDelete = () => {
 
     }
 
@@ -103,7 +100,7 @@ export default function HomePage({ products, loggedIn, isAdmin }) {
                 {Object.values(products).map((product) => {
                     return (
                         <Card sx={{ maxWidth: 512, m: 2 }} id={`product-${product.product_id}`} key={`product-${product.product_id}`}>
-                            {isAdmin === 1 ? (
+                            {isAdmin === 1 && productState === 0 ? (
                                 <Box>
                                     <Stack
                                         direction="row"
@@ -122,11 +119,11 @@ export default function HomePage({ products, loggedIn, isAdmin }) {
                                         }}
                                     >
                                         <MenuItem onClick={handleEdit}>Edit</MenuItem>
-                                        <MenuItem onClick={handleDelete}>Delete</MenuItem>
+                                        <MenuItem id={product.product_id} onClick={(e) => e.currentTarget.id === product.product_id ? dispatch(deleteMode()) : null}>Delete</MenuItem>
                                     </Menu>
                                 </Box>
                             ) : null}
-                            {productsState === 0 ? <Product product={product} isAdmin={isAdmin} /> : null}
+                            {productState === 0 ? <Product product={product} isAdmin={isAdmin} /> : null}
                         </Card>
                     )
                 })

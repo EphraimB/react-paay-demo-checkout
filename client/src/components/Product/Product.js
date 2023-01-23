@@ -1,14 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import IconButton from '@mui/material/IconButton';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
-import { useDispatch, useSelector } from 'react-redux';
-import { viewMode, editMode, deleteMode } from '../../features/productState/productStateSlice';
 
-export default function Product({ product, isAdmin }) {
+export default function Product({ product }) {
     return (
         <>
             <CardContent>
