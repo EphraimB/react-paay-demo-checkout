@@ -20,6 +20,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import Stack from '@mui/material/Stack';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
+import { viewMode, editMode, deleteMode } from '../../features/productState/productStateSlice';
 
 function HomePage({ products, loggedIn, isAdmin }) {
     const [showAddProductForm, setShowAddProductForm] = useState(false);
@@ -27,6 +28,8 @@ function HomePage({ products, loggedIn, isAdmin }) {
     const { loading, error, success } = useSelector(
         (state) => state.product
     );
+
+    const productsState = useSelector((state) => state.popup.view);
 
     const dispatch = useDispatch();
     const { register, handleSubmit } = useForm();
@@ -52,6 +55,10 @@ function HomePage({ products, loggedIn, isAdmin }) {
     const handleClose = () => {
         setAnchorEl(null);
     };
+
+    const handleDelete = () => {
+        
+    }
 
     const AddProductForm = () => {
         return (
@@ -89,7 +96,7 @@ function HomePage({ products, loggedIn, isAdmin }) {
                 {showAddProductForm ? <AddProductForm /> : null}
                 {Object.values(products).map((product) => {
                     return (
-                        <Card sx={{ maxWidth: 512, m: 2 }}>
+                        <Card sx={{ maxWidth: 512, m: 2 }} id={`product-${product.product_id}`} key={`product-${product.product_id}`}>
                             {isAdmin === 1 ? (
                                 <>
                                     <Stack
@@ -108,9 +115,8 @@ function HomePage({ products, loggedIn, isAdmin }) {
                                             'aria-labelledby': 'basic-button',
                                         }}
                                     >
-                                        <MenuItem onClick={handleClose}>Profile</MenuItem>
-                                        <MenuItem onClick={handleClose}>My account</MenuItem>
-                                        <MenuItem onClick={handleClose}>Logout</MenuItem>
+                                        <MenuItem onClick={handleClose}>Edit</MenuItem>
+                                        <MenuItem onClick={handleDelete}>Delete</MenuItem>
                                     </Menu>
                                 </>
                             ) : null}
