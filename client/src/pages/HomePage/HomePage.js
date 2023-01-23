@@ -22,7 +22,6 @@ import ProductsMenu from '../../components/ProductsMenu/ProductsMenu';
 
 function HomePage({ products, loggedIn, isAdmin }) {
     const [showAddProductForm, setShowAddProductForm] = useState(false);
-    const [showProductsMenu, setShowProductsMenu] = useState(null);
 
     const { loading, error, success } = useSelector(
         (state) => state.product
@@ -42,14 +41,6 @@ function HomePage({ products, loggedIn, isAdmin }) {
         dispatch(addProduct(data));
         hideProductForm();
     }
-
-    const handleClose = () => {
-        setShowProductsMenu(null);
-    };
-
-    const handleOpen = (event) => {
-        setShowProductsMenu(event.currentTarget);
-    };
 
     const handleClick = () => {
 
