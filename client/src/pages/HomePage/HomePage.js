@@ -12,21 +12,45 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import Box from '@mui/system/Box';
 import Product from '../../components/Product/Product';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import Stack from '@mui/material/Stack';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { addProduct } from '../../features/Products/productActions';
 import { viewMode, editMode, deleteMode } from '../../features/productState/productStateSlice';
 
-function HomePage({ products, loggedIn, isAdmin }) {
+export default function HomePage({ products, loggedIn, isAdmin }) {
     const [showAddProductForm, setShowAddProductForm] = useState(false);
 
     const { loading, error, success } = useSelector(
         (state) => state.product
     );
 
-    const productsState = useSelector((state) => state.popup.view);
+    const productsState = useSelector((state) => state.productState.mode);
 
     const dispatch = useDispatch();
+
+    console.log(productsState);
+
+    const [anchorEl, setAnchorEl] = useState(null);
+    const open = Boolean(anchorEl);
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+
+    const handleEdit = () => {
+
+    }
+
+    const handleDelete = () => {
+
+    }
+
     const { register, handleSubmit } = useForm();
 
     const showProductForm = () => {
@@ -78,7 +102,32 @@ function HomePage({ products, loggedIn, isAdmin }) {
                 {showAddProductForm ? <AddProductForm /> : null}
                 {Object.values(products).map((product) => {
                     return (
-                        <Product product={product} isAdmin={isAdmin} />
+                        <Card sx={{ maxWidth: 512, m: 2 }} id={`product-${product.product_id}`} key={`product-${product.product_id}`}>
+                            {isAdmin === 1 ? (
+                                <Box>
+                                    <Stack
+                                        direction="row"
+                                        justifyContent="flex-end">
+                                        <IconButton onClick={handleClick}>
+                                            <MoreVertIcon />
+                                        </IconButton>
+                                    </Stack>
+                                    <Menu
+                                        id="basic-menu"
+                                        anchorEl={anchorEl}
+                                        open={open}
+                                        onClose={handleClose}
+                                        MenuListProps={{
+                                            'aria-labelledby': 'basic-button',
+                                        }}
+                                    >
+                                        <MenuItem onClick={handleEdit}>Edit</MenuItem>
+                                        <MenuItem onClick={handleDelete}>Delete</MenuItem>
+                                    </Menu>
+                                </Box>
+                            ) : null}
+                            {productsState === 0 ? <Product product={product} isAdmin={isAdmin} /> : null}
+                        </Card>
                     )
                 })
                 }
@@ -93,5 +142,3 @@ function HomePage({ products, loggedIn, isAdmin }) {
         </>
     );
 }
-
-export default HomePage;
