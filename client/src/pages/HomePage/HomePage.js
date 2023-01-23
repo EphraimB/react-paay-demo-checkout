@@ -119,7 +119,7 @@ export default function HomePage({ products, loggedIn, isAdmin }) {
                                         }}
                                     >
                                         <MenuItem onClick={handleEdit}>Edit</MenuItem>
-                                        <MenuItem id={product.product_id} onClick={(e) => e.currentTarget.id === product.product_id ? dispatch(deleteMode()) : null}>Delete</MenuItem>
+                                        <MenuItem id={product.product_id} onClick={(e) => dispatch(deleteMode())}>Delete</MenuItem>
                                     </Menu>
                                 </Box>
                             ) : null}
