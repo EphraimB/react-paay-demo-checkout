@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import IconButton from '@mui/material/IconButton';
@@ -24,56 +24,73 @@ export default function Product({ product, isAdmin }) {
         setAnchorEl(null);
     };
 
+    const handleDelete = () => {
+        dispatch(deleteModeAction(product.product_id))
+        handleClose();
+    }
+
     const handleEdit = () => {
 
     }
 
-    const {editMode, deleteMode} = useSelector((state) => state.productState);
+    const { editMode, deleteMode } = useSelector((state) => state.productState);
 
     const dispatch = useDispatch();
 
     return (
         !deleteMode.includes(product.product_id) && !editMode.includes(product.product_id) ? (
-        <Card key={`product-${product.product_id}`} sx={{ maxWidth: 512, m: 2 }} id={`product-${product.product_id}`}>
-            {isAdmin === 1 ? (
-                <Box>
-                    <Stack
-                        direction="row"
-                        justifyContent="flex-end">
-                        <IconButton onClick={handleClick}>
-                            <MoreVertIcon />
-                        </IconButton>
-                    </Stack>
-                    <Menu
-                        id="basic-menu"
-                        anchorEl={anchorEl}
-                        open={open}
-                        onClose={handleClose}
-                        MenuListProps={{
-                            'aria-labelledby': 'basic-button',
-                        }}
-                    >
-                        <MenuItem onClick={handleEdit}>Edit</MenuItem>
-                        <MenuItem onClick={() => dispatch(deleteModeAction(product.product_id))}>Delete</MenuItem>
-                    </Menu>
-                </Box>
-            ) : null}
-            <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
-                    {product.product_title}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                    {product.product_description}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                    {product.product_price}
-                </Typography>
-            </CardContent>
-            <CardActions>
-                <Button size="small">Add to cart</Button>
-                <Button size="small">Details</Button>
-            </CardActions>
-        </Card>
+            <Card key={`product-${product.product_id}`} sx={{ maxWidth: 512, m: 2 }} id={`product-${product.product_id}`}>
+                {isAdmin === 1 ? (
+                    <Box>
+                        <Stack
+                            direction="row"
+                            justifyContent="flex-end">
+                            <IconButton onClick={handleClick}>
+                                <MoreVertIcon />
+                            </IconButton>
+                        </Stack>
+                        <Menu
+                            id="basic-menu"
+                            anchorEl={anchorEl}
+                            open={open}
+                            onClose={handleClose}
+                            MenuListProps={{
+                                'aria-labelledby': 'basic-button',
+                            }}
+                        >
+                            <MenuItem onClick={handleEdit}>Edit</MenuItem>
+                            <MenuItem onClick={handleDelete}>Delete</MenuItem>
+                        </Menu>
+                    </Box>
+                ) : null}
+                <CardContent>
+                    <Typography gutterBottom variant="h5" component="div">
+                        {product.product_title}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                        {product.product_description}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                        {product.product_price}
+                    </Typography>
+                </CardContent>
+                <CardActions>
+                    <Button size="small">Add to cart</Button>
+                    <Button size="small">Details</Button>
+                </CardActions>
+            </Card>
+        ) : deleteMode.includes(product.product_id) ? (
+            <Card key={`product-${product.product_id}`} sx={{ maxWidth: 512, m: 2 }} id={`product-${product.product_id}`}>
+                <CardContent>
+                    <Typography>
+                        Are you sure you want to delete "{product.product_title}"
+                    </Typography>
+                    <CardActions>
+                        <Button size="small" onClick={() => dispatch(viewModeAction(product.product_id))}>No</Button>
+                        <Button size="small">Yes</Button>
+                    </CardActions>
+                </CardContent>
+            </Card>
         ) : null
     )
 }
