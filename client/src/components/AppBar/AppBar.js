@@ -15,10 +15,14 @@ import LoginForm from '../LoginForm/LoginForm';
 import LogoutForm from '../LogoutForm/LogoutForm';
 import { useSelector, useDispatch } from 'react-redux'
 import { show, hide } from '../../features/Popup/popupSlice';
+import CartPage from '../../pages/CartPage/CartPage';
+import { useNavigate } from "react-router-dom"
 
 export default function ButtonAppBar({ loggedIn }) {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+
+    const navigate = useNavigate()
 
     const popup = useSelector((state) => state.popup.show);
     const dispatch = useDispatch()
@@ -54,7 +58,7 @@ export default function ButtonAppBar({ loggedIn }) {
             open={isMobileMenuOpen}
             onClose={handleMobileMenuClose}
         >
-            <MenuItem>
+            <MenuItem onClick={(e) => navigate('/cart')}>
                 <IconButton size="large" aria-label="0 items in cart" color="inherit">
                     <Badge badgeContent={0} color="error">
                         <ShoppingCartIcon />
@@ -95,7 +99,7 @@ export default function ButtonAppBar({ loggedIn }) {
                     </Typography>
                     <Box sx={{ flexGrow: 1 }} />
                     <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-                        <IconButton size="large" aria-label="0 items in cart" color="inherit">
+                        <IconButton size="large" aria-label="0 items in cart" color="inherit" onClick={(e) => navigate('/cart')}>
                             <Badge badgeContent={0} color="error">
                                 <ShoppingCartIcon />
                             </Badge>

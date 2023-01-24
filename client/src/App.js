@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { Routes, Route } from "react-router-dom"
 import HomePage from "./pages/HomePage/HomePage";
 import axios from 'axios';
+import CartPage from './pages/CartPage/CartPage';
 
 function App() {
   axios.defaults.withCredentials = true;
@@ -31,6 +32,7 @@ function App() {
     <div className="App" >
       <Routes>
         <Route path="/" element={<HomePage products={products} loggedIn={loggedInUser} isAdmin={isAdmin} />} />
+        <Route path="/cart" element={<CartPage loggedIn={loggedInUser} isAdmin={isAdmin} />} />
       </Routes>
     </div>
   )
