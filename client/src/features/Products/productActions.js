@@ -30,7 +30,8 @@ export const addProduct = createAsyncThunk(
 
 export const editProduct = createAsyncThunk(
   'product/edit',
-  async ({ product_id, product_title, product_description, product_price }, { rejectWithValue }) => {
+  async (params, { rejectWithValue }) => {
+    console.log(params.product_id);
     try {
       const config = {
         headers: {
@@ -38,8 +39,8 @@ export const editProduct = createAsyncThunk(
         },
       }
       await axios.put(
-        `${backendURL}/products/${product_id}`,
-        { product_title, product_description, product_price, product_id },
+        `${backendURL}/products/${params.product_id}`,
+        params,
         config
       )
     } catch (error) {

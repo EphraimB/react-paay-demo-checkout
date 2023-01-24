@@ -48,8 +48,16 @@ export default function Product({ product, isAdmin }) {
         dispatch(deleteProduct(product.product_id));
     }
 
-    const handleEditForm = (data) => {
-        dispatch(editProduct(data));
+    const params = {
+        product_id: product.product_id,
+        product_title: title,
+        product_description: description,
+        product_price: price
+    }
+
+    const handleEditForm = (e) => {
+        e.preventDefault();
+        dispatch(editProduct(params));
     }
 
     const { editMode, deleteMode } = useSelector((state) => state.productState);
@@ -126,15 +134,15 @@ export default function Product({ product, isAdmin }) {
                 </Box>
                 <CardContent>
                     <Typography gutterBottom variant="h5" component="div">
-                        <TextField id="title" label="Title" value={title} onChange={(e) => setTitle(e.target.value)} variant="standard" required />
+                        <TextField id="title" name="title" label="Title" value={title} onChange={(e) => setTitle(e.target.value)} variant="standard" required />
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
-                        <TextField id="description" label="Description" value={description} onChange={(e) => setDescription(e.target.value)} variant="standard" required />
+                        <TextField id="description" name="description" label="Description" value={description} onChange={(e) => setDescription(e.target.value)} variant="standard" required />
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
                         <TextField id="price" label="Price" type="number" inputProps={{
                             step: 0.01,
-                        }} value={price} onChange={(e) => setPrice(e.target.value)} variant="standard" required />
+                        }} value={price} name="price" onChange={(e) => setPrice(e.target.value)} variant="standard" required />
                     </Typography>
                 </CardContent>
                 <Button type="submit" variant="contained" disabled={loading}>Edit Product</Button>
