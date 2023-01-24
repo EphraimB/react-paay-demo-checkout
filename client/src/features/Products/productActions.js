@@ -18,7 +18,25 @@ export const addProduct = createAsyncThunk(
         config
       )
     } catch (error) {
-    // return custom error message from backend if present
+      // return custom error message from backend if present
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  }
+);
+
+export const deleteProduct = createAsyncThunk(
+  'product/delete',
+  async (id, { rejectWithValue }) => {
+    try {
+      await axios.delete(
+        `${backendURL}/products/${id}`
+      )
+    } catch (error) {
+      // return custom error message from backend if present
       if (error.response && error.response.data.message) {
         return rejectWithValue(error.response.data.message);
       } else {

@@ -12,6 +12,7 @@ import MenuItem from '@mui/material/MenuItem';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useDispatch, useSelector } from 'react-redux';
 import { viewModeAction, editModeAction, deleteModeAction } from '../../features/productState/productStateSlice';
+import { deleteProduct } from '../../features/Products/productActions';
 
 export default function Product({ product, isAdmin }) {
     const [anchorEl, setAnchorEl] = useState(null);
@@ -29,11 +30,19 @@ export default function Product({ product, isAdmin }) {
         handleClose();
     }
 
+    const handleDeleteProduct = () => {
+        dispatch(deleteProduct(product.product_id));
+    }
+
     const handleEdit = () => {
 
     }
 
     const { editMode, deleteMode } = useSelector((state) => state.productState);
+
+    const { loading, error, success } = useSelector(
+        (state) => state.product
+    );
 
     const dispatch = useDispatch();
 
@@ -87,7 +96,7 @@ export default function Product({ product, isAdmin }) {
                     </Typography>
                     <CardActions>
                         <Button size="small" onClick={() => dispatch(viewModeAction(product.product_id))}>No</Button>
-                        <Button size="small">Yes</Button>
+                        <Button size="small" onClick={handleDeleteProduct}>Yes</Button>
                     </CardActions>
                 </CardContent>
             </Card>

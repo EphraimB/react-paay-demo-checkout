@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { addProduct } from './productActions'
+import { addProduct, deleteProduct } from './productActions'
 
 const initialState = {
   loading: false,
@@ -24,6 +24,20 @@ const productSlice = createSlice({
       state.success = true; // add product successful
     },
     [addProduct.rejected]: (state, { payload }) => {
+      state.loading = false;
+      state.error = payload;
+    },
+    // Delete product
+    [deleteProduct.pending]: (state) => {
+      state.loading = true;
+      state.error = null;
+    },
+    [deleteProduct.fulfilled]: (state, { payload }) => {
+      state.loading = false;
+      state.userInfo = payload;
+      state.success = true; // add product successful
+    },
+    [deleteProduct.rejected]: (state, { payload }) => {
       state.loading = false;
       state.error = payload;
     },
