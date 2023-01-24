@@ -1,24 +1,28 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  mode: 0
+  editMode: [],
+  deleteMode: []
 }
 
 export const productsStateSlice = createSlice({
   name: 'productsState',
   initialState,
   reducers: {
-    viewMode: (state) => {
-        state.mode = 0;
+    viewModeAction: (state, action) => {
+      state.editMode.splice(action.payload, 1);
+      state.deleteMode.splice(action.payload, 1);
     },
-    editMode: (state) => {
-        state.mode = 1;
+    editModeAction: (state, action) => {
+      state.deleteMode.splice(action.payload, 1);
+      state.editMode.push(action.payload);
     },
-    deleteMode: (state) => {
-        state.mode = 2;
+    deleteModeAction: (state, action) => {
+      state.editMode.splice(action.payload, 1);
+      state.deleteMode.push(action.payload);
     },
   },
 })
 
-export const { viewMode, editMode, deleteMode } = productsStateSlice.actions;
+export const { viewModeAction, editModeAction, deleteModeAction } = productsStateSlice.actions;
 export default productsStateSlice.reducer;

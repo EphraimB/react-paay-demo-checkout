@@ -12,14 +12,10 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import Box from '@mui/system/Box';
 import Product from '../../components/Product/Product';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import Stack from '@mui/material/Stack';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { addProduct } from '../../features/Products/productActions';
-import { viewMode, editMode, deleteMode } from '../../features/productState/productStateSlice';
+import { viewModeAction, editModeAction, deleteModeAction } from '../../features/productState/productStateSlice';
 
 export default function HomePage({ products, loggedIn, isAdmin }) {
     const [showAddProductForm, setShowAddProductForm] = useState(false);
@@ -28,25 +24,9 @@ export default function HomePage({ products, loggedIn, isAdmin }) {
         (state) => state.product
     );
 
-    const productState = useSelector((state) => state.productState.mode);
+    const { editMode, deleteMode } = useSelector((state) => state.productState);
 
     const dispatch = useDispatch();
-
-
-    console.log(productState);
-
-    const [anchorEl, setAnchorEl] = useState(null);
-    const open = Boolean(anchorEl);
-    const handleClick = (event) => {
-        setAnchorEl(event.currentTarget);
-    };
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
-
-    const handleEdit = () => {
-
-    }
 
     const { register, handleSubmit } = useForm();
 
@@ -99,32 +79,7 @@ export default function HomePage({ products, loggedIn, isAdmin }) {
                 {showAddProductForm ? <AddProductForm /> : null}
                 {Object.values(products).map((product) => {
                     return (
-                        <Card sx={{ maxWidth: 512, m: 2 }} id={`product-${product.product_id}`} key={`product-${product.product_id}`}>
-                            {isAdmin === 1 && productState === 0 ? (
-                                <Box>
-                                    <Stack
-                                        direction="row"
-                                        justifyContent="flex-end">
-                                        <IconButton onClick={handleClick}>
-                                            <MoreVertIcon />
-                                        </IconButton>
-                                    </Stack>
-                                    <Menu
-                                        id="basic-menu"
-                                        anchorEl={anchorEl}
-                                        open={open}
-                                        onClose={handleClose}
-                                        MenuListProps={{
-                                            'aria-labelledby': 'basic-button',
-                                        }}
-                                    >
-                                        <MenuItem onClick={handleEdit}>Edit</MenuItem>
-                                        <MenuItem id={product.product_id} onClick={(e) => dispatch(deleteMode())}>Delete</MenuItem>
-                                    </Menu>
-                                </Box>
-                            ) : null}
-                            {productState === 0 ? <Product product={product} isAdmin={isAdmin} /> : null}
-                        </Card>
+                        <Product product={product} isAdmin={isAdmin} />
                     )
                 })
                 }
