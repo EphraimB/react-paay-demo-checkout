@@ -28,6 +28,31 @@ export const addProduct = createAsyncThunk(
   }
 );
 
+export const editProduct = createAsyncThunk(
+  'product/edit',
+  async ({ product_id, product_title, product_description, product_price }, { rejectWithValue }) => {
+    try {
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+      await axios.put(
+        `${backendURL}/products/${product_id}`,
+        { product_title, product_description, product_price, product_id },
+        config
+      )
+    } catch (error) {
+      // return custom error message from backend if present
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  }
+);
+
 export const deleteProduct = createAsyncThunk(
   'product/delete',
   async (id, { rejectWithValue }) => {

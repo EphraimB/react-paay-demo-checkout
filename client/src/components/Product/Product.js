@@ -14,9 +14,12 @@ import CloseIcon from '@mui/icons-material/Close';
 import TextField from '@mui/material/TextField';
 import { useDispatch, useSelector } from 'react-redux';
 import { viewModeAction, editModeAction, deleteModeAction } from '../../features/productState/productStateSlice';
-import { deleteProduct } from '../../features/Products/productActions';
+import { deleteProduct, editProduct } from '../../features/Products/productActions';
 
 export default function Product({ product, isAdmin }) {
+    const [title, setTitle] = useState(product.product_title);
+    const [description, setDescription] = useState(product.product_description);
+    const [price, setPrice] = useState(product.product_price.substring(1));
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
 
@@ -43,6 +46,10 @@ export default function Product({ product, isAdmin }) {
 
     const handleDeleteProduct = () => {
         dispatch(deleteProduct(product.product_id));
+    }
+
+    const handleEditForm = (data) => {
+        dispatch(editProduct(data));
     }
 
     const { editMode, deleteMode } = useSelector((state) => state.productState);
@@ -108,7 +115,7 @@ export default function Product({ product, isAdmin }) {
                 </CardContent>
             </Card>
         ) : editMode.includes(product.product_id) ? (
-            <Card key={`product-${product.product_id}`} sx={{ maxWidth: 512, m: 2 }} id={`product-${product.product_id}`}>
+            <Card component="form" onSubmit={handleEditForm} key={`product-${product.product_id}`} sx={{ maxWidth: 512, m: 2 }} id={`product-${product.product_id}`}>
                 <Box sx={{
                     display: "flex",
                     justifyContent: "flex-end"
@@ -119,18 +126,18 @@ export default function Product({ product, isAdmin }) {
                 </Box>
                 <CardContent>
                     <Typography gutterBottom variant="h5" component="div">
-                        <TextField id="title" label="Title" value={product.product_title} variant="standard" required />
+                        <TextField id="title" label="Title" value={title} onChange={(e) => setTitle(e.target.value)} variant="standard" required />
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
-                        <TextField id="description" label="Description" value={product.product_description} variant="standard" required />
+                        <TextField id="description" label="Description" value={description} onChange={(e) => setDescription(e.target.value)} variant="standard" required />
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
                         <TextField id="price" label="Price" type="number" inputProps={{
                             step: 0.01,
-                        }} value={product.product_price.substring(1)} variant="standard" required />
+                        }} value={price} onChange={(e) => setPrice(e.target.value)} variant="standard" required />
                     </Typography>
                 </CardContent>
-                <Button type="submit" variant="contained" disabled={loading}>Add Product</Button>
+                <Button type="submit" variant="contained" disabled={loading}>Edit Product</Button>
             </Card >
         ) : null
     )
