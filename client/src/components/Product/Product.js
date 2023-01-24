@@ -56,7 +56,6 @@ export default function Product({ product, isAdmin }) {
     }
 
     const handleEditForm = (e) => {
-        // e.preventDefault();
         dispatch(editProduct(params));
     }
 
