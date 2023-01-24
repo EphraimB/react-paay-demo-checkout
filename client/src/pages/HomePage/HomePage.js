@@ -50,8 +50,8 @@ export default function HomePage({ products, loggedIn, isAdmin }) {
                     display: "flex",
                     justifyContent: "flex-end"
                 }}>
-                    <IconButton>
-                        <CloseIcon onClick={hideProductForm} />
+                    <IconButton onClick={hideProductForm}>
+                        <CloseIcon />
                     </IconButton>
                 </Box>
                 <CardContent>

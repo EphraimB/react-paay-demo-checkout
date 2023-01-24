@@ -10,6 +10,8 @@ import Stack from '@mui/material/Stack';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import CloseIcon from '@mui/icons-material/Close';
+import TextField from '@mui/material/TextField';
 import { useDispatch, useSelector } from 'react-redux';
 import { viewModeAction, editModeAction, deleteModeAction } from '../../features/productState/productStateSlice';
 import { deleteProduct } from '../../features/Products/productActions';
@@ -30,12 +32,17 @@ export default function Product({ product, isAdmin }) {
         handleClose();
     }
 
-    const handleDeleteProduct = () => {
-        dispatch(deleteProduct(product.product_id));
+    const handleEdit = () => {
+        dispatch(editModeAction(product.product_id))
+        handleClose();
     }
 
-    const handleEdit = () => {
+    const handleViewMode = () => {
+        dispatch(viewModeAction(product.product_id));
+    }
 
+    const handleDeleteProduct = () => {
+        dispatch(deleteProduct(product.product_id));
     }
 
     const { editMode, deleteMode } = useSelector((state) => state.productState);
@@ -95,11 +102,36 @@ export default function Product({ product, isAdmin }) {
                         Are you sure you want to delete "{product.product_title}"
                     </Typography>
                     <CardActions>
-                        <Button size="small" onClick={() => dispatch(viewModeAction(product.product_id))}>No</Button>
+                        <Button size="small" onClick={handleViewMode}>No</Button>
                         <Button size="small" onClick={handleDeleteProduct}>Yes</Button>
                     </CardActions>
                 </CardContent>
             </Card>
+        ) : editMode.includes(product.product_id) ? (
+            <Card key={`product-${product.product_id}`} sx={{ maxWidth: 512, m: 2 }} id={`product-${product.product_id}`}>
+                <Box sx={{
+                    display: "flex",
+                    justifyContent: "flex-end"
+                }}>
+                    <IconButton onClick={handleViewMode}>
+                        <CloseIcon />
+                    </IconButton>
+                </Box>
+                <CardContent>
+                    <Typography gutterBottom variant="h5" component="div">
+                        <TextField id="title" label="Title" value={product.product_title} variant="standard" required />
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                        <TextField id="description" label="Description" value={product.product_description} variant="standard" required />
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                        <TextField id="price" label="Price" type="number" inputProps={{
+                            step: 0.01,
+                        }} value={product.product_price.substring(1)} variant="standard" required />
+                    </Typography>
+                </CardContent>
+                <Button type="submit" variant="contained" disabled={loading}>Add Product</Button>
+            </Card >
         ) : null
     )
 }
