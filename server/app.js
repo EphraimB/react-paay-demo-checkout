@@ -7,7 +7,7 @@ const bcrypt = require('bcrypt');
 const session = require('express-session');
 const { Pool, Client } = require('pg');
 const dotenv = require('dotenv');
-const port = 5000;
+const port = 5001;
 
 dotenv.config({ override: true });
 
