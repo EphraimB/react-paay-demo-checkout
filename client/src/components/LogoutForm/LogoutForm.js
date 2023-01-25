@@ -9,7 +9,7 @@ import axios from 'axios';
 export default function LogoutForm() {
 
     function handleClick() {
-        axios.post('http://localhost:5000/logout', {
+        axios.post('http://localhost:5001/logout', {
 
         })
             .then((response) => {
