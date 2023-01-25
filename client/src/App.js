@@ -13,7 +13,7 @@ function App() {
   const [isAdmin, setIsAdmin] = useState(0);
 
   useEffect(() => {
-    axios.get('http://localhost:5000/user').then((response) => {
+    axios.get('http://localhost:5001/user').then((response) => {
       console.log(response);
       setLoggedInUser(response.data.id);
       setIsAdmin(response.data.isAdmin);
@@ -21,7 +21,7 @@ function App() {
       console.log(err);
     });
 
-    axios.get('http://localhost:5000/products').then((response) => {
+    axios.get('http://localhost:5001/products').then((response) => {
       setProducts(response.data);
     }).catch(err => {
       console.log(err);
