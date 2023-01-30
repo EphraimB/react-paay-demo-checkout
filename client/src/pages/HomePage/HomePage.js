@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Grid from '@mui/material/Unstable_Grid2';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -14,9 +14,11 @@ import Box from '@mui/system/Box';
 import Product from '../../components/Product/Product';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
-import { addProduct, getProducts } from '../../features/Products/productActions';
+import { addProduct } from '../../features/Products/productActions';
+import axios from 'axios';
 
 export default function HomePage({ loggedIn, isAdmin }) {
+    const [products, setProducts] = useState('');
     const [showAddProductForm, setShowAddProductForm] = useState(false);
 
     const { loading, error, success } = useSelector(
@@ -24,7 +26,14 @@ export default function HomePage({ loggedIn, isAdmin }) {
     );
     const dispatch = useDispatch();
 
-    const products = dispatch(getProducts());
+    useEffect(() => {
+        axios.get('http://localhost:5001/products').then((response) => {
+          console.log(response);
+          setProducts(response.data);
+        }).catch(err => {
+          console.log(err);
+        });
+      }, []);
 
     console.log(products);
 

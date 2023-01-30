@@ -1,5 +1,17 @@
-import axios from 'axios'
-import { createAsyncThunk } from '@reduxjs/toolkit'
+import axios from 'axios';
+import { createAsyncThunk } from '@reduxjs/toolkit';
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+
+// Define a service using a base URL and expected endpoints
+export const productsApi = createApi({
+  reducerPath: 'pokemonApi',
+  baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:5001/products' }),
+  endpoints: (builder) => ({
+    getProducts: builder.query({
+      query: () => ``,
+    }),
+  }),
+})
 
 const backendURL = `http://localhost:5001`;
 
@@ -60,25 +72,6 @@ export const deleteProduct = createAsyncThunk(
       await axios.delete(
         `${backendURL}/products/${id}`
       )
-    } catch (error) {
-      // return custom error message from backend if present
-      if (error.response && error.response.data.message) {
-        return rejectWithValue(error.response.data.message);
-      } else {
-        return rejectWithValue(error.message);
-      }
-    }
-  }
-);
-
-export const getProducts = createAsyncThunk(
-  'product/get',
-  async ({ rejectWithValue }) => {
-    try {
-      const response = await axios.get(
-        `${backendURL}/products`
-      );
-      return response.data;
     } catch (error) {
       // return custom error message from backend if present
       if (error.response && error.response.data.message) {
