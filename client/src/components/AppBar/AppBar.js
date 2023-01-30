@@ -16,7 +16,7 @@ import LogoutForm from '../LogoutForm/LogoutForm';
 import { useSelector, useDispatch } from 'react-redux'
 import { show, hide } from '../../features/Popup/popupSlice';
 import CartPage from '../../pages/CartPage/CartPage';
-import { useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom";
 
 export default function ButtonAppBar({ loggedIn }) {
     const [anchorEl, setAnchorEl] = React.useState(null);

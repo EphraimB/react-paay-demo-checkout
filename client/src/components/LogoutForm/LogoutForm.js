@@ -5,8 +5,10 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import LogoutIcon from '@mui/icons-material/Logout';
 import axios from 'axios';
+import { useNavigate } from "react-router-dom";
 
 export default function LogoutForm() {
+    const navigate = useNavigate()
 
     function handleClick() {
         axios.post('http://localhost:5001/logout', {
@@ -14,11 +16,11 @@ export default function LogoutForm() {
         })
             .then((response) => {
                 console.log(response);
+                navigate('/');
             })
             .catch((error) => {
                 console.log(error);
             });
-        window.location.reload();
     }
 
     return (

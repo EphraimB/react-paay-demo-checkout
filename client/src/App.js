@@ -4,13 +4,20 @@ import { Routes, Route } from "react-router-dom"
 import HomePage from "./pages/HomePage/HomePage";
 import axios from 'axios';
 import CartPage from './pages/CartPage/CartPage';
+import { getProducts } from './features/Products/productActions';
+import { useDispatch, useSelector } from 'react-redux';
 
 function App() {
   axios.defaults.withCredentials = true;
 
-  const [products, setProducts] = useState('');
   const [loggedInUser, setLoggedInUser] = useState(0);
   const [isAdmin, setIsAdmin] = useState(0);
+
+  const dispatch = useDispatch();
+
+  const { loading, error, success } = useSelector(
+    (state) => state.product
+  );
 
   useEffect(() => {
     axios.get('http://localhost:5001/user').then((response) => {
@@ -20,18 +27,12 @@ function App() {
     }).catch(err => {
       console.log(err);
     });
-
-    axios.get('http://localhost:5001/products').then((response) => {
-      setProducts(response.data);
-    }).catch(err => {
-      console.log(err);
-    });
   }, []);
 
   return (
     <div className="App" >
       <Routes>
-        <Route path="/" element={<HomePage products={products} loggedIn={loggedInUser} isAdmin={isAdmin} />} />
+        <Route path="/" element={<HomePage loggedIn={loggedInUser} isAdmin={isAdmin} />} />
         <Route path="/cart" element={<CartPage loggedIn={loggedInUser} isAdmin={isAdmin} />} />
       </Routes>
     </div>

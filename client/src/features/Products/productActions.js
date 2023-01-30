@@ -31,7 +31,6 @@ export const addProduct = createAsyncThunk(
 export const editProduct = createAsyncThunk(
   'product/edit',
   async (params, { rejectWithValue }) => {
-    console.log(params.product_id);
     try {
       const config = {
         headers: {
@@ -61,6 +60,25 @@ export const deleteProduct = createAsyncThunk(
       await axios.delete(
         `${backendURL}/products/${id}`
       )
+    } catch (error) {
+      // return custom error message from backend if present
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  }
+);
+
+export const getProducts = createAsyncThunk(
+  'product/get',
+  async ({ rejectWithValue }) => {
+    try {
+      const response = await axios.get(
+        `${backendURL}/products`
+      );
+      return response.data;
     } catch (error) {
       // return custom error message from backend if present
       if (error.response && error.response.data.message) {

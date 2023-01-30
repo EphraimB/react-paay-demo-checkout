@@ -11,6 +11,7 @@ import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { registerUser, userLogin } from '../../features/auth/authActions';
 import { hide } from '../../features/Popup/popupSlice';
+import { useNavigate } from "react-router-dom";
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -39,6 +40,8 @@ export default function LoginForm() {
     const dispatch = useDispatch();
     const { register, handleSubmit } = useForm();
 
+    const navigate = useNavigate()
+
     const submitForm = (data) => {
         if (data.username.length === 0) {
             alert('Enter username');
@@ -50,7 +53,7 @@ export default function LoginForm() {
             return false;
         }
         dispatch(registerUser(data));
-        dispatch(hide());
+        navigate('/');
     }
 
     const submitLoginForm = (data) => {

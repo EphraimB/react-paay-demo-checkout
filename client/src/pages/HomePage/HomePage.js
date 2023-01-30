@@ -14,19 +14,19 @@ import Box from '@mui/system/Box';
 import Product from '../../components/Product/Product';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
-import { addProduct } from '../../features/Products/productActions';
-import { viewModeAction, editModeAction, deleteModeAction } from '../../features/productState/productStateSlice';
+import { addProduct, getProducts } from '../../features/Products/productActions';
 
-export default function HomePage({ products, loggedIn, isAdmin }) {
+export default function HomePage({ loggedIn, isAdmin }) {
     const [showAddProductForm, setShowAddProductForm] = useState(false);
 
     const { loading, error, success } = useSelector(
         (state) => state.product
     );
-
-    const { editMode, deleteMode } = useSelector((state) => state.productState);
-
     const dispatch = useDispatch();
+
+    const products = dispatch(getProducts());
+
+    console.log(products);
 
     const { register, handleSubmit } = useForm();
 
