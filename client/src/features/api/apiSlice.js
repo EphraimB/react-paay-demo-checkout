@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 // Define a service using a base URL and expected endpoints
@@ -7,10 +6,10 @@ export const apiSlice = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:5001' }),
   endpoints: (builder) => ({
     getProducts: builder.query({
-      query: () => `products`,
+      query: () => `/products`,
     }),
     getProduct: builder.query({
-      query: ({id}) => `products/${id}`,
+      query: ({ id }) => `/products/${id}`,
     }),
     addProduct: builder.mutation({
       query: (product) => ({
@@ -38,4 +37,4 @@ export const apiSlice = createApi({
 
 export const {
   useGetProductsQuery
-} = apiSlice
+} = apiSlice;

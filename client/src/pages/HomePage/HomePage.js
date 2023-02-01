@@ -29,6 +29,8 @@ export default function HomePage({ loggedIn, isAdmin }) {
         error,
     } = useGetProductsQuery();
 
+    console.log(products);
+
     let content = JSON.stringify(products);
 
     const [showAddProductForm, setShowAddProductForm] = useState(false);
