@@ -4,7 +4,6 @@ import { Routes, Route } from "react-router-dom"
 import HomePage from "./pages/HomePage/HomePage";
 import axios from 'axios';
 import CartPage from './pages/CartPage/CartPage';
-import { getProducts } from './features/Products/productActions';
 import { useDispatch, useSelector } from 'react-redux';
 
 function App() {

@@ -14,7 +14,6 @@ import CloseIcon from '@mui/icons-material/Close';
 import TextField from '@mui/material/TextField';
 import { useDispatch, useSelector } from 'react-redux';
 import { viewModeAction, editModeAction, deleteModeAction } from '../../features/productState/productStateSlice';
-import { deleteProduct, editProduct } from '../../features/Products/productActions';
 
 export default function Product({ product, isAdmin }) {
     const [title, setTitle] = useState(product.product_title);
@@ -45,7 +44,7 @@ export default function Product({ product, isAdmin }) {
     }
 
     const handleDeleteProduct = () => {
-        dispatch(deleteProduct(product.product_id));
+        // dispatch(deleteProduct(product.product_id));
     }
 
     const params = {
@@ -56,7 +55,7 @@ export default function Product({ product, isAdmin }) {
     }
 
     const handleEditForm = (e) => {
-        dispatch(editProduct(params));
+        // dispatch(editProduct(params));
     }
 
     const { editMode, deleteMode } = useSelector((state) => state.productState);

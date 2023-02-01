@@ -14,28 +14,27 @@ import Box from '@mui/system/Box';
 import Product from '../../components/Product/Product';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
-import { addProduct } from '../../features/Products/productActions';
-import axios from 'axios';
+import {
+    useGetProductsQuery
+} from "../../features/api/apiSlice";
 
 export default function HomePage({ loggedIn, isAdmin }) {
-    const [products, setProducts] = useState('');
+    const [newProduct, setNewProduct] = useState('');
+
+    const {
+        data: products,
+        isLoading,
+        isSuccess,
+        isError,
+        error,
+    } = useGetProductsQuery();
+
     const [showAddProductForm, setShowAddProductForm] = useState(false);
 
-    const { loading, error, success } = useSelector(
+    const { loading, productError, success } = useSelector(
         (state) => state.product
     );
     const dispatch = useDispatch();
-
-    useEffect(() => {
-        axios.get('http://localhost:5001/products').then((response) => {
-          console.log(response);
-          setProducts(response.data);
-        }).catch(err => {
-          console.log(err);
-        });
-      }, []);
-
-    console.log(products);
 
     const { register, handleSubmit } = useForm();
 
@@ -48,7 +47,7 @@ export default function HomePage({ loggedIn, isAdmin }) {
     }
 
     const submitForm = (data) => {
-        dispatch(addProduct(data));
+        // dispatch(addProduct(data));
         hideProductForm();
     }
 

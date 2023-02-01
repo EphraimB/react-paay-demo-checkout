@@ -5,15 +5,19 @@ import App from './App';
 import { BrowserRouter } from "react-router-dom";
 import { store } from './app/store'
 import { Provider } from 'react-redux'
+import { ApiProvider } from '@reduxjs/toolkit/dist/query/react';
+import { apiSlice } from './features/api/apiSlice';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-    <BrowserRouter>
-      <App />
-      </BrowserRouter>
+      <ApiProvider api={apiSlice}>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </ApiProvider>
     </Provider>
   </React.StrictMode>
 );
