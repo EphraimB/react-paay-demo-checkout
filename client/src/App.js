@@ -14,9 +14,9 @@ function App() {
 
   const dispatch = useDispatch();
 
-  const { loading, error, success } = useSelector(
-    (state) => state.product
-  );
+  // const { loading, error, success } = useSelector(
+  //   (state) => state.product
+  // );
 
   useEffect(() => {
     axios.get('http://localhost:5001/user').then((response) => {

@@ -29,11 +29,13 @@ export default function HomePage({ loggedIn, isAdmin }) {
         error,
     } = useGetProductsQuery();
 
+    let content = JSON.stringify(products);
+
     const [showAddProductForm, setShowAddProductForm] = useState(false);
 
-    const { loading, productError, success } = useSelector(
-        (state) => state.product
-    );
+    // const { productLoading, productError, success } = useSelector(
+    //     (state) => state.product
+    // );
     const dispatch = useDispatch();
 
     const { register, handleSubmit } = useForm();
@@ -75,7 +77,7 @@ export default function HomePage({ loggedIn, isAdmin }) {
                         }} {...register('product_price')} variant="standard" required />
                     </Typography>
                 </CardContent>
-                <Button type="submit" variant="contained" disabled={loading}>Add Product</Button>
+                <Button type="submit" variant="contained">Add Product</Button>
             </Card>
         )
     }
@@ -84,7 +86,7 @@ export default function HomePage({ loggedIn, isAdmin }) {
         <>
             <AppBar loggedIn={loggedIn} />
             <Grid id="products" container spacing={2} columns={{ xs: 12, md: 4 }} sx={{ m: 2 }}>
-                {showAddProductForm ? <AddProductForm /> : null}
+                {/* {showAddProductForm ? <AddProductForm /> : null} */}
                 {Object.values(products).map((product) => {
                     return (
                         <Product product={product} isAdmin={isAdmin} />
