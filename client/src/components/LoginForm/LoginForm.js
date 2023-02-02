@@ -12,6 +12,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { registerUser, userLogin } from '../../features/auth/authActions';
 import { hide } from '../../features/Popup/popupSlice';
 import { useNavigate } from "react-router-dom";
+import {
+    useLoginMutation
+} from "../../features/api/apiSlice";
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -34,9 +37,8 @@ function TabPanel(props) {
 }
 
 export default function LoginForm() {
-    const { loading, userInfo, error, success } = useSelector(
-        (state) => state.auth
-    );
+    const [login] = useLoginMutation();
+
     const dispatch = useDispatch();
     const { register, handleSubmit } = useForm();
 
@@ -66,7 +68,8 @@ export default function LoginForm() {
             alert('Enter password');
             return false;
         }
-        dispatch(userLogin(data));
+        console.log(data);
+        login(data);
         dispatch(hide());
     }
 
@@ -119,7 +122,7 @@ export default function LoginForm() {
                         <div>
                             <TextField id="password" key="loggedInPassword" type="password" {...register('password')} label="Password" variant="standard" required />
                         </div>
-                        <Button type="submit" variant="contained" disabled={loading}>Log in</Button>
+                        <Button type="submit" variant="contained">Log in</Button>
                     </Box>
                 </TabPanel>
                 <TabPanel value={value} index={1}>
@@ -140,7 +143,7 @@ export default function LoginForm() {
                         <div>
                             <TextField id="confirmPassword" type="password" label="Confirm password" {...register('confirmPassword')} variant="standard" required />
                         </div>
-                        <Button type="submit" variant="contained" disabled={loading}>Register</Button>
+                        <Button type="submit" variant="contained">Register</Button>
                     </Box>
                 </TabPanel>
             </Paper>

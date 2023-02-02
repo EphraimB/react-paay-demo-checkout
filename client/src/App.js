@@ -29,7 +29,7 @@ function App() {
     } else if (isError) {
       console.log(error.toString());
     }
-  }, []);
+  }, [error, isError, isLoading, isSuccess, user]);
 
   return (
     <div className="App" >
