@@ -92,7 +92,7 @@ export default function HomePage({ loggedIn, isAdmin }) {
         <>
             <AppBar loggedIn={loggedIn} />
             <Grid id="products" container spacing={2} columns={{ xs: 12, md: 4 }} sx={{ m: 2 }}>
-                {/* {showAddProductForm ? <AddProductForm /> : null} */}
+                {showAddProductForm ? <AddProductForm /> : null}
                 {content}
             </Grid>
             {isAdmin === 1 ? <Fab color="primary" aria-label="add" sx={{
