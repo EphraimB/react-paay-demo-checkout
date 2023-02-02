@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 // Define a service using a base URL and expected endpoints
 export const apiSlice = createApi({
   reducerPath: 'api',
-  baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:5001' }),
+  baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:5001', credentials: "include", }),
   endpoints: (builder) => ({
     getProducts: builder.query({
       query: () => '/products',

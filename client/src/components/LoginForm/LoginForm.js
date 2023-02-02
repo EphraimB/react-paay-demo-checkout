@@ -37,6 +37,8 @@ function TabPanel(props) {
 }
 
 export default function LoginForm() {
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
     const [login] = useLoginMutation();
 
     const dispatch = useDispatch();
@@ -58,16 +60,13 @@ export default function LoginForm() {
         navigate('/');
     }
 
-    const submitLoginForm = (data) => {
-        if (data.username.length === 0) {
-            alert('Enter username');
-            return false;
-        }
-        // check if passwords match
-        if (data.password.length === 0) {
-            alert('Enter password');
-            return false;
-        }
+    const data = {
+        username,
+        password
+    }
+
+    const submitLoginForm = (e) => {
+        e.preventDefault();
         console.log(data);
         login(data);
         dispatch(hide());
@@ -113,14 +112,13 @@ export default function LoginForm() {
                         sx={{
                             '& > :not(style)': { m: 1, width: '25ch' },
                         }}
-                        noValidate
-                        onSubmit={handleSubmit(submitLoginForm)}
+                        onSubmit={submitLoginForm}
                     >
                         <div>
-                            <TextField id="username" key="loggedInUsername" label="Username" {...register('username')} variant="standard" required />
+                            <TextField id="username" name="username" key="loggedInUsername" label="Username" value={username} onChange={(e) => setUsername(e.target.value)} variant="standard" required />
                         </div>
                         <div>
-                            <TextField id="password" key="loggedInPassword" type="password" {...register('password')} label="Password" variant="standard" required />
+                            <TextField id="password" name="password" key="loggedInPassword" type="password" value={password} onChange={(e) => setPassword(e.target.value)} label="Password" variant="standard" required />
                         </div>
                         <Button type="submit" variant="contained">Log in</Button>
                     </Box>
