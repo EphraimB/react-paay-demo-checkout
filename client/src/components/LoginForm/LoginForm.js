@@ -67,7 +67,6 @@ export default function LoginForm() {
 
     const submitLoginForm = (e) => {
         e.preventDefault();
-        console.log(data);
         login(data);
         dispatch(hide());
     }

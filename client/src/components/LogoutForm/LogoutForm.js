@@ -4,24 +4,12 @@ import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import LogoutIcon from '@mui/icons-material/Logout';
-import axios from 'axios';
-import { useNavigate } from "react-router-dom";
+import {
+    useLogoutMutation
+} from "../../features/api/apiSlice";
 
 export default function LogoutForm() {
-    const navigate = useNavigate()
-
-    function handleClick() {
-        axios.post('http://localhost:5001/logout', {
-
-        })
-            .then((response) => {
-                console.log(response);
-                navigate('/');
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-    }
+    const [logout] = useLogoutMutation();
 
     return (
         <Box
@@ -39,7 +27,7 @@ export default function LogoutForm() {
                 <Stack
                     direction="row"
                     justifyContent="flex-end">
-                    <IconButton aria-label="logout" onClick={handleClick}>
+                    <IconButton aria-label="logout" onClick={(e) => logout()}>
                         <LogoutIcon />
                     </IconButton>
                 </Stack>
