@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Grid from '@mui/material/Unstable_Grid2';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -13,7 +13,6 @@ import CloseIcon from '@mui/icons-material/Close';
 import Box from '@mui/system/Box';
 import Product from '../../components/Product/Product';
 import { useForm } from 'react-hook-form';
-import { useDispatch, useSelector } from 'react-redux';
 import {
     useGetProductsQuery
 } from "../../features/api/apiSlice";
@@ -38,11 +37,6 @@ export default function HomePage({ loggedIn, isAdmin }) {
     }
 
     const [showAddProductForm, setShowAddProductForm] = useState(false);
-
-    // const { productLoading, productError, success } = useSelector(
-    //     (state) => state.product
-    // );
-    const dispatch = useDispatch();
 
     const { register, handleSubmit } = useForm();
 
