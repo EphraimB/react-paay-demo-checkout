@@ -19,8 +19,6 @@ import {
 } from "../../features/api/apiSlice";
 
 export default function HomePage({ loggedIn, isAdmin }) {
-    const [newProduct, setNewProduct] = useState('');
-
     const {
         data: products,
         isLoading,
