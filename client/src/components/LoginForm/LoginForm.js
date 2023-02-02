@@ -7,13 +7,12 @@ import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import { useForm } from 'react-hook-form';
-import { useDispatch, useSelector } from 'react-redux';
-import { registerUser, userLogin } from '../../features/auth/authActions';
+import { useDispatch } from 'react-redux';
 import { hide } from '../../features/Popup/popupSlice';
 import { useNavigate } from "react-router-dom";
 import {
-    useLoginMutation
+    useLoginMutation,
+    useSignupMutation
 } from "../../features/api/apiSlice";
 
 function TabPanel(props) {
@@ -39,24 +38,27 @@ function TabPanel(props) {
 export default function LoginForm() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+
+    const [usernameRegistration, setUsernameRegistration] = useState('');
+    const [passwordRegistration, setPasswordRegistration] = useState('');
+    const [confirmPasswordRegistration, setConfirmPasswordRegistration] = useState('');
+
     const [login] = useLoginMutation();
+    const [signup] = useSignupMutation();
 
     const dispatch = useDispatch();
-    const { register, handleSubmit } = useForm();
-
     const navigate = useNavigate()
 
-    const submitForm = (data) => {
-        if (data.username.length === 0) {
-            alert('Enter username');
-            return false;
-        }
-        // check if passwords match
-        if (data.password !== data.confirmPassword) {
-            alert('Password mismatch');
-            return false;
-        }
-        dispatch(registerUser(data));
+    const signupData = {
+        username: usernameRegistration,
+        password: passwordRegistration,
+        confirmPassword: confirmPasswordRegistration
+    }
+
+    const submitForm = (e) => {
+        e.preventDefault();
+        signup(signupData);
+        dispatch(hide());
         navigate('/');
     }
 
@@ -69,6 +71,7 @@ export default function LoginForm() {
         e.preventDefault();
         login(data);
         dispatch(hide());
+        navigate('/');
     }
 
     TabPanel.propTypes = {
@@ -129,16 +132,16 @@ export default function LoginForm() {
                             '& > :not(style)': { m: 1, width: '25ch' },
                         }}
                         noValidate
-                        onSubmit={handleSubmit(submitForm)}
+                        onSubmit={submitForm}
                     >
                         <div>
-                            <TextField id="username" key="username" label="Username" {...register('username')} variant="standard" required />
+                            <TextField id="username" key="username" label="Username" value={usernameRegistration} onChange={(e) => setUsernameRegistration(e.target.value)} variant="standard" required />
                         </div>
                         <div>
-                            <TextField id="password" key="password" type="password" label="Password" {...register('password')} variant="standard" required />
+                            <TextField id="password" key="password" type="password" label="Password" value={passwordRegistration} onChange={(e) => setPasswordRegistration(e.target.value)} variant="standard" required />
                         </div>
                         <div>
-                            <TextField id="confirmPassword" type="password" label="Confirm password" {...register('confirmPassword')} variant="standard" required />
+                            <TextField id="confirmPassword" type="password" label="Confirm password" value={confirmPasswordRegistration} onChange={(e) => setConfirmPasswordRegistration(e.target.value)} variant="standard" required />
                         </div>
                         <Button type="submit" variant="contained">Register</Button>
                     </Box>
