@@ -32,9 +32,13 @@ export const apiSlice = createApi({
     //     body: id
     //   }),
     // }),
+    getUser: builder.query({
+      query: () => '/user',
+    }),
   }),
 })
 
 export const {
-  useGetProductsQuery
+  useGetProductsQuery,
+  useGetUserQuery
 } = apiSlice;

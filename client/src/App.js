@@ -2,30 +2,33 @@ import './App.css';
 import React, { useState, useEffect } from 'react';
 import { Routes, Route } from "react-router-dom"
 import HomePage from "./pages/HomePage/HomePage";
-import axios from 'axios';
 import CartPage from './pages/CartPage/CartPage';
-import { useDispatch, useSelector } from 'react-redux';
+import {
+  useGetUserQuery
+} from "./features/api/apiSlice";
 
 function App() {
-  axios.defaults.withCredentials = true;
-
   const [loggedInUser, setLoggedInUser] = useState(0);
   const [isAdmin, setIsAdmin] = useState(0);
 
-  const dispatch = useDispatch();
-
-  // const { loading, error, success } = useSelector(
-  //   (state) => state.product
-  // );
+  const {
+    data: user,
+    isLoading,
+    isSuccess,
+    isError,
+    error,
+  } = useGetUserQuery();
 
   useEffect(() => {
-    axios.get('http://localhost:5001/user').then((response) => {
-      console.log(response);
-      setLoggedInUser(response.data.id);
-      setIsAdmin(response.data.isAdmin);
-    }).catch(err => {
-      console.log(err);
-    });
+    if (isLoading) {
+      console.log('Loading');
+    } else if (isSuccess) {
+      console.log(user);
+      setLoggedInUser(user.id);
+      setIsAdmin(user.isAdmin);
+    } else if (isError) {
+      console.log(error.toString());
+    }
   }, []);
 
   return (
