@@ -60,9 +60,9 @@ export default function Product({ product, isAdmin }) {
 
     const { editMode, deleteMode } = useSelector((state) => state.productState);
 
-    const { loading, error, success } = useSelector(
-        (state) => state.product
-    );
+    // const { loading, error, success } = useSelector(
+    //     (state) => state.product
+    // );
 
     const dispatch = useDispatch();
 
@@ -143,7 +143,7 @@ export default function Product({ product, isAdmin }) {
                         }} value={price} onChange={(e) => setPrice(e.target.value)} variant="standard" required />
                     </Typography>
                 </CardContent>
-                <Button type="submit" variant="contained" disabled={loading}>Edit Product</Button>
+                <Button type="submit" variant="contained">Edit Product</Button>
             </Card >
         ) : null
     )
