@@ -6,32 +6,32 @@ export const apiSlice = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:5001' }),
   endpoints: (builder) => ({
     getProducts: builder.query({
-      query: () => `/products`,
+      query: () => '/products',
     }),
-    getProduct: builder.query({
-      query: ({ id }) => `/products/${id}`,
-    }),
-    addProduct: builder.mutation({
-      query: (product) => ({
-        url: '/products',
-        method: 'POST',
-        body: product
-      }),
-    }),
-    editProduct: builder.mutation({
-      query: (product) => ({
-        url: `/products/${product.id}`,
-        method: 'PUT',
-        body: product
-      }),
-    }),
-    deleteProduct: builder.mutation({
-      query: ({ id }) => ({
-        url: `/products/${id}`,
-        method: 'DELETE',
-        body: id
-      }),
-    }),
+    // getProduct: builder.query({
+    //   query: ({ id }) => `/products/${id}`,
+    // }),
+    // addProduct: builder.mutation({
+    //   query: (product) => ({
+    //     url: '/products',
+    //     method: 'POST',
+    //     body: product
+    //   }),
+    // }),
+    // editProduct: builder.mutation({
+    //   query: (product) => ({
+    //     url: `/products/${product.id}`,
+    //     method: 'PUT',
+    //     body: product
+    //   }),
+    // }),
+    // deleteProduct: builder.mutation({
+    //   query: ({ id }) => ({
+    //     url: `/products/${id}`,
+    //     method: 'DELETE',
+    //     body: id
+    //   }),
+    // }),
   }),
 })
 

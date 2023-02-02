@@ -31,7 +31,7 @@ export default function HomePage({ loggedIn, isAdmin }) {
 
     console.log(products);
 
-    let content = JSON.stringify(products);
+    // let content = JSON.stringify(products);
 
     const [showAddProductForm, setShowAddProductForm] = useState(false);
 
