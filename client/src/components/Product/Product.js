@@ -63,8 +63,7 @@ export default function Product({ product, isAdmin }) {
 
     const handleEditForm = (e) => {
         e.preventDefault();
-        console.log(params);
-        editForm(product.product_id, params);
+        editForm(params);
     }
 
     const { editMode, deleteMode } = useSelector((state) => state.productState);
