@@ -14,6 +14,10 @@ import CloseIcon from '@mui/icons-material/Close';
 import TextField from '@mui/material/TextField';
 import { useDispatch, useSelector } from 'react-redux';
 import { viewModeAction, editModeAction, deleteModeAction } from '../../features/productState/productStateSlice';
+import {
+    useEditProductMutation,
+    useDeleteProductMutation
+} from "../../features/api/apiSlice";
 
 export default function Product({ product, isAdmin }) {
     const [title, setTitle] = useState(product.product_title);
@@ -21,6 +25,9 @@ export default function Product({ product, isAdmin }) {
     const [price, setPrice] = useState(product.product_price.substring(1));
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
+
+    const [editForm] = useEditProductMutation();
+    const [deleteProduct] = useDeleteProductMutation();
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -43,19 +50,21 @@ export default function Product({ product, isAdmin }) {
         dispatch(viewModeAction(product.product_id));
     }
 
-    const handleDeleteProduct = () => {
-        // dispatch(deleteProduct(product.product_id));
+    const handleDeleteProduct = (e) => {
+        e.preventDefault();
+        deleteProduct(product.product_id);
     }
-
     const params = {
-        product_id: product.product_id,
         product_title: title,
         product_description: description,
-        product_price: price
+        product_price: price,
+        product_id: product.product_id
     }
 
     const handleEditForm = (e) => {
-        // dispatch(editProduct(params));
+        e.preventDefault();
+        console.log(params);
+        editForm(product.product_id, params);
     }
 
     const { editMode, deleteMode } = useSelector((state) => state.productState);
@@ -131,6 +140,7 @@ export default function Product({ product, isAdmin }) {
                     </IconButton>
                 </Box>
                 <CardContent>
+                    <input type="hidden" name="id" value={product.product_id} />
                     <Typography gutterBottom variant="h5" component="div">
                         <TextField id="title" label="Title" value={title} onChange={(e) => setTitle(e.target.value)} variant="standard" required />
                     </Typography>

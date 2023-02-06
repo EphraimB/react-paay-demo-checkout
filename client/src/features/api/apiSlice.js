@@ -8,9 +8,9 @@ export const apiSlice = createApi({
     getProducts: builder.query({
       query: () => '/products',
     }),
-    // getProduct: builder.query({
-    //   query: ({ id }) => `/products/${id}`,
-    // }),
+    getProduct: builder.query({
+      query: ({ id }) => `/products/${id}`,
+    }),
     // addProduct: builder.mutation({
     //   query: (product) => ({
     //     url: '/products',
@@ -18,20 +18,19 @@ export const apiSlice = createApi({
     //     body: product
     //   }),
     // }),
-    // editProduct: builder.mutation({
-    //   query: (product) => ({
-    //     url: `/products/${product.id}`,
-    //     method: 'PUT',
-    //     body: product
-    //   }),
-    // }),
-    // deleteProduct: builder.mutation({
-    //   query: ({ id }) => ({
-    //     url: `/products/${id}`,
-    //     method: 'DELETE',
-    //     body: id
-    //   }),
-    // }),
+    editProduct: builder.mutation({
+      query: (product) => ({
+        url: `/products/${product.product_id}`,
+        method: 'PUT',
+        body: product,
+      }),
+    }),
+    deleteProduct: builder.mutation({
+      query: (id) => ({
+        url: `/products/${id}`,
+        method: 'DELETE',
+      }),
+    }),
     getUser: builder.query({
       query: () => '/user',
     }),
@@ -61,6 +60,9 @@ export const apiSlice = createApi({
 
 export const {
   useGetProductsQuery,
+  useGetProductQuery,
+  useEditProductMutation,
+  useDeleteProductMutation,
   useGetUserQuery,
   useLoginMutation,
   useLogoutMutation,
