@@ -11,13 +11,13 @@ export const apiSlice = createApi({
     getProduct: builder.query({
       query: ({ id }) => `/products/${id}`,
     }),
-    // addProduct: builder.mutation({
-    //   query: (product) => ({
-    //     url: '/products',
-    //     method: 'POST',
-    //     body: product
-    //   }),
-    // }),
+    addProduct: builder.mutation({
+      query: (product) => ({
+        url: '/products',
+        method: 'POST',
+        body: product
+      }),
+    }),
     editProduct: builder.mutation({
       query: (product) => ({
         url: `/products/${product.product_id}`,
@@ -61,6 +61,7 @@ export const apiSlice = createApi({
 export const {
   useGetProductsQuery,
   useGetProductQuery,
+  useAddProductMutation,
   useEditProductMutation,
   useDeleteProductMutation,
   useGetUserQuery,

@@ -68,10 +68,6 @@ export default function Product({ product, isAdmin }) {
 
     const { editMode, deleteMode } = useSelector((state) => state.productState);
 
-    // const { loading, error, success } = useSelector(
-    //     (state) => state.product
-    // );
-
     const dispatch = useDispatch();
 
     return (
