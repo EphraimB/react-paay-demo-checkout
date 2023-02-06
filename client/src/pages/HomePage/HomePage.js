@@ -25,10 +25,6 @@ const AddProductForm = () => {
     const [price, setPrice] = useState(null);
     const [showAddProductForm, setShowAddProductForm] = useState(false);
 
-    const showProductForm = () => {
-        setShowAddProductForm(true);
-    }
-
     const hideProductForm = () => {
         setShowAddProductForm(false);
     }
@@ -96,10 +92,6 @@ export default function HomePage({ loggedIn, isAdmin }) {
 
     const showProductForm = () => {
         setShowAddProductForm(true);
-    }
-
-    const hideProductForm = () => {
-        setShowAddProductForm(false);
     }
 
     return (
