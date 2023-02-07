@@ -10,24 +10,17 @@ import Stack from '@mui/material/Stack';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import CloseIcon from '@mui/icons-material/Close';
-import TextField from '@mui/material/TextField';
 import { useDispatch, useSelector } from 'react-redux';
 import { viewModeAction, editModeAction, deleteModeAction } from '../../features/productState/productStateSlice';
 import {
-    useEditProductMutation,
     useDeleteProductMutation
 } from "../../features/api/apiSlice";
 import EditForm from '../EditForm/EditForm';
 
 export default function Product({ product, isAdmin }) {
-    const [title, setTitle] = useState(product.product_title);
-    const [description, setDescription] = useState(product.product_description);
-    const [price, setPrice] = useState(product.product_price.substring(1));
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
 
-    const [editForm] = useEditProductMutation();
     const [deleteProduct] = useDeleteProductMutation();
 
     const handleClick = (event) => {
@@ -54,17 +47,6 @@ export default function Product({ product, isAdmin }) {
     const handleDeleteProduct = (e) => {
         e.preventDefault();
         deleteProduct(product.product_id);
-    }
-    const params = {
-        product_title: title,
-        product_description: description,
-        product_price: price,
-        product_id: product.product_id
-    }
-
-    const handleEditForm = (e) => {
-        e.preventDefault();
-        editForm(params);
     }
 
     const { editMode, deleteMode } = useSelector((state) => state.productState);
