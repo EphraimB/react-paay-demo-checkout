@@ -9,6 +9,7 @@ import DeleteForm from '../../components/DeleteForm/DeleteForm';
 import { useSelector } from 'react-redux';
 import {
     useGetProductsQuery,
+    useDeleteProductMutation
 } from "../../features/api/apiSlice";
 import AddProductForm from '../../components/AddProductForm/AddProductForm';
 
@@ -23,6 +24,12 @@ export default function HomePage({ loggedIn, isAdmin }) {
 
     const { editMode, deleteMode } = useSelector((state) => state.productState);
 
+    const [deleteProduct] = useDeleteProductMutation();
+
+    const handleDelete = (productId) => {
+        deleteProduct(productId);
+    }
+
     let content;
 
     if (isLoading) {
@@ -32,7 +39,7 @@ export default function HomePage({ loggedIn, isAdmin }) {
             !deleteMode.includes(product.product_id) && !editMode.includes(product.product_id) ? (
                 <Product product={product} isAdmin={isAdmin} />
             ) : deleteMode.includes(product.product_id) ? (
-                <DeleteForm product={product} />
+                <DeleteForm product={product} handleDelete={handleDelete} />
             ) : editMode.includes(product.product_id) ? (
                 <EditForm product={product} />
             ) : null

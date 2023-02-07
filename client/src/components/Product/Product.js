@@ -1,65 +1,21 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
-import IconButton from '@mui/material/IconButton';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
-import Box from '@mui/system/Box';
-import Stack from '@mui/material/Stack';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { useDispatch } from 'react-redux';
-import { editModeAction, deleteModeAction } from '../../features/productState/productStateSlice';
+import AdminProductMenu from './AdminProductMenu';
 
 export default function Product({ product, isAdmin }) {
-    const [anchorEl, setAnchorEl] = useState(null);
-    const open = Boolean(anchorEl);
-
-    const handleClick = (event) => {
-        setAnchorEl(event.currentTarget);
-    };
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
-
-    const handleDelete = () => {
-        dispatch(deleteModeAction(product.product_id))
-        handleClose();
-    }
-
-    const handleEdit = () => {
-        dispatch(editModeAction(product.product_id))
-        handleClose();
-    }
-
-    const dispatch = useDispatch();
+    // const handleEdit = () => {
+    //     dispatch(editModeAction(product.product_id))
+    //     handleClose();
+    // }
 
     return (
         <Card key={`product-${product.product_id}`} sx={{ maxWidth: 512, m: 2 }} id={`product-${product.product_id}`}>
             {isAdmin === 1 ? (
-                <Box>
-                    <Stack
-                        direction="row"
-                        justifyContent="flex-end">
-                        <IconButton onClick={handleClick}>
-                            <MoreVertIcon />
-                        </IconButton>
-                    </Stack>
-                    <Menu
-                        id="basic-menu"
-                        anchorEl={anchorEl}
-                        open={open}
-                        onClose={handleClose}
-                        MenuListProps={{
-                            'aria-labelledby': 'basic-button',
-                        }}
-                    >
-                        <MenuItem onClick={handleEdit}>Edit</MenuItem>
-                        <MenuItem onClick={handleDelete}>Delete</MenuItem>
-                    </Menu>
-                </Box>
+                <AdminProductMenu id={product.product_id} />
             ) : null}
             <CardContent>
                 <Typography gutterBottom variant="h5" component="div">
