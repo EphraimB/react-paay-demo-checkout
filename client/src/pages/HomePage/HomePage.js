@@ -34,10 +34,6 @@ export default function HomePage({ loggedIn, isAdmin }) {
         setShowAddProductForm(true);
     }
 
-    const hideProductForm = () => {
-        setShowAddProductForm(false);
-    }
-
     return (
         <>
             <AppBar loggedIn={loggedIn} />
