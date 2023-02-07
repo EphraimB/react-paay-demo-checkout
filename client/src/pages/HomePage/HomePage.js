@@ -4,6 +4,9 @@ import AppBar from '../../components/AppBar/AppBar';
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
 import Product from '../../components/Product/Product';
+import EditForm from '../../components/EditForm/EditForm';
+import DeleteForm from '../../components/DeleteForm/DeleteForm';
+import {useSelector } from 'react-redux';
 import {
     useGetProductsQuery,
 } from "../../features/api/apiSlice";
@@ -18,12 +21,22 @@ export default function HomePage({ loggedIn, isAdmin }) {
         error,
     } = useGetProductsQuery();
 
+    const { editMode, deleteMode } = useSelector((state) => state.productState);
+
     let content;
 
     if (isLoading) {
         content = 'Loading';
     } else if (isSuccess) {
-        content = Object.values(products).map((product) => <Product product={product} isAdmin={isAdmin} />);
+        content = Object.values(products).map((product) => (
+            !deleteMode.includes(product.product_id) && !editMode.includes(product.product_id) ? (
+            <Product product={product} isAdmin={isAdmin} />
+            ) : deleteMode.includes(product.product_id) ? (
+                <DeleteForm product={product} />
+            ) : editMode.includes(product.product_id) ? (
+                <EditForm product={product} />
+            ) : null
+        ));
     } else if (isError) {
         content = <div>{error.toString()}</div>
     }
