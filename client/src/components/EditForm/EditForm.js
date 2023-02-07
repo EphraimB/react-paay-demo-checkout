@@ -32,6 +32,7 @@ export default function EditForm({ product }) {
     const handleEditForm = (e) => {
         e.preventDefault();
         editForm(params);
+        dispatch(viewModeAction(product.product_id));
     }
 
     const handleViewMode = () => {
