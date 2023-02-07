@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -15,11 +15,9 @@ import LoginForm from '../LoginForm/LoginForm';
 import LogoutForm from '../LogoutForm/LogoutForm';
 import { useSelector, useDispatch } from 'react-redux'
 import { show, hide } from '../../features/Popup/popupSlice';
-import CartPage from '../../pages/CartPage/CartPage';
 import { useNavigate } from "react-router-dom";
 
 export default function ButtonAppBar({ loggedIn }) {
-    const [anchorEl, setAnchorEl] = React.useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
     const navigate = useNavigate()
