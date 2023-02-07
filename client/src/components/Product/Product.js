@@ -11,17 +11,13 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useDispatch, useSelector } from 'react-redux';
-import { viewModeAction, editModeAction, deleteModeAction } from '../../features/productState/productStateSlice';
-import {
-    useDeleteProductMutation
-} from "../../features/api/apiSlice";
+import { editModeAction, deleteModeAction } from '../../features/productState/productStateSlice';
 import EditForm from '../EditForm/EditForm';
+import DeleteForm from '../DeleteForm/DeleteForm';
 
 export default function Product({ product, isAdmin }) {
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
-
-    const [deleteProduct] = useDeleteProductMutation();
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -38,15 +34,6 @@ export default function Product({ product, isAdmin }) {
     const handleEdit = () => {
         dispatch(editModeAction(product.product_id))
         handleClose();
-    }
-
-    const handleViewMode = () => {
-        dispatch(viewModeAction(product.product_id));
-    }
-
-    const handleDeleteProduct = (e) => {
-        e.preventDefault();
-        deleteProduct(product.product_id);
     }
 
     const { editMode, deleteMode } = useSelector((state) => state.productState);
@@ -96,17 +83,7 @@ export default function Product({ product, isAdmin }) {
                 </CardActions>
             </Card>
         ) : deleteMode.includes(product.product_id) ? (
-            <Card key={`product-${product.product_id}`} sx={{ maxWidth: 512, m: 2 }} id={`product-${product.product_id}`}>
-                <CardContent>
-                    <Typography>
-                        Are you sure you want to delete "{product.product_title}"
-                    </Typography>
-                    <CardActions>
-                        <Button size="small" onClick={handleViewMode}>No</Button>
-                        <Button size="small" onClick={handleDeleteProduct}>Yes</Button>
-                    </CardActions>
-                </CardContent>
-            </Card>
+            <DeleteForm product={product} />
         ) : editMode.includes(product.product_id) ? (
             <EditForm product={product} />
         ) : null
