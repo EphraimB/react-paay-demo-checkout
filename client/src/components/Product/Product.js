@@ -18,6 +18,7 @@ import {
     useEditProductMutation,
     useDeleteProductMutation
 } from "../../features/api/apiSlice";
+import EditForm from '../EditForm/EditForm';
 
 export default function Product({ product, isAdmin }) {
     const [title, setTitle] = useState(product.product_title);
@@ -125,31 +126,7 @@ export default function Product({ product, isAdmin }) {
                 </CardContent>
             </Card>
         ) : editMode.includes(product.product_id) ? (
-            <Card component="form" onSubmit={handleEditForm} key={`product-${product.product_id}`} sx={{ maxWidth: 512, m: 2 }} id={`product-${product.product_id}`}>
-                <Box sx={{
-                    display: "flex",
-                    justifyContent: "flex-end"
-                }}>
-                    <IconButton onClick={handleViewMode}>
-                        <CloseIcon />
-                    </IconButton>
-                </Box>
-                <CardContent>
-                    <input type="hidden" name="id" value={product.product_id} />
-                    <Typography gutterBottom variant="h5" component="div">
-                        <TextField id="title" label="Title" value={title} onChange={(e) => setTitle(e.target.value)} variant="standard" required />
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                        <TextField id="description" label="Description" value={description} onChange={(e) => setDescription(e.target.value)} variant="standard" required />
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                        <TextField id="price" label="Price" type="number" inputProps={{
-                            step: 0.01,
-                        }} value={price} onChange={(e) => setPrice(e.target.value)} variant="standard" required />
-                    </Typography>
-                </CardContent>
-                <Button type="submit" variant="contained">Edit Product</Button>
-            </Card >
+            <EditForm product={product} />
         ) : null
     )
 }
