@@ -37,7 +37,7 @@ app.use(session({
   name: "user",
   store: store,
   secret: process.env.SESSION_SECRET,
-  saveUninitialized: true,
+  saveUninitialized: false,
   resave: true,
   cookie: {
     secure: false,
@@ -109,9 +109,11 @@ app.post("/products", async (req, res) => {
 });
 
 app.get("/items", (req, res) => {
-  const query = "SELECT count_query.count, cart.* FROM cart JOIN (SELECT COUNT(*) as count FROM cart) as count_query ON true";
+  console.log(req.session.user_id);
+  const user_id = req.session.user_id;
+  const query = "SELECT count_query.count, cart.* FROM cart JOIN (SELECT COUNT(*) as count FROM cart WHERE user_id = $1) as count_query ON true WHERE cart.user_id = $1";
 
-  pool.query(query, (err, result) => {
+  pool.query(query, [user_id], (err, result) => {
     if (err) {
       return res.status(500).json({ error: err.message });
     }
@@ -149,11 +151,9 @@ app.post('/login', async (req, res) => {
       return res.sendStatus(403);
     }
 
-    req.session.user = {
-      id: data.rows[0].user_id,
-      username: data.rows[0].username,
-      isAdmin: data.rows[0].is_admin,
-    }
+    req.session.user_id = data.rows[0].user_id;
+    req.session.username = data.rows[0].username;
+    req.session.isAdmin = data.rows[0].is_admin;
     req.session.save();
   } catch (e) {
     console.error(e);
@@ -163,10 +163,11 @@ app.post('/login', async (req, res) => {
 
 app.get('/user', async (req, res) => {
   try {
+    console.log(req.session.user_id);
     const userLoggedIn = {
-      id: req.session.user ? req.session.user.id : 0,
-      username: req.session.user ? req.session.user.username : "guest",
-      isAdmin: req.session.user ? req.session.user.isAdmin : 0,
+      id: req.session.user_id || 0,
+      username: req.session.username || "guest",
+      isAdmin: req.session.isAdmin || 0,
     }
 
     res.json(userLoggedIn);

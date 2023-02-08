@@ -25,7 +25,7 @@ function App() {
       console.log('Loading');
     } else if (isSuccess) {
       console.log(user);
-      setLoggedInUser(user.id);
+      setLoggedInUser(user.user_id);
       setIsAdmin(user.isAdmin);
     } else if (isError) {
       console.log(error.toString());
