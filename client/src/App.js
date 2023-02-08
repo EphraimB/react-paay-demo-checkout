@@ -36,7 +36,7 @@ function App() {
     <div className="App" >
       <Routes>
         <Route path="/" element={<HomePage loggedIn={loggedInUser} isAdmin={isAdmin} refetchLogin={refetch} />} />
-        <Route path="/cart" element={<CartPage loggedIn={loggedInUser} isAdmin={isAdmin} />} />
+        <Route path="/cart" element={<CartPage loggedIn={loggedInUser} isAdmin={isAdmin} refetchLogin={refetch} />} />
       </Routes>
     </div>
   )
