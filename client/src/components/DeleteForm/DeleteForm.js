@@ -10,7 +10,7 @@ import {
     useDeleteProductMutation
 } from "../../features/api/apiSlice";
 
-export default function DeleteForm({ product, refetch }) {
+export default function DeleteForm({ product, refetch, setOpen, setMessage }) {
     const [deleteProduct] = useDeleteProductMutation();
     const [isDeleting, setIsDeleting] = useState(false);
 
@@ -23,6 +23,8 @@ export default function DeleteForm({ product, refetch }) {
             await deleteProduct(product.product_id);
             setIsDeleting(false);
             refetch();
+            setMessage(`Deleted ${product.product_title} from your products`);
+            setOpen(true);
         } catch (err) {
             console.error(err);
             setIsDeleting(false);
@@ -36,7 +38,7 @@ export default function DeleteForm({ product, refetch }) {
                     Are you sure you want to delete "{product.product_title}"
                 </Typography>
                 <CardActions>
-                    {/* <Button size="small" variant="contained" color="secondary" onClick={(e) => dispatch(viewModeAction(product.product_id))}>No</Button> */}
+                    <Button size="small" variant="contained" color="secondary" onClick={(e) => dispatch(viewModeAction(product.product_id))}>No</Button>
                     {!isDeleting && <Button size="small" variant="contained" color="primary" onClick={handleDelete}>Yes</Button>}
                 </CardActions>
             </CardContent>
