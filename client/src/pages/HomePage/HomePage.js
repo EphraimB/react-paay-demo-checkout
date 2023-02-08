@@ -12,7 +12,7 @@ import {
 } from "../../features/api/apiSlice";
 import AddProductForm from '../../components/AddProductForm/AddProductForm';
 
-export default function HomePage({ loggedIn, isAdmin }) {
+export default function HomePage({ loggedIn, isAdmin, refetchLogin }) {
     const {
         data: products,
         isLoading,
@@ -50,7 +50,7 @@ export default function HomePage({ loggedIn, isAdmin }) {
 
     return (
         <>
-            <AppBar loggedIn={loggedIn} />
+            <AppBar loggedIn={loggedIn} refetchLogin={refetchLogin} />
             <Grid id="products" container spacing={2} columns={{ xs: 12, md: 4 }} sx={{ m: 2 }}>
                 {showAddProductForm ? <AddProductForm setShowAddProductForm={setShowAddProductForm} refetch={refetch} /> : null}
                 {content}

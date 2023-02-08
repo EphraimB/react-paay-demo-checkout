@@ -35,7 +35,7 @@ function TabPanel(props) {
     );
 }
 
-export default function LoginForm() {
+export default function LoginForm({ refetchLogin }) {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
@@ -59,7 +59,7 @@ export default function LoginForm() {
         e.preventDefault();
         signup(signupData);
         dispatch(hide());
-        navigate('/');
+        refetchLogin();
     }
 
     const data = {
@@ -71,7 +71,7 @@ export default function LoginForm() {
         e.preventDefault();
         login(data);
         dispatch(hide());
-        navigate('/');
+        refetchLogin();
     }
 
     TabPanel.propTypes = {
