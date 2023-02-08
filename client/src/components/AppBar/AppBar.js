@@ -129,7 +129,7 @@ export default function ButtonAppBar({ loggedIn, refetchLogin }) {
                 </Toolbar>
             </AppBar>
             {renderMobileMenu}
-            { popup ? loggedIn === 0 ? <LoginForm refetchLogin={refetchLogin} /> : <LogoutForm /> : null }
+            { popup ? loggedIn === 0 ? <LoginForm refetchLogin={refetchLogin} /> : <LogoutForm refetchLogin={refetchLogin} /> : null }
         </>
     );
 }

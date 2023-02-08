@@ -6,21 +6,19 @@ import IconButton from '@mui/material/IconButton';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { hide } from '../../features/Popup/popupSlice';
 import { useDispatch } from 'react-redux';
-import { useNavigate } from "react-router-dom";
 import {
     useLogoutMutation
 } from "../../features/api/apiSlice";
 
-export default function LogoutForm() {
+export default function LogoutForm({ refetchLogin }) {
     const [logout] = useLogoutMutation();
 
     const dispatch = useDispatch();
-    const navigate = useNavigate()
 
     const handleClick = (e) => {
         logout();
         dispatch(hide());
-        navigate('/');
+        refetchLogin();
     }
 
     return (

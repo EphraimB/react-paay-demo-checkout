@@ -9,7 +9,6 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { useDispatch } from 'react-redux';
 import { hide } from '../../features/Popup/popupSlice';
-import { useNavigate } from "react-router-dom";
 import {
     useLoginMutation,
     useSignupMutation
@@ -47,7 +46,6 @@ export default function LoginForm({ refetchLogin }) {
     const [signup] = useSignupMutation();
 
     const dispatch = useDispatch();
-    const navigate = useNavigate()
 
     const signupData = {
         username: usernameRegistration,
