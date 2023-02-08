@@ -11,7 +11,7 @@ import {
     useGetProductsQuery
 } from "../../features/api/apiSlice";
 import AddProductForm from '../../components/AddProductForm/AddProductForm';
-import Message from '../../components/Message/Message';
+import Snackbar from '@mui/material/Snackbar';
 
 export default function HomePage({ loggedIn, isAdmin, refetchLogin }) {
     const [open, setOpen] = useState(false);
@@ -66,7 +66,12 @@ export default function HomePage({ loggedIn, isAdmin, refetchLogin }) {
             }}>
                 <AddIcon onClick={showProductForm} />
             </Fab> : null}
-            <Message open={open} setOpen={setOpen} message={message} />
+            <Snackbar
+            open={open}
+            autoHideDuration={6000}
+            onClose={(e) => setOpen(false)}
+            message={message}
+        />
         </>
     );
 }
