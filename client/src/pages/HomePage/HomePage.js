@@ -8,8 +8,7 @@ import EditForm from '../../components/EditForm/EditForm';
 import DeleteForm from '../../components/DeleteForm/DeleteForm';
 import { useSelector } from 'react-redux';
 import {
-    useGetProductsQuery,
-    useDeleteProductMutation
+    useGetProductsQuery
 } from "../../features/api/apiSlice";
 import AddProductForm from '../../components/AddProductForm/AddProductForm';
 
@@ -20,26 +19,21 @@ export default function HomePage({ loggedIn, isAdmin }) {
         isSuccess,
         isError,
         error,
+        refetch
     } = useGetProductsQuery();
 
     const { editMode, deleteMode } = useSelector((state) => state.productState);
-
-    const [deleteProduct] = useDeleteProductMutation();
-
-    const handleDelete = (productId) => {
-        deleteProduct(productId);
-    }
 
     let content;
 
     if (isLoading) {
         content = 'Loading';
     } else if (isSuccess) {
-        content = Object.values(products).map((product) => (
+        content = products.map((product) => (
             !deleteMode.includes(product.product_id) && !editMode.includes(product.product_id) ? (
                 <Product product={product} isAdmin={isAdmin} />
             ) : deleteMode.includes(product.product_id) ? (
-                <DeleteForm product={product} handleDelete={handleDelete} />
+                <DeleteForm product={product} refetch={refetch} />
             ) : editMode.includes(product.product_id) ? (
                 <EditForm product={product} />
             ) : null
