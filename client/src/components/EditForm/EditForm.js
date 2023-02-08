@@ -13,7 +13,7 @@ import {
     useEditProductMutation
 } from "../../features/api/apiSlice";
 
-export default function EditForm({ product }) {
+export default function EditForm({ product, refetch }) {
     const [title, setTitle] = useState(product.product_title);
     const [description, setDescription] = useState(product.product_description);
     const [price, setPrice] = useState(product.product_price.substring(1));
@@ -33,6 +33,7 @@ export default function EditForm({ product }) {
         e.preventDefault();
         editForm(params);
         dispatch(viewModeAction(product.product_id));
+        refetch();
     }
 
     const handleViewMode = () => {

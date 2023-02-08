@@ -35,7 +35,7 @@ export default function HomePage({ loggedIn, isAdmin }) {
             ) : deleteMode.includes(product.product_id) ? (
                 <DeleteForm product={product} refetch={refetch} />
             ) : editMode.includes(product.product_id) ? (
-                <EditForm product={product} />
+                <EditForm product={product} refetch={refetch} />
             ) : null
         ));
     } else if (isError) {

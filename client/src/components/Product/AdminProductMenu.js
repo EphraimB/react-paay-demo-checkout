@@ -17,6 +17,11 @@ export default function AdminProductMenu({ id }) {
         handleClose();
     }
 
+    const handleEdit = () => {
+        dispatch(editModeAction(id))
+        handleClose();
+    }
+
     const handleClose = () => {
         setAnchorEl(null)
     }
@@ -39,7 +44,7 @@ export default function AdminProductMenu({ id }) {
                     'aria-labelledby': 'basic-button',
                 }}
             >
-                {/* <MenuItem onClick={handleEdit}>Edit</MenuItem> */}
+                <MenuItem onClick={handleEdit}>Edit</MenuItem>
                 <MenuItem onClick={handleDelete}>Delete</MenuItem>
             </Menu>
         </Box>
