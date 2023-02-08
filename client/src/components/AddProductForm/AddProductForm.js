@@ -11,7 +11,7 @@ import {
     useAddProductMutation
 } from "../../features/api/apiSlice";
 
-export default function AddProductForm({setShowAddProductForm, refetch}) {
+export default function AddProductForm({ setShowAddProductForm, refetch, setOpen, setMessage }) {
     const [addProduct] = useAddProductMutation();
 
     const [title, setTitle] = useState(null);
@@ -29,6 +29,8 @@ export default function AddProductForm({setShowAddProductForm, refetch}) {
         addProduct(params);
         setShowAddProductForm(false);
         refetch();
+        setMessage(`Added ${title} to your products`);
+        setOpen(true);
     }
 
     return (

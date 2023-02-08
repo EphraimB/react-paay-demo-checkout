@@ -7,11 +7,6 @@ import Typography from '@mui/material/Typography';
 import AdminProductMenu from './AdminProductMenu';
 
 export default function Product({ product, isAdmin }) {
-    // const handleEdit = () => {
-    //     dispatch(editModeAction(product.product_id))
-    //     handleClose();
-    // }
-
     return (
         <Card key={`product-${product.product_id}`} sx={{ maxWidth: 512, m: 2 }} id={`product-${product.product_id}`}>
             {isAdmin === 1 ? (

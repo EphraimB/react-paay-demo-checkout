@@ -11,8 +11,12 @@ import {
     useGetProductsQuery
 } from "../../features/api/apiSlice";
 import AddProductForm from '../../components/AddProductForm/AddProductForm';
+import Message from '../../components/Message/Message';
 
 export default function HomePage({ loggedIn, isAdmin, refetchLogin }) {
+    const [open, setOpen] = useState(false);
+    const [message, setMessage] = useState("");
+
     const {
         data: products,
         isLoading,
@@ -52,7 +56,7 @@ export default function HomePage({ loggedIn, isAdmin, refetchLogin }) {
         <>
             <AppBar loggedIn={loggedIn} refetchLogin={refetchLogin} />
             <Grid id="products" container spacing={2} columns={{ xs: 12, md: 4 }} sx={{ m: 2 }}>
-                {showAddProductForm ? <AddProductForm setShowAddProductForm={setShowAddProductForm} refetch={refetch} /> : null}
+                {showAddProductForm ? <AddProductForm setShowAddProductForm={setShowAddProductForm} refetch={refetch} setOpen={setOpen} setMessage={setMessage} /> : null}
                 {content}
             </Grid>
             {isAdmin === 1 ? <Fab color="primary" aria-label="add" sx={{
@@ -62,6 +66,7 @@ export default function HomePage({ loggedIn, isAdmin, refetchLogin }) {
             }}>
                 <AddIcon onClick={showProductForm} />
             </Fab> : null}
+            <Message open={open} setOpen={setOpen} message={message} />
         </>
     );
 }
