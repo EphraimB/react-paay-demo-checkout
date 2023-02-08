@@ -108,6 +108,26 @@ app.post("/products", async (req, res) => {
   }
 });
 
+app.get("/items", (req, res) => {
+  const query = "SELECT count_query.count, cart.* FROM cart JOIN (SELECT COUNT(*) as count FROM cart) as count_query ON true";
+
+  pool.query(query, (err, result) => {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+
+    let count = 0;
+    let items = [];
+
+    if(result.rows.length > 0) {
+      count = result.rows[0].count;
+      items = result.rows.map((row) => row);
+    }
+
+    return res.json({ count, items });
+  });
+});
+
 app.post('/login', async (req, res) => {
   const { username, password } = req.body;
 
