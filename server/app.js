@@ -1,13 +1,13 @@
 const express = require('express');
-const app = express();
-const cors = require("cors");
-const passport = require('passport');
-const LocalStrategy = require('passport-local');
-const bcrypt = require('bcrypt');
 const session = require('express-session');
-const { Pool, Client } = require('pg');
+const pgSession = require('connect-pg-simple')(session);
+const cors = require("cors");
+const passport = require('./passport');
+const pool = require("./db");
 const dotenv = require('dotenv');
 const port = 5001;
+
+const app = express();
 
 dotenv.config({ override: true });
 
@@ -20,22 +20,12 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 
-const pool = new Pool({
-  database: process.env.DATABASE,
-  host: process.env.HOST,
-  user: process.env.USER,
-  password: process.env.PASSWORD,
-  port: process.env.PORT,
-});
-
-// session store and session config
-const store = new (require('connect-pg-simple')(session))({
-  pool,
-})
-
 app.use(session({
   name: "user",
-  store: store,
+  store: new pgSession({
+    pool: pool,
+    tableName: 'session'
+  }),
   secret: process.env.SESSION_SECRET,
   saveUninitialized: false,
   resave: true,
@@ -43,9 +33,12 @@ app.use(session({
     secure: false,
     httpOnly: true,
     sameSite: false,
-    maxAge: 1000 * 60 * 60 * 24,
+    maxAge: 30 * 24 * 60 * 60 * 1000,
   },
 }));
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.get('/', (req, res) => {
   res.send("<h1 style='text-align: center'>PAAY demo checkout</h1>")
@@ -121,7 +114,7 @@ app.get("/items", (req, res) => {
     let count = 0;
     let items = [];
 
-    if(result.rows.length > 0) {
+    if (result.rows.length > 0) {
       count = result.rows[0].count;
       items = result.rows.map((row) => row);
     }
@@ -130,35 +123,39 @@ app.get("/items", (req, res) => {
   });
 });
 
-app.post('/login', async (req, res) => {
-  const { username, password } = req.body;
+app.post('/login', passport.authenticate("local"), (req, res) => {
+  // const { username, password } = req.body;
 
-  if (password == null) {
-    return res.sendStatus(403);
-  }
+  console.log(req.session);
 
-  try {
-    const data = await pool.query("SELECT * FROM users WHERE username = $1",
-      [username]
-    );
+  res.json({ message: "User logged in successfully" });
 
-    if (data.rows.length === 0) {
-      return res.sendStatus(403);
-    }
+  // if (password == null) {
+  //   return res.sendStatus(403);
+  // }
 
-    const matches = bcrypt.compareSync(password, data.rows[0].password);
-    if (!matches) {
-      return res.sendStatus(403);
-    }
+  // try {
+  //   const data = await pool.query("SELECT * FROM users WHERE username = $1",
+  //     [username]
+  //   );
 
-    req.session.user_id = data.rows[0].user_id;
-    req.session.username = data.rows[0].username;
-    req.session.isAdmin = data.rows[0].is_admin;
-    req.session.save();
-  } catch (e) {
-    console.error(e);
-    return res.sendStatus(403);
-  }
+  //   if (data.rows.length === 0) {
+  //     return res.sendStatus(403);
+  //   }
+
+  //   const matches = bcrypt.compareSync(password, data.rows[0].password);
+  //   if (!matches) {
+  //     return res.sendStatus(403);
+  //   }
+
+  //   req.session.user_id = data.rows[0].user_id;
+  //   req.session.username = data.rows[0].username;
+  //   req.session.isAdmin = data.rows[0].is_admin;
+  //   req.session.save();
+  // } catch (e) {
+  //   console.error(e);
+  //   return res.sendStatus(403);
+  // }
 });
 
 app.get('/user', async (req, res) => {
