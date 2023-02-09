@@ -21,6 +21,7 @@ function App() {
   } = useGetUserQuery();
 
   useEffect(() => {
+    console.log("useEffect hook running");
     if (isLoading) {
       console.log('Loading');
     } else if (isSuccess) {
@@ -30,7 +31,7 @@ function App() {
     } else if (isError) {
       console.log(error.toString());
     }
-  }, [user, error, isError, isLoading, isSuccess, user, refetch]);
+  }, [user, error, isError, isLoading, isSuccess, user]);
 
   return (
     <div className="App" >

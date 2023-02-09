@@ -15,7 +15,7 @@ export default function LogoutForm({ refetchLogin }) {
 
     const dispatch = useDispatch();
 
-    const handleClick = (e) => {
+    const handleClick = () => {
         logout();
         dispatch(hide());
         refetchLogin();
