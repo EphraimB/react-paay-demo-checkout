@@ -65,11 +65,10 @@ export default function LoginForm({ refetchLogin }) {
         password
     }
 
-    const submitLoginForm = (e) => {
+    const submitLoginForm = async (e) => {
         e.preventDefault();
-        login(data);
+        await login(data);
         dispatch(hide());
-        console.log("refetch: ", refetchLogin);
         refetchLogin();
     }
 
