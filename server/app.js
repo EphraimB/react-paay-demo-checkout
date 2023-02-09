@@ -131,6 +131,8 @@ app.post('/login', passport.authenticate("local-login"), (req, res) => {
 
 app.get('/user', async (req, res) => {
   try {
+    if (!req.session.passport) return res.status(401).json({ message: 'Not authenticated' });
+
     const userLoggedIn = {
       id: req.session.passport.user.user_id || 0,
       username: req.session.passport.user.username || "guest",
