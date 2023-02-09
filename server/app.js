@@ -200,3 +200,5 @@ app.post('/signup', async (req, res, next) => {
 app.listen(port, () => {
   console.log(`PAAY demo checkout app listening on port ${port}`)
 });
+
+module.exports = app;
