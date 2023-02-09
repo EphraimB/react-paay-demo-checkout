@@ -123,48 +123,18 @@ app.get("/items", (req, res) => {
   });
 });
 
-app.post('/login', passport.authenticate("local"), (req, res) => {
-  // const { username, password } = req.body;
-
-  console.log(req.session);
+app.post('/login', passport.authenticate("local-login"), (req, res) => {
+  // console.log(req.session.passport.user);
 
   res.json({ message: "User logged in successfully" });
-
-  // if (password == null) {
-  //   return res.sendStatus(403);
-  // }
-
-  // try {
-  //   const data = await pool.query("SELECT * FROM users WHERE username = $1",
-  //     [username]
-  //   );
-
-  //   if (data.rows.length === 0) {
-  //     return res.sendStatus(403);
-  //   }
-
-  //   const matches = bcrypt.compareSync(password, data.rows[0].password);
-  //   if (!matches) {
-  //     return res.sendStatus(403);
-  //   }
-
-  //   req.session.user_id = data.rows[0].user_id;
-  //   req.session.username = data.rows[0].username;
-  //   req.session.isAdmin = data.rows[0].is_admin;
-  //   req.session.save();
-  // } catch (e) {
-  //   console.error(e);
-  //   return res.sendStatus(403);
-  // }
 });
 
 app.get('/user', async (req, res) => {
   try {
-    console.log(req.session.user_id);
     const userLoggedIn = {
-      id: req.session.user_id || 0,
-      username: req.session.username || "guest",
-      isAdmin: req.session.isAdmin || 0,
+      id: req.session.passport.user.user_id || 0,
+      username: req.session.passport.user.username || "guest",
+      isAdmin: req.session.passport.user.is_admin || 0,
     }
 
     res.json(userLoggedIn);
