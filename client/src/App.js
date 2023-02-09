@@ -30,7 +30,7 @@ function App() {
     } else if (isError) {
       console.log(error.toString());
     }
-  }, [error, isError, isLoading, isSuccess, user]);
+  }, [error, isError, isLoading, isSuccess, user, refetch]);
 
   return (
     <div className="App" >
