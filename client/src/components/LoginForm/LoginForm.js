@@ -69,6 +69,7 @@ export default function LoginForm({ refetchLogin }) {
         e.preventDefault();
         login(data);
         dispatch(hide());
+        console.log("refetch: ", refetchLogin);
         refetchLogin();
     }
 

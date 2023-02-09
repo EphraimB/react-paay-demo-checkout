@@ -25,13 +25,14 @@ function App() {
     if (isLoading) {
       console.log('Loading');
     } else if (isSuccess) {
-      console.log(user);
       setLoggedInUser(user.id);
       setIsAdmin(user.isAdmin);
     } else if (isError) {
       console.log(error.toString());
     }
   }, [user, error, isError, isLoading, isSuccess, user]);
+
+  console.log(loggedInUser);
 
   return (
     <div className="App" >
