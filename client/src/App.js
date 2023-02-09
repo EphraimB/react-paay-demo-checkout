@@ -25,12 +25,12 @@ function App() {
       console.log('Loading');
     } else if (isSuccess) {
       console.log(user);
-      setLoggedInUser(user.user_id);
+      setLoggedInUser(user.id);
       setIsAdmin(user.isAdmin);
     } else if (isError) {
       console.log(error.toString());
     }
-  }, [error, isError, isLoading, isSuccess, user, refetch]);
+  }, [user, error, isError, isLoading, isSuccess, user, refetch]);
 
   return (
     <div className="App" >

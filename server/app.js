@@ -124,19 +124,15 @@ app.get("/items", (req, res) => {
 });
 
 app.post('/login', passport.authenticate("local-login"), (req, res) => {
-  // console.log(req.session.passport.user);
-
   res.json({ message: "User logged in successfully" });
 });
 
 app.get('/user', async (req, res) => {
   try {
-    if (!req.session.passport) return res.status(401).json({ message: 'Not authenticated' });
-
     const userLoggedIn = {
-      id: req.session.passport.user.user_id || 0,
-      username: req.session.passport.user.username || "guest",
-      isAdmin: req.session.passport.user.is_admin || 0,
+      id: req.session.passport ? req.session.passport.user.user_id : 0,
+      username: req.session.passport ? req.session.passport.user.username : "guest",
+      isAdmin: req.session.passport ? req.session.passport.user.is_admin : 0,
     }
 
     res.json(userLoggedIn);
