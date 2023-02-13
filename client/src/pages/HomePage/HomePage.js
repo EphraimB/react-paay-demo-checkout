@@ -35,7 +35,7 @@ export default function HomePage({ loggedIn, isAdmin, itemsCount, refetchLogin, 
     } else if (isSuccess) {
         content = products.map((product) => (
             !deleteMode.includes(product.product_id) && !editMode.includes(product.product_id) ? (
-                <Product product={product} isAdmin={isAdmin} />
+                <Product product={product} isAdmin={isAdmin} setOpen={setOpen} setMessage={setMessage} itemsRefetch={itemsRefetch} />
             ) : deleteMode.includes(product.product_id) ? (
                 <DeleteForm product={product} refetch={refetch} setOpen={setOpen} setMessage={setMessage} />
             ) : editMode.includes(product.product_id) ? (

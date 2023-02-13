@@ -9,7 +9,7 @@ import {
     useAddItemMutation
 } from "../../features/api/apiSlice";
 
-export default function Product({ product, isAdmin }) {
+export default function Product({ product, setOpen, setMessage, isAdmin, itemsRefetch }) {
     const [addItem] = useAddItemMutation();
 
     const params = {
@@ -18,8 +18,11 @@ export default function Product({ product, isAdmin }) {
 
     const handleAddToCart = () => {
         addItem(params);
+        itemsRefetch();
+        setMessage(`Added ${product.product_title} to your cart`);
+        setOpen(true);
     }
-    
+
     return (
         <Card key={`product-${product.product_id}`} sx={{ maxWidth: 512, m: 2 }} id={`product-${product.product_id}`}>
             {isAdmin === 1 ? (
