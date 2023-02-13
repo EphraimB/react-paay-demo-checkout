@@ -5,10 +5,19 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import AdminProductMenu from './AdminProductMenu';
+import {
+    useAddItemMutation
+} from "../../features/api/apiSlice";
 
 export default function Product({ product, isAdmin }) {
-    const handleAddToCart = () => {
+    const [addItem] = useAddItemMutation();
 
+    const params = {
+        product_id: product.product_id
+    }
+
+    const handleAddToCart = () => {
+        addItem(params);
     }
     
     return (

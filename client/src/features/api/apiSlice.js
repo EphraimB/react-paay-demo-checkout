@@ -34,6 +34,13 @@ export const apiSlice = createApi({
     getItems: builder.query({
       query: () => '/items',
     }),
+    addItem: builder.mutation({
+      query: (items) => ({
+        url: '/items',
+        method: 'POST',
+        body: items
+      }),
+    }),
     getUser: builder.query({
       query: () => '/user',
     }),
@@ -68,6 +75,7 @@ export const {
   useEditProductMutation,
   useDeleteProductMutation,
   useGetItemsQuery,
+  useAddItemMutation,
   useGetUserQuery,
   useLoginMutation,
   useLogoutMutation,

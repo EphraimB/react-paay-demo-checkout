@@ -107,8 +107,6 @@ app.get("/items", (req, res) => {
 
   const query = `SELECT count_query.count, cart.* FROM cart JOIN (SELECT COUNT(*) as count FROM cart WHERE user_id ${char}) as count_query ON true WHERE cart.user_id ${char}`;
 
-  console.log(query);
-
   pool.query(query, user_id !== null ? [user_id] : '', (err, result) => {
     if (err) {
       return res.status(500).json({ error: err.message });
