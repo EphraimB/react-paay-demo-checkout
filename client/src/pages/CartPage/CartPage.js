@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import AppBar from '../../components/AppBar/AppBar';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -7,8 +7,6 @@ import {
 } from "../../features/api/apiSlice";
 
 export default function CartPage({ loggedIn, isAdmin, itemsCount }) {
-    const [items, setItems] = useState({});
-
     const {
         data: itemsData,
         isLoading,
