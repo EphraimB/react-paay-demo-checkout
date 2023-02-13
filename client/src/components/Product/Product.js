@@ -7,6 +7,10 @@ import Typography from '@mui/material/Typography';
 import AdminProductMenu from './AdminProductMenu';
 
 export default function Product({ product, isAdmin }) {
+    const handleAddToCart = () => {
+
+    }
+    
     return (
         <Card key={`product-${product.product_id}`} sx={{ maxWidth: 512, m: 2 }} id={`product-${product.product_id}`}>
             {isAdmin === 1 ? (
@@ -24,7 +28,7 @@ export default function Product({ product, isAdmin }) {
                 </Typography>
             </CardContent>
             <CardActions>
-                <Button size="small">Add to cart</Button>
+                <Button size="small" onClick={handleAddToCart}>Add to cart</Button>
                 <Button size="small">Details</Button>
             </CardActions>
         </Card>

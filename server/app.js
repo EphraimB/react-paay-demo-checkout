@@ -102,11 +102,14 @@ app.post("/products", async (req, res) => {
 });
 
 app.get("/items", (req, res) => {
-  console.log(req.session.user_id);
-  const user_id = req.session.user_id;
-  const query = "SELECT count_query.count, cart.* FROM cart JOIN (SELECT COUNT(*) as count FROM cart WHERE user_id = $1) as count_query ON true WHERE cart.user_id = $1";
+  const user_id = req.session.passport ? req.session.passport.user.user_id : null;
+  const char = user_id === null ? "IS NULL" : "= $1";
 
-  pool.query(query, [user_id], (err, result) => {
+  const query = `SELECT count_query.count, cart.* FROM cart JOIN (SELECT COUNT(*) as count FROM cart WHERE user_id ${char}) as count_query ON true WHERE cart.user_id ${char}`;
+
+  console.log(query);
+
+  pool.query(query, user_id !== null ? [user_id] : '', (err, result) => {
     if (err) {
       return res.status(500).json({ error: err.message });
     }
@@ -123,6 +126,20 @@ app.get("/items", (req, res) => {
   });
 });
 
+app.post("/items", async (req, res) => {
+  try {
+    const user_id = req.session.passport ? req.session.passport.user.user_id : null;
+    const { product_id } = req.body;
+    const newItem = await pool.query("INSERT INTO cart (user_id, product_id) VALUES ($1, $2) RETURNING *",
+      [user_id, product_id]
+    );
+
+    res.status(200).json(newItem.rows[0]);
+  } catch (err) {
+    console.error(err.message);
+  }
+});
+
 app.post('/login', passport.authenticate("local-login"), (req, res) => {
   res.json({ message: "User logged in successfully" });
 });
@@ -130,7 +147,7 @@ app.post('/login', passport.authenticate("local-login"), (req, res) => {
 app.get('/user', async (req, res) => {
   try {
     const userLoggedIn = {
-      id: req.session.passport ? req.session.passport.user.user_id : 0,
+      id: req.session.passport ? req.session.passport.user.user_id : null,
       username: req.session.passport ? req.session.passport.user.username : "guest",
       isAdmin: req.session.passport ? req.session.passport.user.is_admin : 0,
     }

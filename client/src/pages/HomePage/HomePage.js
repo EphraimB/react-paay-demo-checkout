@@ -13,7 +13,7 @@ import {
 import AddProductForm from '../../components/AddProductForm/AddProductForm';
 import Snackbar from '@mui/material/Snackbar';
 
-export default function HomePage({ loggedIn, isAdmin, itemsCount, refetchLogin }) {
+export default function HomePage({ loggedIn, isAdmin, itemsCount, refetchLogin, itemsRefetch }) {
     const [open, setOpen] = useState(false);
     const [message, setMessage] = useState("");
 
@@ -69,7 +69,7 @@ export default function HomePage({ loggedIn, isAdmin, itemsCount, refetchLogin }
             <Snackbar
             open={open}
             autoHideDuration={6000}
-            onClose={(e) => setOpen(false)}
+            onClose={() => setOpen(false)}
             message={message}
         />
         </>

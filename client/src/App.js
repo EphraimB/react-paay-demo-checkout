@@ -9,7 +9,7 @@ import {
 } from "./features/api/apiSlice";
 
 function App() {
-  const [loggedInUser, setLoggedInUser] = useState(0);
+  const [loggedInUser, setLoggedInUser] = useState(null);
   const [isAdmin, setIsAdmin] = useState(0);
   const [itemsCount, setItemsCount] = useState(0);
 
@@ -55,8 +55,8 @@ function App() {
   return (
     <div className="App" >
       <Routes>
-        <Route path="/" element={<HomePage loggedIn={loggedInUser} isAdmin={isAdmin} itemsCount={itemsCount} refetchLogin={refetch} />} />
-        <Route path="/cart" element={<CartPage loggedIn={loggedInUser} isAdmin={isAdmin} itemsCount={itemsCount} refetchLogin={refetch} />} />
+        <Route path="/" element={<HomePage loggedIn={loggedInUser} isAdmin={isAdmin} itemsCount={itemsCount} refetchLogin={refetch} itemsRefetch={itemsRefetch} />} />
+        <Route path="/cart" element={<CartPage loggedIn={loggedInUser} isAdmin={isAdmin} itemsCount={itemsCount} refetchLogin={refetch} itemsRefetch={itemsRefetch} />} />
       </Routes>
     </div>
   )

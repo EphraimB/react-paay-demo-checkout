@@ -56,8 +56,8 @@ export default function ButtonAppBar({ loggedIn, itemsCount, refetchLogin }) {
             open={isMobileMenuOpen}
             onClose={handleMobileMenuClose}
         >
-            <MenuItem onClick={(e) => navigate('/cart')}>
-                <IconButton size="large" aria-label="0 items in cart" color="inherit">
+            <MenuItem onClick={() => navigate('/cart')}>
+                <IconButton size="large" aria-label={`${itemsCount} items in cart" color="inherit`}>
                     <Badge badgeContent={itemsCount} color="error">
                         <ShoppingCartIcon />
                     </Badge>
@@ -129,7 +129,7 @@ export default function ButtonAppBar({ loggedIn, itemsCount, refetchLogin }) {
                 </Toolbar>
             </AppBar>
             {renderMobileMenu}
-            { popup ? loggedIn === 0 ? <LoginForm refetchLogin={refetchLogin} /> : <LogoutForm refetchLogin={refetchLogin} /> : null }
+            { popup ? loggedIn === null ? <LoginForm refetchLogin={refetchLogin} /> : <LogoutForm refetchLogin={refetchLogin} /> : null }
         </>
     );
 }
