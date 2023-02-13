@@ -17,7 +17,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { show, hide } from '../../features/Popup/popupSlice';
 import { useNavigate } from "react-router-dom";
 
-export default function ButtonAppBar({ loggedIn, refetchLogin }) {
+export default function ButtonAppBar({ loggedIn, itemsCount, refetchLogin }) {
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
     const navigate = useNavigate()
@@ -58,7 +58,7 @@ export default function ButtonAppBar({ loggedIn, refetchLogin }) {
         >
             <MenuItem onClick={(e) => navigate('/cart')}>
                 <IconButton size="large" aria-label="0 items in cart" color="inherit">
-                    <Badge badgeContent={0} color="error">
+                    <Badge badgeContent={itemsCount} color="error">
                         <ShoppingCartIcon />
                     </Badge>
                 </IconButton>
@@ -97,8 +97,8 @@ export default function ButtonAppBar({ loggedIn, refetchLogin }) {
                     </Typography>
                     <Box sx={{ flexGrow: 1 }} />
                     <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-                        <IconButton size="large" aria-label="0 items in cart" color="inherit" onClick={(e) => navigate('/cart')}>
-                            <Badge badgeContent={0} color="error">
+                        <IconButton size="large" aria-label={`${itemsCount} items in cart`} color="inherit" onClick={(e) => navigate('/cart')}>
+                            <Badge badgeContent={itemsCount} color="error">
                                 <ShoppingCartIcon />
                             </Badge>
                         </IconButton>

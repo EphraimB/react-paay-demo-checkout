@@ -31,6 +31,9 @@ export const apiSlice = createApi({
         method: 'DELETE',
       }),
     }),
+    getItems: builder.query({
+      query: () => '/items',
+    }),
     getUser: builder.query({
       query: () => '/user',
     }),
@@ -64,6 +67,7 @@ export const {
   useAddProductMutation,
   useEditProductMutation,
   useDeleteProductMutation,
+  useGetItemsQuery,
   useGetUserQuery,
   useLoginMutation,
   useLogoutMutation,

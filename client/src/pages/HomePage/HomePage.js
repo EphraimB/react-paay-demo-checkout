@@ -13,7 +13,7 @@ import {
 import AddProductForm from '../../components/AddProductForm/AddProductForm';
 import Snackbar from '@mui/material/Snackbar';
 
-export default function HomePage({ loggedIn, isAdmin, refetchLogin }) {
+export default function HomePage({ loggedIn, isAdmin, itemsCount, refetchLogin }) {
     const [open, setOpen] = useState(false);
     const [message, setMessage] = useState("");
 
@@ -54,7 +54,7 @@ export default function HomePage({ loggedIn, isAdmin, refetchLogin }) {
 
     return (
         <>
-            <AppBar loggedIn={loggedIn} refetchLogin={refetchLogin} />
+            <AppBar loggedIn={loggedIn} itemsCount={itemsCount} refetchLogin={refetchLogin} />
             <Grid id="products" container spacing={2} columns={{ xs: 12, md: 4 }} sx={{ m: 2 }}>
                 {showAddProductForm ? <AddProductForm setShowAddProductForm={setShowAddProductForm} refetch={refetch} setOpen={setOpen} setMessage={setMessage} /> : null}
                 {content}
