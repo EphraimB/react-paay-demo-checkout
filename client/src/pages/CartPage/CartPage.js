@@ -6,7 +6,7 @@ import {
     useGetItemsQuery
 } from "../../features/api/apiSlice";
 
-export default function CartPage({ loggedIn, isAdmin, itemsCount }) {
+export default function CartPage({ loggedIn, itemsCount }) {
     const {
         data: itemsData,
         isLoading,
@@ -22,7 +22,7 @@ export default function CartPage({ loggedIn, isAdmin, itemsCount }) {
         content = 'Loading';
     } else if (isSuccess) {
         content = itemsData.items.map((item) => (
-            <p>{item.product_id}</p>
+            <p>{item.product_title}</p>
         ));
     } else if (isError) {
         content = <div>{error.toString()}</div>

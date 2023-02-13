@@ -56,7 +56,7 @@ function App() {
     <div className="App" >
       <Routes>
         <Route path="/" element={<HomePage loggedIn={loggedInUser} isAdmin={isAdmin} itemsCount={itemsCount} refetchLogin={refetch} itemsRefetch={itemsRefetch} />} />
-        <Route path="/cart" element={<CartPage loggedIn={loggedInUser} isAdmin={isAdmin} itemsCount={itemsCount} refetchLogin={refetch} itemsRefetch={itemsRefetch} />} />
+        <Route path="/cart" element={<CartPage loggedIn={loggedInUser} itemsCount={itemsCount} refetchLogin={refetch} itemsRefetch={itemsRefetch} />} />
       </Routes>
     </div>
   )
