@@ -1,10 +1,44 @@
+import React, { useState, useEffect } from 'react';
 import AppBar from '../../components/AppBar/AppBar';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import {
+    useGetItemsQuery
+} from "../../features/api/apiSlice";
 
 export default function CartPage({ loggedIn, isAdmin, itemsCount }) {
+    const [items, setItems] = useState({});
+
+    const {
+        data: itemsData,
+        isLoading,
+        isSuccess,
+        isError,
+        error,
+        refetch
+    } = useGetItemsQuery();
+
+    let content;
+
+    if (isLoading) {
+        content = 'Loading';
+    } else if (isSuccess) {
+        content = itemsData.items.map((item) => (
+            <p>{item.product_id}</p>
+        ));
+    } else if (isError) {
+        content = <div>{error.toString()}</div>
+    }
+
     return (
         <>
             <AppBar loggedIn={loggedIn} itemsCount={itemsCount} />
-            <p>Testing</p>
+            <Box>
+                <Typography variant="h2" gutterBottom>
+                    Cart
+                </Typography>
+                {content}
+            </Box>
         </>
     )
 }

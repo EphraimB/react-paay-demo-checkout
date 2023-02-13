@@ -104,23 +104,32 @@ app.post("/products", async (req, res) => {
 app.get("/items", (req, res) => {
   const user_id = req.session.passport ? req.session.passport.user.user_id : null;
   const char = user_id === null ? "IS NULL" : "= $1";
+  let count = 0;
+  let items = [];
 
-  const query = `SELECT count_query.count, cart.* FROM cart JOIN (SELECT COUNT(*) as count FROM cart WHERE user_id ${char}) as count_query ON true WHERE cart.user_id ${char}`;
+  pool.query(`SELECT * FROM cart WHERE user_id ${char}`, user_id !== null ? [user_id] : '', (err, result) => {
+    let count = 0;
+    let items = [];
 
-  pool.query(query, user_id !== null ? [user_id] : '', (err, result) => {
     if (err) {
       return res.status(500).json({ error: err.message });
     }
 
-    let count = 0;
-    let items = [];
-
     if (result.rows.length > 0) {
-      count = result.rows[0].count;
       items = result.rows.map((row) => row);
     }
 
-    return res.json({ count, items });
+    pool.query(`SELECT COUNT(*) FROM cart WHERE user_id ${char}`, user_id !== null ? [user_id] : '', (err, result) => {
+      if (err) {
+        return res.status(500).json({ error: err.message });
+      }
+
+      if (result.rows.length > 0) {
+        count = result.rows[0].count;
+      }
+
+      return res.json({ count, items });
+    });
   });
 });
 
