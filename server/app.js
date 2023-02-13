@@ -151,6 +151,17 @@ app.post('/login', passport.authenticate("local-login"), (req, res) => {
   res.json({ message: "User logged in successfully" });
 });
 
+app.delete("/item/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const deleteProduct = await pool.query("DELETE FROM cart WHERE cart_id = $1", [id]);
+
+    res.json("Product was deleted");
+  } catch (err) {
+    console.error(err.message);
+  }
+});
+
 app.get('/user', async (req, res) => {
   try {
     const userLoggedIn = {

@@ -41,6 +41,12 @@ export const apiSlice = createApi({
         body: items
       }),
     }),
+    deleteItem: builder.mutation({
+      query: (id) => ({
+        url: `/item/${id}`,
+        method: 'DELETE',
+      }),
+    }),
     getUser: builder.query({
       query: () => '/user',
     }),
@@ -76,6 +82,7 @@ export const {
   useDeleteProductMutation,
   useGetItemsQuery,
   useAddItemMutation,
+  useDeleteItemMutation,
   useGetUserQuery,
   useLoginMutation,
   useLogoutMutation,

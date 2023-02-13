@@ -67,11 +67,11 @@ export default function HomePage({ loggedIn, isAdmin, itemsCount, refetchLogin, 
                 <AddIcon onClick={showProductForm} />
             </Fab> : null}
             <Snackbar
-            open={open}
-            autoHideDuration={6000}
-            onClose={() => setOpen(false)}
-            message={message}
-        />
+                open={open}
+                autoHideDuration={6000}
+                onClose={() => setOpen(false)}
+                message={message}
+            />
         </>
     );
 }
