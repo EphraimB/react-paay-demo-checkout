@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -17,8 +17,8 @@ import { useSelector, useDispatch } from 'react-redux'
 import { show, hide } from '../../features/Popup/popupSlice';
 import { useNavigate } from "react-router-dom";
 
-export default function ButtonAppBar({ loggedIn, itemsCount, refetchLogin }) {
-    const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+export default function ButtonAppBar({ loggedIn, itemsCount, refetchLogin, setOpenDrawer }) {
+    const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
 
     const navigate = useNavigate()
 
@@ -89,6 +89,7 @@ export default function ButtonAppBar({ loggedIn, itemsCount, refetchLogin }) {
                         color="inherit"
                         aria-label="open drawer"
                         sx={{ mr: 2 }}
+                        onClick={() => setOpenDrawer(true)}
                     >
                         <MenuIcon />
                     </IconButton>

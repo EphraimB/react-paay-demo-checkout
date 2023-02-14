@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import Grid from '@mui/material/Unstable_Grid2';
-import AppBar from '../../components/AppBar/AppBar';
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
 import Product from '../../components/Product/Product';
@@ -13,7 +12,7 @@ import {
 import AddProductForm from '../../components/AddProductForm/AddProductForm';
 import Snackbar from '@mui/material/Snackbar';
 
-export default function HomePage({ loggedIn, isAdmin, itemsCount, refetchLogin, itemsRefetch }) {
+export default function HomePage({ isAdmin, itemsRefetch }) {
     const [open, setOpen] = useState(false);
     const [message, setMessage] = useState("");
 
@@ -54,7 +53,6 @@ export default function HomePage({ loggedIn, isAdmin, itemsCount, refetchLogin, 
 
     return (
         <>
-            <AppBar loggedIn={loggedIn} itemsCount={itemsCount} refetchLogin={refetchLogin} />
             <Grid id="products" container spacing={2} columns={{ xs: 12, md: 4 }} sx={{ m: 2 }}>
                 {showAddProductForm ? <AddProductForm setShowAddProductForm={setShowAddProductForm} refetch={refetch} setOpen={setOpen} setMessage={setMessage} /> : null}
                 {content}

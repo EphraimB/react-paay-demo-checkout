@@ -3,12 +3,15 @@ import React, { useState, useEffect } from 'react';
 import { Routes, Route } from "react-router-dom"
 import HomePage from "./pages/HomePage/HomePage";
 import CartPage from './pages/CartPage/CartPage';
+import AppBar from './components/AppBar/AppBar';
+import NavDrawer from './components/NavDrawer/NavDrawer';
 import {
   useGetUserQuery,
   useGetItemsQuery
 } from "./features/api/apiSlice";
 
 function App() {
+  const [openDrawer, setOpenDrawer] = useState(false);
   const [loggedInUser, setLoggedInUser] = useState(null);
   const [isAdmin, setIsAdmin] = useState(0);
   const [itemsCount, setItemsCount] = useState(0);
@@ -53,10 +56,12 @@ function App() {
   }, [items, itemsError, isItemsError, isItemsLoading, isItemsSuccess]);
 
   return (
-    <div className="App" >
+    <div className="App">
+      <AppBar loggedIn={loggedInUser} itemsCount={itemsCount} refetchLogin={refetch} setOpenDrawer={setOpenDrawer} />
+      <NavDrawer openDrawer={openDrawer} handleDrawerToggle={() => setOpenDrawer(false)} />
       <Routes>
-        <Route path="/" element={<HomePage loggedIn={loggedInUser} isAdmin={isAdmin} itemsCount={itemsCount} refetchLogin={refetch} itemsRefetch={itemsRefetch} />} />
-        <Route path="/cart" element={<CartPage loggedIn={loggedInUser} itemsCount={itemsCount} refetchLogin={refetch} itemsRefetch={itemsRefetch} />} />
+        <Route path="/" element={<HomePage isAdmin={isAdmin} itemsCount={itemsCount} itemsRefetch={itemsRefetch} />} />
+        <Route path="/cart" element={<CartPage itemsCount={itemsCount} itemsRefetch={itemsRefetch} />} />
       </Routes>
     </div>
   )

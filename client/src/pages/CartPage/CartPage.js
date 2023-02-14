@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import AppBar from '../../components/AppBar/AppBar';
 import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
 import Card from '@mui/material/Card';
@@ -12,7 +11,7 @@ import {
     useDeleteItemMutation
 } from "../../features/api/apiSlice";
 
-export default function CartPage({ loggedIn, itemsCount, itemsRefetch }) {
+export default function CartPage({ itemsRefetch }) {
     const [open, setOpen] = useState(false);
     const [message, setMessage] = useState("");
     const [deleteItem] = useDeleteItemMutation();
@@ -72,7 +71,6 @@ export default function CartPage({ loggedIn, itemsCount, itemsRefetch }) {
 
     return (
         <>
-            <AppBar loggedIn={loggedIn} itemsCount={itemsCount} />
             <Typography variant="h2" gutterBottom>
                 Cart
             </Typography>
