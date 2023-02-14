@@ -24,9 +24,9 @@ export default function AddProductForm({ setShowAddProductForm, refetch, setOpen
         product_price: price
     }
 
-    const submitForm = (e) => {
+    const submitForm = async (e) => {
         e.preventDefault();
-        addProduct(params);
+        await addProduct(params);
         setShowAddProductForm(false);
         refetch();
         setMessage(`Added ${title} to your products`);
