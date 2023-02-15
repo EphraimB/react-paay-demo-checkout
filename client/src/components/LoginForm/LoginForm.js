@@ -82,9 +82,14 @@ export default function LoginForm({ refetchLogin, setOpenAlert, setAlertMessage,
         e.preventDefault();
 
         try {
-            await login(data);
+            const response = await login(data);
             dispatch(hide());
             refetchLogin();
+
+            console.log(response);
+            setAlertType("success");
+            setAlertMessage("Login successful!");
+            setOpenAlert(true);
         } catch (err) {
             console.log(err);
         }

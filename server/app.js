@@ -148,7 +148,7 @@ app.post("/items", async (req, res) => {
 });
 
 app.post('/login', passport.authenticate("local-login"), (req, res) => {
-  res.json({ message: "User logged in successfully" });
+  res.status(200).json({ message: "User logged in successfully" });
 });
 
 app.delete("/item/:id", async (req, res) => {
