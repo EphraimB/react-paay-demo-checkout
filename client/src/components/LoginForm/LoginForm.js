@@ -85,6 +85,9 @@ export default function LoginForm({ refetchLogin, setOpenAlert, setAlertMessage,
             await login(data);
             dispatch(hide());
             refetchLogin();
+            setAlertType("success");
+            setAlertMessage("Login successful!");
+            setOpenAlert(true);
         } catch (err) {
             console.log(err);
         }
