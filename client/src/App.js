@@ -5,12 +5,16 @@ import HomePage from "./pages/HomePage/HomePage";
 import CartPage from './pages/CartPage/CartPage';
 import AppBar from './components/AppBar/AppBar';
 import NavDrawer from './components/NavDrawer/NavDrawer';
+import Alert from '@mui/material/Alert';
 import {
   useGetUserQuery,
   useGetItemsQuery
 } from "./features/api/apiSlice";
 
 function App() {
+  const [openAlert, setOpenAlert] = useState(false);
+  const [alertType, setAlertType] = useState('');
+  const [alertMessage, setAlertMessage] = useState(null);
   const [openDrawer, setOpenDrawer] = useState(false);
   const [loggedInUser, setLoggedInUser] = useState(null);
   const [isAdmin, setIsAdmin] = useState(0);
@@ -57,7 +61,8 @@ function App() {
 
   return (
     <div className="App">
-      <AppBar loggedIn={loggedInUser} itemsCount={itemsCount} refetchLogin={refetch} setOpenDrawer={setOpenDrawer} />
+      <AppBar loggedIn={loggedInUser} itemsCount={itemsCount} refetchLogin={refetch} setOpenDrawer={setOpenDrawer} setOpenAlert={setOpenAlert} setAlertMessage={setAlertMessage} setAlertType={setAlertType} />
+      {openAlert && <Alert onClose={() => setOpenAlert(false)} severity={alertType}>{alertMessage}</Alert>}
       <NavDrawer openDrawer={openDrawer} handleDrawerToggle={() => setOpenDrawer(false)} />
       <Routes>
         <Route path="/" element={<HomePage isAdmin={isAdmin} itemsCount={itemsCount} itemsRefetch={itemsRefetch} />} />

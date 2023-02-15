@@ -72,7 +72,7 @@ export const apiSlice = createApi({
       }),
     }),
   }),
-})
+});
 
 export const {
   useGetProductsQuery,

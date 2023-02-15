@@ -34,7 +34,7 @@ function TabPanel(props) {
     );
 }
 
-export default function LoginForm({ refetchLogin }) {
+export default function LoginForm({ refetchLogin, setOpenAlert, setAlertMessage, setAlertType }) {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
@@ -42,7 +42,18 @@ export default function LoginForm({ refetchLogin }) {
     const [passwordRegistration, setPasswordRegistration] = useState('');
     const [confirmPasswordRegistration, setConfirmPasswordRegistration] = useState('');
 
-    const [login] = useLoginMutation();
+    const [login] = useLoginMutation({
+        onSuccess: () => {
+            setAlertType("success");
+            setAlertMessage("Login successful!");
+            setOpenAlert(true);
+        },
+        onError: (error) => {
+            setAlertType("error");
+            setAlertMessage(`Login failed: ${error}`);
+            setOpenAlert(true);
+        }
+    });
     const [signup] = useSignupMutation();
 
     const dispatch = useDispatch();
@@ -67,6 +78,7 @@ export default function LoginForm({ refetchLogin }) {
 
     const submitLoginForm = async (e) => {
         e.preventDefault();
+
         await login(data);
         dispatch(hide());
         refetchLogin();

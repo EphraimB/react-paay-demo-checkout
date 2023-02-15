@@ -17,7 +17,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { show, hide } from '../../features/Popup/popupSlice';
 import { useNavigate } from "react-router-dom";
 
-export default function ButtonAppBar({ loggedIn, itemsCount, refetchLogin, setOpenDrawer }) {
+export default function ButtonAppBar({ loggedIn, itemsCount, refetchLogin, setOpenDrawer, setOpenAlert, setAlertMessage, setAlertType }) {
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
 
     const navigate = useNavigate()
@@ -130,7 +130,7 @@ export default function ButtonAppBar({ loggedIn, itemsCount, refetchLogin, setOp
                 </Toolbar>
             </AppBar>
             {renderMobileMenu}
-            { popup ? loggedIn === null ? <LoginForm refetchLogin={refetchLogin} /> : <LogoutForm refetchLogin={refetchLogin} /> : null }
+            { popup ? loggedIn === null ? <LoginForm refetchLogin={refetchLogin} setOpenAlert={setOpenAlert} setAlertMessage={setAlertMessage} setAlertType={setAlertType} /> : <LogoutForm refetchLogin={refetchLogin} setOpenAlert={setOpenAlert} setAlertMessage={setAlertMessage} setAlertType={setAlertType} /> : null }
         </>
     );
 }
