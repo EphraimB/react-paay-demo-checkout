@@ -44,11 +44,13 @@ export default function LoginForm({ refetchLogin, setOpenAlert, setAlertMessage,
 
     const [login] = useLoginMutation({
         onSuccess: () => {
+            console.log("Success");
             setAlertType("success");
             setAlertMessage("Login successful!");
             setOpenAlert(true);
         },
         onError: (error) => {
+            console.log("Error: " + error);
             setAlertType("error");
             setAlertMessage(`Login failed: ${error}`);
             setOpenAlert(true);
@@ -79,9 +81,13 @@ export default function LoginForm({ refetchLogin, setOpenAlert, setAlertMessage,
     const submitLoginForm = async (e) => {
         e.preventDefault();
 
-        await login(data);
-        dispatch(hide());
-        refetchLogin();
+        try {
+            await login(data);
+            dispatch(hide());
+            refetchLogin();
+        } catch (err) {
+            console.log(err);
+        }
     }
 
     TabPanel.propTypes = {
