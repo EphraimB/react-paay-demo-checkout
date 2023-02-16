@@ -5,15 +5,12 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
-import Snackbar from '@mui/material/Snackbar';
 import {
     useGetItemsQuery,
     useDeleteItemMutation
 } from "../../features/api/apiSlice";
 
-export default function CartPage({ itemsRefetch }) {
-    const [open, setOpen] = useState(false);
-    const [message, setMessage] = useState("");
+export default function CartPage({ itemsRefetch, setOpenSnackbar, setSnackbarMessage }) {
     const [deleteItem] = useDeleteItemMutation();
     const [isDeleting, setIsDeleting] = useState(false);
 
@@ -23,8 +20,8 @@ export default function CartPage({ itemsRefetch }) {
             await deleteItem(item.cart_id);
             setIsDeleting(false);
             itemsRefetch();
-            setMessage(`Deleted ${item.product_title} from your cart`);
-            setOpen(true);
+            setSnackbarMessage(`Deleted ${item.product_title} from your cart`);
+            setOpenSnackbar(true);
         } catch (err) {
             console.error(err);
             setIsDeleting(false);
@@ -77,12 +74,6 @@ export default function CartPage({ itemsRefetch }) {
             <Grid>
                 {content}
             </Grid>
-            <Snackbar
-                open={open}
-                autoHideDuration={6000}
-                onClose={() => setOpen(false)}
-                message={message}
-            />
         </>
     )
 }
