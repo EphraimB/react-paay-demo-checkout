@@ -5,12 +5,14 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
+import Fab from '@mui/material/Fab';
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import {
     useGetItemsQuery,
     useDeleteItemMutation
 } from "../../features/api/apiSlice";
 
-export default function CartPage({ itemsRefetch, setOpenSnackbar, setSnackbarMessage }) {
+export default function CartPage({ itemsRefetch, setOpenSnackbar, setSnackbarMessage, itemsCount }) {
     const [deleteItem] = useDeleteItemMutation();
     const [isDeleting, setIsDeleting] = useState(false);
 
@@ -66,6 +68,10 @@ export default function CartPage({ itemsRefetch, setOpenSnackbar, setSnackbarMes
         content = <div>{error.toString()}</div>
     }
 
+    const handleCheckout = () => {
+
+    }
+
     return (
         <>
             <Typography variant="h2" gutterBottom>
@@ -74,6 +80,14 @@ export default function CartPage({ itemsRefetch, setOpenSnackbar, setSnackbarMes
             <Grid>
                 {content}
             </Grid>
+            {itemsCount > 0 ? <Fab variant="extended" color="primary" aria-label="Add to cart" sx={{
+                position: "absolute",
+                bottom: 16,
+                right: 16,
+            }}>
+                <AddShoppingCartIcon onClick={handleCheckout} />
+                Checkout - {itemsData.totalPrice}
+            </Fab> : null}
         </>
     )
 }

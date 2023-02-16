@@ -72,7 +72,7 @@ function App() {
       <NavDrawer openDrawer={openDrawer} handleDrawerToggle={() => setOpenDrawer(false)} />
       <Routes>
         <Route path="/" element={<HomePage isAdmin={isAdmin} itemsRefetch={itemsRefetch} setOpenSnackbar={setOpenSnackbar} setSnackbarMessage={setSnackbarMessage} />} />
-        <Route path="/cart" element={<CartPage itemsRefetch={itemsRefetch}  setOpenSnackbar={setOpenSnackbar} setSnackbarMessage={setSnackbarMessage} />} />
+        <Route path="/cart" element={<CartPage itemsRefetch={itemsRefetch} itemsCount={itemsCount} setOpenSnackbar={setOpenSnackbar} setSnackbarMessage={setSnackbarMessage} />} />
       </Routes>
       <Snackbar
         open={openSnackbar}

@@ -106,11 +106,9 @@ app.get("/items", (req, res) => {
   const char = user_id === null ? "IS NULL" : "= $1";
   let count = 0;
   let items = [];
+  let totalPrice = 0;
 
   pool.query(`SELECT * FROM cart JOIN products ON cart.product_id = products.product_id WHERE user_id ${char}`, user_id !== null ? [user_id] : '', (err, result) => {
-    let count = 0;
-    let items = [];
-
     if (err) {
       return res.status(500).json({ error: err.message });
     }
@@ -119,16 +117,26 @@ app.get("/items", (req, res) => {
       items = result.rows.map((row) => row);
     }
 
-    pool.query(`SELECT COUNT(*) FROM cart WHERE user_id ${char}`, user_id !== null ? [user_id] : '', (err, result) => {
+    pool.query(`SELECT SUM(products.product_price) FROM cart JOIN products ON cart.product_id = products.product_id WHERE user_id ${char}`, user_id !== null ? [user_id] : '', (err, result) => {  
       if (err) {
         return res.status(500).json({ error: err.message });
       }
-
+  
       if (result.rows.length > 0) {
-        count = result.rows[0].count;
+        totalPrice = result.rows[0].sum;
       }
 
-      return res.json({ count, items });
+      pool.query(`SELECT COUNT(*) FROM cart WHERE user_id ${char}`, user_id !== null ? [user_id] : '', (err, result) => {
+        if (err) {
+          return res.status(500).json({ error: err.message });
+        }
+
+        if (result.rows.length > 0) {
+          count = result.rows[0].count;
+        }
+
+        return res.json({ count, totalPrice, items });
+      });
     });
   });
 });
