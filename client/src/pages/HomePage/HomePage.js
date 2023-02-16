@@ -10,12 +10,8 @@ import {
     useGetProductsQuery
 } from "../../features/api/apiSlice";
 import AddProductForm from '../../components/AddProductForm/AddProductForm';
-import Snackbar from '@mui/material/Snackbar';
 
-export default function HomePage({ isAdmin, itemsRefetch }) {
-    const [open, setOpen] = useState(false);
-    const [message, setMessage] = useState("");
-
+export default function HomePage({ isAdmin, itemsRefetch, setOpenSnackbar, setSnackbarMessage }) {
     const {
         data: products,
         isLoading,
@@ -34,9 +30,9 @@ export default function HomePage({ isAdmin, itemsRefetch }) {
     } else if (isSuccess) {
         content = products.map((product) => (
             !deleteMode.includes(product.product_id) && !editMode.includes(product.product_id) ? (
-                <Product product={product} isAdmin={isAdmin} setOpen={setOpen} setMessage={setMessage} itemsRefetch={itemsRefetch} />
+                <Product product={product} isAdmin={isAdmin} setOpen={setOpenSnackbar} setMessage={setSnackbarMessage} itemsRefetch={itemsRefetch} />
             ) : deleteMode.includes(product.product_id) ? (
-                <DeleteForm product={product} refetch={refetch} setOpen={setOpen} setMessage={setMessage} />
+                <DeleteForm product={product} refetch={refetch} setOpen={setOpenSnackbar} setMessage={setSnackbarMessage} />
             ) : editMode.includes(product.product_id) ? (
                 <EditForm product={product} refetch={refetch} />
             ) : null
@@ -54,7 +50,7 @@ export default function HomePage({ isAdmin, itemsRefetch }) {
     return (
         <>
             <Grid id="products" container spacing={2} columns={{ xs: 12, md: 4 }} sx={{ m: 2 }}>
-                {showAddProductForm ? <AddProductForm setShowAddProductForm={setShowAddProductForm} refetch={refetch} setOpen={setOpen} setMessage={setMessage} /> : null}
+                {showAddProductForm ? <AddProductForm setShowAddProductForm={setShowAddProductForm} refetch={refetch} setOpen={setOpenSnackbar} setMessage={setSnackbarMessage} /> : null}
                 {content}
             </Grid>
             {isAdmin === 1 ? <Fab color="primary" aria-label="add" sx={{
@@ -64,12 +60,6 @@ export default function HomePage({ isAdmin, itemsRefetch }) {
             }}>
                 <AddIcon onClick={showProductForm} />
             </Fab> : null}
-            <Snackbar
-                open={open}
-                autoHideDuration={6000}
-                onClose={() => setOpen(false)}
-                message={message}
-            />
         </>
     );
 }

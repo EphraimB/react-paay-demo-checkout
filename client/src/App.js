@@ -6,6 +6,7 @@ import CartPage from './pages/CartPage/CartPage';
 import AppBar from './components/AppBar/AppBar';
 import NavDrawer from './components/NavDrawer/NavDrawer';
 import Alert from '@mui/material/Alert';
+import Snackbar from '@mui/material/Snackbar';
 import {
   useGetUserQuery,
   useGetItemsQuery
@@ -15,7 +16,12 @@ function App() {
   const [openAlert, setOpenAlert] = useState(false);
   const [alertType, setAlertType] = useState('');
   const [alertMessage, setAlertMessage] = useState(null);
+
   const [openDrawer, setOpenDrawer] = useState(false);
+
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState(null);
+
   const [loggedInUser, setLoggedInUser] = useState(null);
   const [isAdmin, setIsAdmin] = useState(0);
   const [itemsCount, setItemsCount] = useState(0);
@@ -65,9 +71,15 @@ function App() {
       {openAlert && <Alert onClose={() => setOpenAlert(false)} severity={alertType}>{alertMessage}</Alert>}
       <NavDrawer openDrawer={openDrawer} handleDrawerToggle={() => setOpenDrawer(false)} />
       <Routes>
-        <Route path="/" element={<HomePage isAdmin={isAdmin} itemsCount={itemsCount} itemsRefetch={itemsRefetch} />} />
+        <Route path="/" element={<HomePage isAdmin={isAdmin} itemsCount={itemsCount} itemsRefetch={itemsRefetch} setOpenSnackbar={setOpenSnackbar} setSnackbarMessage={setSnackbarMessage} />} />
         <Route path="/cart" element={<CartPage itemsCount={itemsCount} itemsRefetch={itemsRefetch} />} />
       </Routes>
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={6000}
+        onClose={() => setOpenSnackbar(false)}
+        message={snackbarMessage}
+      />
     </div>
   )
 }
