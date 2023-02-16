@@ -42,20 +42,7 @@ export default function LoginForm({ refetchLogin, setOpenAlert, setAlertMessage,
     const [passwordRegistration, setPasswordRegistration] = useState('');
     const [confirmPasswordRegistration, setConfirmPasswordRegistration] = useState('');
 
-    const [login] = useLoginMutation({
-        onSuccess: async () => {
-            console.log("Success");
-            setAlertType("success");
-            setAlertMessage("Login successful!");
-            setOpenAlert(true);
-        },
-        onError: (error) => {
-            console.log("Error: " + error);
-            setAlertType("error");
-            setAlertMessage(`Login failed: ${error}`);
-            setOpenAlert(true);
-        }
-    });
+    const [login] = useLoginMutation();
     const [signup] = useSignupMutation();
 
     const dispatch = useDispatch();
@@ -73,7 +60,7 @@ export default function LoginForm({ refetchLogin, setOpenAlert, setAlertMessage,
         refetchLogin();
     }
 
-    const data = {
+    const loginData = {
         username,
         password
     }
@@ -82,14 +69,20 @@ export default function LoginForm({ refetchLogin, setOpenAlert, setAlertMessage,
         e.preventDefault();
 
         try {
-            const response = await login(data);
+            const response = await login(loginData);
+            
+            if(response.error) {
+                setAlertType("error");
+                setAlertMessage("Incorrect username or password");
+                setOpenAlert(true);
+            } else if (response.data) {
+                setAlertType("success");
+                setAlertMessage(response.data.message);
+                setOpenAlert(true);
+            }
+
             dispatch(hide());
             refetchLogin();
-
-            console.log(response);
-            setAlertType("success");
-            setAlertMessage("Login successful!");
-            setOpenAlert(true);
         } catch (err) {
             console.log(err);
         }
