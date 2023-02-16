@@ -15,7 +15,7 @@ export default function CheckoutPage() {
             m: 2,
         }}>
             <Grid item xs={12} md={6}>
-                <FormControl component="fieldset" variant="standard">
+                <FormControl component="fieldset" variant="standard" fullWidth>
                     <FormLabel component="legend" sx={{ fontWeight: 'bold' }}>Payment</FormLabel>
                     <Grid item xs={12} md={12}>
                         <TextField id="fullname" label="Name on card" variant="standard" helperText="Full name as displayed on card" />
@@ -32,7 +32,7 @@ export default function CheckoutPage() {
                 </FormControl>
             </Grid>
             <Grid item xs={12} md={6}>
-                <FormControl>
+                <FormControl component="fieldset" variant="standard" fullWidth>
                     <FormLabel component="legend" sx={{ fontWeight: 'bold' }}>Billing address</FormLabel>
                     <Grid item xs={12} md={6}>
                         <TextField id="firstname" label="First name" variant="standard" />
