@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { Routes, Route } from "react-router-dom"
 import HomePage from "./pages/HomePage/HomePage";
 import CartPage from './pages/CartPage/CartPage';
+import CheckoutPage from './pages/CheckoutPage/CheckoutPage';
 import AppBar from './components/AppBar/AppBar';
 import NavDrawer from './components/NavDrawer/NavDrawer';
 import Alert from '@mui/material/Alert';
@@ -73,6 +74,7 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage isAdmin={isAdmin} itemsRefetch={itemsRefetch} setOpenSnackbar={setOpenSnackbar} setSnackbarMessage={setSnackbarMessage} />} />
         <Route path="/cart" element={<CartPage itemsRefetch={itemsRefetch} itemsCount={itemsCount} setOpenSnackbar={setOpenSnackbar} setSnackbarMessage={setSnackbarMessage} />} />
+        <Route path="/checkout" element={<CheckoutPage />} />
       </Routes>
       <Snackbar
         open={openSnackbar}
