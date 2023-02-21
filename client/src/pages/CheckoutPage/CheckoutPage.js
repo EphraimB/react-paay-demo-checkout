@@ -19,6 +19,7 @@ export default function CheckoutPage() {
 
     return (
         <Grid container xs={12} md={9} direction="row" spacing={2} sx={{
+            flexGrow: 1,
             m: 2,
         }}>
             <Grid item xs={12} md={6}>
