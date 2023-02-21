@@ -27,6 +27,10 @@ function App() {
   const [isAdmin, setIsAdmin] = useState(0);
   const [itemsCount, setItemsCount] = useState(0);
 
+  const [items, setItems] = useState([]);
+
+  const [totalPrice, setTotalPrice] = useState(0);
+
   const {
     data: user,
     isLoading,
@@ -48,7 +52,7 @@ function App() {
   }, [user, error, isError, isLoading, isSuccess]);
 
   const {
-    data: items,
+    data: itemsData,
     isLoading: isItemsLoading,
     isSuccess: isItemsSuccess,
     isError: isItemsError,
@@ -60,11 +64,13 @@ function App() {
     if (isItemsLoading) {
       console.log('Items loading');
     } else if (isItemsSuccess) {
-      setItemsCount(items.count);
+      setItemsCount(itemsData.count);
+      setItems(itemsData.items);
+      setTotalPrice(itemsData.totalPrice);
     } else if (isItemsError) {
       console.log(itemsError.toString());
     }
-  }, [items, itemsError, isItemsError, isItemsLoading, isItemsSuccess]);
+  }, [itemsData, itemsError, isItemsError, isItemsLoading, isItemsSuccess]);
 
   return (
     <div className="App">
@@ -73,7 +79,7 @@ function App() {
       <NavDrawer openDrawer={openDrawer} handleDrawerToggle={() => setOpenDrawer(false)} />
       <Routes>
         <Route path="/" element={<HomePage isAdmin={isAdmin} itemsRefetch={itemsRefetch} setOpenSnackbar={setOpenSnackbar} setSnackbarMessage={setSnackbarMessage} />} />
-        <Route path="/cart" element={<CartPage itemsRefetch={itemsRefetch} itemsCount={itemsCount} setOpenSnackbar={setOpenSnackbar} setSnackbarMessage={setSnackbarMessage} />} />
+        <Route path="/cart" element={<CartPage itemsRefetch={itemsRefetch} itemsCount={itemsCount} items={items} totalPrice={totalPrice} setOpenSnackbar={setOpenSnackbar} setSnackbarMessage={setSnackbarMessage} />} />
         <Route path="/checkout" element={<CheckoutPage />} />
       </Routes>
       <Snackbar
