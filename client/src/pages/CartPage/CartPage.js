@@ -7,6 +7,7 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import Fab from '@mui/material/Fab';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import { useNavigate } from "react-router-dom";
 import {
     useGetItemsQuery,
     useDeleteItemMutation
@@ -15,6 +16,8 @@ import {
 export default function CartPage({ itemsRefetch, setOpenSnackbar, setSnackbarMessage, itemsCount }) {
     const [deleteItem] = useDeleteItemMutation();
     const [isDeleting, setIsDeleting] = useState(false);
+
+    const navigate = useNavigate();
 
     const handleDeleteItem = async (item) => {
         setIsDeleting(true);
@@ -69,7 +72,7 @@ export default function CartPage({ itemsRefetch, setOpenSnackbar, setSnackbarMes
     }
 
     const handleCheckout = () => {
-
+        navigate('/checkout');
     }
 
     return (
@@ -84,8 +87,8 @@ export default function CartPage({ itemsRefetch, setOpenSnackbar, setSnackbarMes
                 position: "absolute",
                 bottom: 16,
                 right: 16,
-            }}>
-                <AddShoppingCartIcon onClick={handleCheckout} />
+            }} onClick={handleCheckout}>
+                <AddShoppingCartIcon />
                 Checkout - {itemsData.totalPrice}
             </Fab> : null}
         </>
