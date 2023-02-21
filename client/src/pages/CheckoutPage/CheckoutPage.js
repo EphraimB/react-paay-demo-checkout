@@ -131,8 +131,8 @@ export default function CheckoutPage({ items, totalPrice }) {
                             </Typography>
                         </CardContent>
                     </Card>
+                    <Button variant="contained" sx={{ m: 2 }}>Place order</Button>
                 </Grid>
-                <Button variant="contained" sx={{ m: 2 }}>Place order</Button>
             </Grid>
         </Grid>
     );
