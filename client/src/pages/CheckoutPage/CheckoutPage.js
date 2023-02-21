@@ -9,8 +9,11 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormHelperText from '@mui/material/FormHelperText';
 import Checkbox from '@mui/material/Checkbox';
 import Typography from '@mui/material/Typography';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import Button from '@mui/material/Button';
 
-export default function CheckoutPage() {
+export default function CheckoutPage({ items, totalPrice }) {
     const titleStyle = {
         textAlign: 'left',
         fontSize: 20,
@@ -19,7 +22,7 @@ export default function CheckoutPage() {
     };
 
     return (
-        <Grid container direction="row" xs={12} spacing={2} sx={{
+        <Grid container component="form" direction="row" xs={12} spacing={2} sx={{
             m: 2,
         }}>
             <Grid item container xs={12} md={9} direction="row" spacing={2}>
@@ -101,6 +104,35 @@ export default function CheckoutPage() {
             </Grid>
             <Grid item container xs={12} md={3} direction="column" spacing={2}>
                 <Typography variant="h4" component="h3">Your cart</Typography>
+
+                <Grid>
+                    {items.map((item) => (
+                        <Card key={`product-${item.cart_id}`} sx={{ maxWidth: 512, m: 2 }} id={`cart-${item.cart_id}`}>
+                            <CardContent>
+                                <Typography gutterBottom variant="h5" component="div">
+                                    {item.product_title}
+                                </Typography>
+                                <Typography variant="body2" color="text.secondary">
+                                    {item.product_description}
+                                </Typography>
+                                <Typography variant="body2" color="text.secondary">
+                                    {item.product_price}
+                                </Typography>
+                            </CardContent>
+                        </Card>
+                    ))}
+                    <Card sx={{ maxWidth: 512, m: 2 }} id={`cart-total`}>
+                        <CardContent>
+                            <Typography gutterBottom variant="h5" component="div">
+                                Total (USD)
+                            </Typography>
+                            <Typography variant="body2" color="text.secondary" fontWeight="bold">
+                                {totalPrice}
+                            </Typography>
+                        </CardContent>
+                    </Card>
+                </Grid>
+                <Button variant="contained" sx={{ m: 2 }}>Place order</Button>
             </Grid>
         </Grid>
     );

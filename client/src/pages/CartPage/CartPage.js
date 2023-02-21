@@ -9,7 +9,6 @@ import Fab from '@mui/material/Fab';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import { useNavigate } from "react-router-dom";
 import {
-    useGetItemsQuery,
     useDeleteItemMutation
 } from "../../features/api/apiSlice";
 
