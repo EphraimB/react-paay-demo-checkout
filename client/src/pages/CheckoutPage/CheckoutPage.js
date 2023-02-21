@@ -12,8 +12,13 @@ import Typography from '@mui/material/Typography';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
+import Select from '@mui/material/Select';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
 
 export default function CheckoutPage({ items, totalPrice }) {
+    const [country, setCountry] = useState(0);
+
     const titleStyle = {
         textAlign: 'left',
         fontSize: 20,
@@ -60,16 +65,27 @@ export default function CheckoutPage({ items, totalPrice }) {
                                 <Grid item xs={12} md={12}>
                                     <TextField id="email" label="Email" variant="standard" fullWidth />
                                 </Grid>
-                                <Grid item xs={12} md={6}>
+                                <Grid item xs={12} md={12}>
                                     <TextField id="address" label="Address" variant="standard" fullWidth />
                                 </Grid>
-                                <Grid item xs={12} md={6}>
-                                    <TextField id="city" label="City" variant="standard" fullWidth />
+                                <Grid item xs={12} md={12}>
+                                    <TextField id="address2" label="Address2" variant="standard" fullWidth />
                                 </Grid>
-                                <Grid item xs={12} md={6}>
+                                <Grid item xs={12} md={4}>
+                                    <Select
+                                        id="country"
+                                        value={0}
+                                        label="Country"
+                                        onChange={(e) => setCountry(e.target.value)}
+                                        fullWidth
+                                    >
+                                        <MenuItem value={0}>United States</MenuItem>
+                                    </Select>
+                                </Grid>
+                                <Grid item xs={12} md={4}>
                                     <TextField id="state" label="State" variant="standard" fullWidth />
                                 </Grid>
-                                <Grid item xs={12} md={6}>
+                                <Grid item xs={12} md={4}>
                                     <TextField id="zip" label="Zip code" variant="standard" fullWidth />
                                 </Grid>
                             </Grid>
@@ -88,16 +104,27 @@ export default function CheckoutPage({ items, totalPrice }) {
                                 <Grid item xs={12} md={12}>
                                     <TextField id="email" label="Email" variant="standard" fullWidth />
                                 </Grid>
-                                <Grid item xs={12} md={6}>
+                                <Grid item xs={12} md={12}>
                                     <TextField id="address" label="Address" variant="standard" fullWidth />
                                 </Grid>
-                                <Grid item xs={12} md={6}>
-                                    <TextField id="city" label="City" variant="standard" fullWidth />
+                                <Grid item xs={12} md={12}>
+                                    <TextField id="address2" label="Address2" variant="standard" fullWidth />
                                 </Grid>
-                                <Grid item xs={12} md={6}>
+                                <Grid item xs={12} md={4}>
+                                    <Select
+                                        id="country"
+                                        value={0}
+                                        label="Country"
+                                        onChange={(e) => setCountry(e.target.value)}
+                                        fullWidth
+                                    >
+                                        <MenuItem value={0}>United States</MenuItem>
+                                    </Select>
+                                </Grid>
+                                <Grid item xs={12} md={4}>
                                     <TextField id="state" label="State" variant="standard" fullWidth />
                                 </Grid>
-                                <Grid item xs={12} md={6}>
+                                <Grid item xs={12} md={4}>
                                     <TextField id="zip" label="Zip code" variant="standard" fullWidth />
                                 </Grid>
                             </Grid>
@@ -106,7 +133,6 @@ export default function CheckoutPage({ items, totalPrice }) {
                 </Grid>
                 <Grid item container xs={12} md={3} direction="column" spacing={2}>
                     <Typography variant="h4" component="h3">Your cart</Typography>
-
                     <Grid>
                         {items.map((item) => (
                             <Card key={`product-${item.cart_id}`} sx={{ maxWidth: 512, m: 2 }} id={`cart-${item.cart_id}`}>
