@@ -47,7 +47,7 @@ export default function CheckoutPage({ items, totalPrice }) {
                 </Grid>
                 <Grid item xs={12} md={6}>
                     <FormControl component="fieldset" variant="standard">
-                        <FormLabel component="legend" sx={titleStyle}>Billing addreess</FormLabel>
+                        <FormLabel component="legend" sx={titleStyle}>Billing address</FormLabel>
                         <Grid container direction="row" spacing={2}>
                             <Grid item xs={12} md={6}>
                                 <TextField id="firstname" label="First name" variant="standard" fullWidth />
@@ -75,7 +75,7 @@ export default function CheckoutPage({ items, totalPrice }) {
                 </Grid>
                 <Grid item xs={12} md={6}>
                     <FormControl component="fieldset" variant="standard">
-                        <FormLabel component="legend" sx={titleStyle}>Shipping addreess</FormLabel>
+                        <FormLabel component="legend" sx={titleStyle}>Shipping address</FormLabel>
                         <Grid container direction="row" spacing={2}>
                             <Grid item xs={12} md={6}>
                                 <TextField id="firstname" label="First name" variant="standard" fullWidth />
