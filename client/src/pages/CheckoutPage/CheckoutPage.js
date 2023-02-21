@@ -18,56 +18,84 @@ export default function CheckoutPage() {
     };
 
     return (
-        <Box sx={{ flexGrow: 1, m: 2 }}>
-            <Grid container direction="row" spacing={2}>
-                <Grid item xs={12} md={6}>
-                    <FormControl component="fieldset" variant="standard">
-                        <FormLabel component="legend" sx={titleStyle}>Payment</FormLabel>
-                        <Grid container direction="row" spacing={2}>
-                            <Grid item xs={12} md={6}>
-                                <TextField id="fullname" label="Name on card" variant="standard" helperText="Full name as displayed on card" fullWidth />
-                            </Grid>
-                            <Grid item xs={12} md={6}>
-                                <TextField id="cardnumber" label="Credit card number" variant="standard" helperText="xxxx xxxx xxxx xxxx format" fullWidth />
-                            </Grid>
-                            <Grid item xs={12} md={6}>
-                                <TextField id="expdate" label="Expiration date" variant="standard" helperText="xx/xx format" fullWidth />
-                            </Grid>
-                            <Grid item xs={12} md={6}>
-                                <TextField id="cvv" label="CVV" variant="standard" helperText="3 digit number" fullWidth />
-                            </Grid>
+        <Grid container xs={12} md={9} direction="row" spacing={2} sx={{
+            m: 2,
+        }}>
+            <Grid item xs={12} md={6}>
+                <FormControl component="fieldset" variant="standard">
+                    <FormLabel component="legend" sx={titleStyle}>Payment</FormLabel>
+                    <Grid container direction="row" spacing={2}>
+                        <Grid item xs={12} md={6}>
+                            <TextField id="fullname" label="Name on card" variant="standard" helperText="Full name as displayed on card" fullWidth />
                         </Grid>
-                    </FormControl>
-                </Grid>
-                <Grid item xs={12} md={6}>
-                    <FormControl component="fieldset" variant="standard">
-                        <FormLabel component="legend" sx={titleStyle}>Billing addreess</FormLabel>
-                        <Grid container direction="row" spacing={2}>
-                            <Grid item xs={12} md={6}>
-                                <TextField id="firstname" label="First name" variant="standard" fullWidth />
-                            </Grid>
-                            <Grid item xs={12} md={6}>
-                                <TextField id="lastname" label="Last name" variant="standard" fullWidth />
-                            </Grid>
-                            <Grid item xs={12} md={12}>
-                                <TextField id="email" label="Email" variant="standard" fullWidth />
-                            </Grid>
-                            <Grid item xs={12} md={6}>
-                                <TextField id="address" label="Address" variant="standard" fullWidth />
-                            </Grid>
-                            <Grid item xs={12} md={6}>
-                                <TextField id="city" label="City" variant="standard" fullWidth />
-                            </Grid>
-                            <Grid item xs={12} md={6}>
-                                <TextField id="state" label="State" variant="standard" fullWidth />
-                            </Grid>
-                            <Grid item xs={12} md={6}>
-                                <TextField id="zip" label="Zip code" variant="standard" fullWidth />
-                            </Grid>
+                        <Grid item xs={12} md={6}>
+                            <TextField id="cardnumber" label="Credit card number" variant="standard" helperText="xxxx xxxx xxxx xxxx format" fullWidth />
                         </Grid>
-                    </FormControl>
-                </Grid>
+                        <Grid item xs={12} md={6}>
+                            <TextField id="expdate" label="Expiration date" variant="standard" helperText="xx/xx format" fullWidth />
+                        </Grid>
+                        <Grid item xs={12} md={6}>
+                            <TextField id="cvv" label="CVV" variant="standard" helperText="3 digit number" fullWidth />
+                        </Grid>
+                    </Grid>
+                </FormControl>
             </Grid>
-        </Box >
+            <Grid item xs={12} md={6}>
+                <FormControl component="fieldset" variant="standard">
+                    <FormLabel component="legend" sx={titleStyle}>Billing addreess</FormLabel>
+                    <Grid container direction="row" spacing={2}>
+                        <Grid item xs={12} md={6}>
+                            <TextField id="firstname" label="First name" variant="standard" fullWidth />
+                        </Grid>
+                        <Grid item xs={12} md={6}>
+                            <TextField id="lastname" label="Last name" variant="standard" fullWidth />
+                        </Grid>
+                        <Grid item xs={12} md={12}>
+                            <TextField id="email" label="Email" variant="standard" fullWidth />
+                        </Grid>
+                        <Grid item xs={12} md={6}>
+                            <TextField id="address" label="Address" variant="standard" fullWidth />
+                        </Grid>
+                        <Grid item xs={12} md={6}>
+                            <TextField id="city" label="City" variant="standard" fullWidth />
+                        </Grid>
+                        <Grid item xs={12} md={6}>
+                            <TextField id="state" label="State" variant="standard" fullWidth />
+                        </Grid>
+                        <Grid item xs={12} md={6}>
+                            <TextField id="zip" label="Zip code" variant="standard" fullWidth />
+                        </Grid>
+                    </Grid>
+                </FormControl>
+            </Grid>
+            <Grid item xs={12} md={6}>
+                <FormControl component="fieldset" variant="standard">
+                    <FormLabel component="legend" sx={titleStyle}>Shipping addreess</FormLabel>
+                    <Grid container direction="row" spacing={2}>
+                        <Grid item xs={12} md={6}>
+                            <TextField id="firstname" label="First name" variant="standard" fullWidth />
+                        </Grid>
+                        <Grid item xs={12} md={6}>
+                            <TextField id="lastname" label="Last name" variant="standard" fullWidth />
+                        </Grid>
+                        <Grid item xs={12} md={12}>
+                            <TextField id="email" label="Email" variant="standard" fullWidth />
+                        </Grid>
+                        <Grid item xs={12} md={6}>
+                            <TextField id="address" label="Address" variant="standard" fullWidth />
+                        </Grid>
+                        <Grid item xs={12} md={6}>
+                            <TextField id="city" label="City" variant="standard" fullWidth />
+                        </Grid>
+                        <Grid item xs={12} md={6}>
+                            <TextField id="state" label="State" variant="standard" fullWidth />
+                        </Grid>
+                        <Grid item xs={12} md={6}>
+                            <TextField id="zip" label="Zip code" variant="standard" fullWidth />
+                        </Grid>
+                    </Grid>
+                </FormControl>
+            </Grid>
+        </Grid>
     );
 }
