@@ -60,6 +60,21 @@ export default function CheckoutPage({ items, totalPrice, itemsCount }) {
     }, [jwt])
 
     const authenticate3ds = async () => {
+        const browser = {
+            browserAcceptHeader: 'application/json',
+            browserJavaScriptEnabled: window.navigator.browserJavaScriptEnabled,
+            browserJavaEnabled: window.navigator.javaEnabled(),
+            browserLanguage: window.navigator.language,
+        }
+
+        const body = {
+            browser,
+            amount: Number(totalPrice.substring(1)),
+            month: expDate.split('/')[0],
+            year: expDate.split('/')[1],
+            challengeIndicator: '02',
+        }
+
         const options = {
             method: 'POST',
             headers: {
@@ -67,7 +82,8 @@ export default function CheckoutPage({ items, totalPrice, itemsCount }) {
                 'X-3DS-API-KEY': 'a7d5a66059ae3ca79e4750249893fd7e',
                 'content-type': 'application/json',
                 authorization: `Bearer ${jwt}}`
-            }
+            },
+            body: JSON.stringify(body)
         };
 
         fetch('https://api-sandbox.3dsintegrator.com/v2/authenticate/browser', options)
@@ -130,14 +146,28 @@ export default function CheckoutPage({ items, totalPrice, itemsCount }) {
 
     const handleCardNumber = (e) => {
         const value = e.target.value;
-        if (value.length > 16) return;
+        if (value.length > 19) return;
         setCardNumber(value);
     }
 
     const handleCardNumberBlur = (e) => {
-        if (cardNumber.length === 16) {
-            authenticate3ds();
+        if (cardNumber.length === 19) authenticate3ds();
+    }
+
+    const handleExpDate = (e) => {
+        const value = e.target.value;
+
+        if(value.length === 2) {
+            setExpDate(value + '/');
+            return;
         }
+
+        if (value.length > 5) return;
+        setExpDate(value);
+    }
+
+    const handleExpDateBlur = (e) => {
+        if (expDate.length === 5) authenticate3ds();
     }
 
     const handlePay = () => {
@@ -162,7 +192,7 @@ export default function CheckoutPage({ items, totalPrice, itemsCount }) {
                                     <TextField id="cardnumber" label="Credit card number" variant="standard" helperText="xxxx xxxx xxxx xxxx format" value={cardNumber} onChange={handleCardNumber} onBlur={handleCardNumberBlur} fullWidth />
                                 </Grid>
                                 <Grid item xs={12} md={6}>
-                                    <TextField id="expdate" label="Expiration date" variant="standard" helperText="xx/xx format" value={expDate} onChange={(e) => setExpDate(e.target.value)} fullWidth />
+                                    <TextField id="expdate" label="Expiration date" variant="standard" helperText="xx/xx format" value={expDate} onChange={handleExpDate} onBlur={handleExpDateBlur} fullWidth />
                                 </Grid>
                                 <Grid item xs={12} md={6}>
                                     <TextField type="number" inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }} id="cvv" label="CVV" variant="standard" helperText="3 digit number" value={cvv} onChange={(e) => setCVV(e.target.value)} fullWidth />
