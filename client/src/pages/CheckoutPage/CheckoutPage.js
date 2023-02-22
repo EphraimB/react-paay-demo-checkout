@@ -19,7 +19,26 @@ import PaidIcon from '@mui/icons-material/Paid';
 import Fab from '@mui/material/Fab';
 
 export default function CheckoutPage({ items, totalPrice, itemsCount }) {
-    const [country, setCountry] = useState(0);
+    const [nameOnCard, setNameOnCard] = useState('');
+    const [cardNumber, setCardNumber] = useState('');
+    const [expDate, setExpDate] = useState('');
+    const [cvv, setCVV] = useState('');
+    const [billingFirstName, setBillingFirstName] = useState('');
+    const [billingLastName, setBillingLastName] = useState('');
+    const [billingEmail, setBillingEmail] = useState('');
+    const [billingAddress, setBillingAddress] = useState('');
+    const [billingAddress2, setBillingAddress2] = useState('');
+    const [billingCountry, setBillingCountry] = useState(0);
+    const [billingState, setBillingState] = useState('');
+    const [billingZip, setBillingZip] = useState('');
+    const [shippingFirstName, setShippingFirstName] = useState('');
+    const [shippingLastName, setShippingLastName] = useState('');
+    const [shippingEmail, setShippingEmail] = useState('');
+    const [shippingAddress, setShippingAddress] = useState('');
+    const [shippingAddress2, setShippingAddress2] = useState('');
+    const [shippingCountry, setShippingCountry] = useState(0);
+    const [shippingState, setShippingState] = useState('');
+    const [shippingZip, setShippingZip] = useState('');
 
     const titleStyle = {
         textAlign: 'left',
@@ -82,7 +101,7 @@ export default function CheckoutPage({ items, totalPrice, itemsCount }) {
                                         id="country"
                                         value={0}
                                         label="Country"
-                                        onChange={(e) => setCountry(e.target.value)}
+                                        onChange={(e) => setBillingCountry(e.target.value)}
                                         fullWidth
                                     >
                                         <MenuItem value={0}>United States</MenuItem>
@@ -128,7 +147,7 @@ export default function CheckoutPage({ items, totalPrice, itemsCount }) {
                                         id="country"
                                         value={0}
                                         label="Country"
-                                        onChange={(e) => setCountry(e.target.value)}
+                                        onChange={(e) => setShippingCountry(e.target.value)}
                                         fullWidth
                                     >
                                         <MenuItem value={0}>United States</MenuItem>
