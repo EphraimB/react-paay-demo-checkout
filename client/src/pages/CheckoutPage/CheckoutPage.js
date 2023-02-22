@@ -97,7 +97,7 @@ export default function CheckoutPage({ items, totalPrice, itemsCount }) {
             m: 2,
         }}>
             <Typography variant="h2" component="h2" gutterBottom>Checkout form</Typography>
-            <Grid container component="form" id="demo-form" direction="row" xs={12} spacing={2}>
+            <Grid container component="form" id="demo-form" direction="row" spacing={2}>
                 <Grid item container xs={12} md={9} direction="row" spacing={2}>
                     <Grid item xs={12} md={6}>
                         <FormControl component="fieldset" variant="standard">
