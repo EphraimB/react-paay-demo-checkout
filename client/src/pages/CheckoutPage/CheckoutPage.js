@@ -43,6 +43,28 @@ export default function CheckoutPage({ items, totalPrice, itemsCount }) {
         color: 'black',
     };
 
+    const handleSameAsBilling = (e) => {
+        if (e.target.checked) {
+            setShippingFirstName(billingFirstName);
+            setShippingLastName(billingLastName);
+            setShippingEmail(billingEmail);
+            setShippingAddress(billingAddress);
+            setShippingAddress2(billingAddress2);
+            setShippingCountry(billingCountry);
+            setShippingState(billingState);
+            setShippingZip(billingZip);
+        } else {
+            setShippingFirstName('');
+            setShippingLastName('');
+            setShippingEmail('');
+            setShippingAddress('');
+            setShippingAddress2('');
+            setShippingCountry(0);
+            setShippingState('');
+            setShippingZip('');
+        }
+    }
+
     const handlePay = () => {
         alert('Payment successful!');
     }
@@ -120,6 +142,7 @@ export default function CheckoutPage({ items, totalPrice, itemsCount }) {
                                     control={<Checkbox />}
                                     label="Shipping same as billing"
                                     labelPlacement="start"
+                                    onChange={handleSameAsBilling}
                                 />
                             </Box>
                             <Grid container direction="row" spacing={2}>
