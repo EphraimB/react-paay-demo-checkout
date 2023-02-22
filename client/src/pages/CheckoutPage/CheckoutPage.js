@@ -93,7 +93,14 @@ export default function CheckoutPage({ items, totalPrice }) {
                     </Grid>
                     <Grid item xs={12} md={6}>
                         <FormControl component="fieldset" variant="standard">
-                            <FormLabel component="legend" sx={titleStyle}>Shipping address</FormLabel>
+                            <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                                <FormLabel component="legend" sx={titleStyle}>Shipping address</FormLabel>
+                                <FormControlLabel
+                                    control={<Checkbox />}
+                                    label="Shipping same as billing"
+                                    labelPlacement="start"
+                                />
+                            </Box>
                             <Grid container direction="row" spacing={2}>
                                 <Grid item xs={12} md={6}>
                                     <TextField id="firstname" label="First name" variant="standard" fullWidth />
