@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { SignJWT } from 'jose';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
@@ -35,6 +36,45 @@ export default function CheckoutPage({ items, totalPrice, itemsCount }) {
     const [shippingCountry, setShippingCountry] = useState(0);
     const [shippingState, setShippingState] = useState('');
     const [shippingZip, setShippingZip] = useState('');
+
+    const [jwt, setJWT] = useState('');
+
+    useEffect(() => {
+        const generateJWT = async () => {
+            const alg = 'HS256'
+            const secret = new TextEncoder().encode(
+                '6811ab1688b5ff56bc7e5229c89af7c1324a4336',
+            )
+
+            const jwt = await new SignJWT({})
+                .setProtectedHeader({ alg })
+                .setIssuer('3dsinetegrator_Authentication_Server')
+                .setAudience('a7d5a66059ae3ca79e4750249893fd7e')
+                .setExpirationTime('2m')
+                .sign(secret)
+
+            setJWT(jwt);
+        }
+        generateJWT();
+        console.log(jwt);
+    }, [jwt])
+
+    const authenticate3ds = async () => {
+        const options = {
+            method: 'POST',
+            headers: {
+                accept: 'application/json',
+                'X-3DS-API-KEY': 'a7d5a66059ae3ca79e4750249893fd7e',
+                'content-type': 'application/json',
+                authorization: `Bearer ${jwt}}`
+            }
+        };
+
+        fetch('https://api-sandbox.3dsintegrator.com/v2/authenticate/browser', options)
+            .then(response => response.json())
+            .then(response => console.log(response))
+            .catch(err => console.error(err));
+    }
 
     const titleStyle = {
         textAlign: 'left',
@@ -88,6 +128,18 @@ export default function CheckoutPage({ items, totalPrice, itemsCount }) {
         shippingZip,
     }
 
+    const handleCardNumber = (e) => {
+        const value = e.target.value;
+        if (value.length > 16) return;
+        setCardNumber(value);
+    }
+
+    const handleCardNumberBlur = (e) => {
+        if (cardNumber.length === 16) {
+            authenticate3ds();
+        }
+    }
+
     const handlePay = () => {
         alert("Will be implemented later.");
     }
@@ -107,7 +159,7 @@ export default function CheckoutPage({ items, totalPrice, itemsCount }) {
                                     <TextField id="fullname" label="Name on card" variant="standard" helperText="Full name as displayed on card" value={nameOnCard} onChange={(e) => setNameOnCard(e.target.value)} fullWidth />
                                 </Grid>
                                 <Grid item xs={12} md={6}>
-                                    <TextField id="cardnumber" label="Credit card number" variant="standard" helperText="xxxx xxxx xxxx xxxx format" value={cardNumber} onChange={(e) => setCardNumber(e.target.value)} fullWidth />
+                                    <TextField id="cardnumber" label="Credit card number" variant="standard" helperText="xxxx xxxx xxxx xxxx format" value={cardNumber} onChange={handleCardNumber} onBlur={handleCardNumberBlur} fullWidth />
                                 </Grid>
                                 <Grid item xs={12} md={6}>
                                     <TextField id="expdate" label="Expiration date" variant="standard" helperText="xx/xx format" value={expDate} onChange={(e) => setExpDate(e.target.value)} fullWidth />
