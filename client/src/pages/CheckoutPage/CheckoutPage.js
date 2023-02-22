@@ -196,7 +196,7 @@ export default function CheckoutPage({ items, totalPrice, itemsCount }) {
                 right: 16,
             }} onClick={handlePay}>
                 <PaidIcon />
-                Pay
+                Pay - {totalPrice}
             </Fab> : null}
         </Box>
     );
