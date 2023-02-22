@@ -68,7 +68,7 @@ export default function CheckoutPage({ items, totalPrice, itemsCount }) {
                                     <TextField id="expdate" label="Expiration date" variant="standard" helperText="xx/xx format" value={expDate} onChange={(e) => setExpDate(e.target.value)} fullWidth />
                                 </Grid>
                                 <Grid item xs={12} md={6}>
-                                    <TextField type="number" inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }} id="cvv" label="CVV" variant="standard" helperText="3 digit number" value={cvv} onChange={(e) => setCVV(e.target.value)}  fullWidth />
+                                    <TextField type="number" inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }} id="cvv" label="CVV" variant="standard" helperText="3 digit number" value={cvv} onChange={(e) => setCVV(e.target.value)} fullWidth />
                                 </Grid>
                             </Grid>
                         </FormControl>
@@ -87,7 +87,7 @@ export default function CheckoutPage({ items, totalPrice, itemsCount }) {
                                     <TextField id="email" label="Email" variant="standard" fullWidth value={billingEmail} onChange={(e) => setBillingEmail(e.target.value)} />
                                 </Grid>
                                 <Grid item xs={12} md={12}>
-                                    <TextField id="address" label="Address" variant="standard" value={billingAddress} onChange={(e) => setBillingAddress(e.target.value)}  fullWidth />
+                                    <TextField id="address" label="Address" variant="standard" value={billingAddress} onChange={(e) => setBillingAddress(e.target.value)} fullWidth />
                                 </Grid>
                                 <Grid item xs={12} md={12}>
                                     <TextField id="address2" label="Address2" variant="standard" value={billingAddress2} onChange={(e) => setBillingAddress2(e.target.value)} fullWidth />
