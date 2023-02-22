@@ -15,8 +15,10 @@ import Button from '@mui/material/Button';
 import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
+import PaidIcon from '@mui/icons-material/Paid';
+import Fab from '@mui/material/Fab';
 
-export default function CheckoutPage({ items, totalPrice }) {
+export default function CheckoutPage({ items, totalPrice, itemsCount }) {
     const [country, setCountry] = useState(0);
 
     const titleStyle = {
@@ -25,6 +27,10 @@ export default function CheckoutPage({ items, totalPrice }) {
         fontWeight: 'bold',
         color: 'black',
     };
+
+    const handlePay = () => {
+        alert('Payment successful!');
+    }
 
     return (
         <Box sx={{
@@ -166,10 +172,17 @@ export default function CheckoutPage({ items, totalPrice }) {
                                 </Typography>
                             </CardContent>
                         </Card>
-                        <Button variant="contained" sx={{ m: 2 }}>Place order</Button>
                     </Grid>
                 </Grid>
             </Grid>
+            {itemsCount > 0 ? <Fab variant="extended" color="primary" aria-label="Pay" sx={{
+                position: "absolute",
+                bottom: 16,
+                right: 16,
+            }} onClick={handlePay}>
+                <PaidIcon />
+                Pay
+            </Fab> : null}
         </Box>
     );
 }

@@ -80,7 +80,7 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage isAdmin={isAdmin} itemsRefetch={itemsRefetch} setOpenSnackbar={setOpenSnackbar} setSnackbarMessage={setSnackbarMessage} />} />
         <Route path="/cart" element={<CartPage itemsRefetch={itemsRefetch} itemsCount={itemsCount} items={items} totalPrice={totalPrice} setOpenSnackbar={setOpenSnackbar} setSnackbarMessage={setSnackbarMessage} />} />
-        <Route path="/checkout" element={<CheckoutPage items={items} totalPrice={totalPrice} />} />
+        <Route path="/checkout" element={<CheckoutPage items={items} totalPrice={totalPrice} itemsCount={itemsCount} />} />
       </Routes>
       <Snackbar
         open={openSnackbar}
