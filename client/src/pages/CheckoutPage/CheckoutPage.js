@@ -65,8 +65,31 @@ export default function CheckoutPage({ items, totalPrice, itemsCount }) {
         }
     }
 
+    const data = {
+        nameOnCard,
+        cardNumber,
+        expDate,
+        cvv,
+        billingFirstName,
+        billingLastName,
+        billingEmail,
+        billingAddress,
+        billingAddress2,
+        billingCountry,
+        billingState,
+        billingZip,
+        shippingFirstName,
+        shippingLastName,
+        shippingEmail,
+        shippingAddress,
+        shippingAddress2,
+        shippingCountry,
+        shippingState,
+        shippingZip,
+    }
+
     const handlePay = () => {
-        alert('Payment successful!');
+        alert("Will be implemented later.");
     }
 
     return (
