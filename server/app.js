@@ -117,7 +117,7 @@ app.get("/items", (req, res) => {
       items = result.rows.map((row) => row);
     }
 
-    pool.query(`SELECT SUM(products.product_price) FROM cart JOIN products ON cart.product_id = products.product_id WHERE user_id ${char}`, user_id !== null ? [user_id] : '', (err, result) => {  
+    pool.query(`SELECT SUM(products.product_price * cart.quantity) FROM cart JOIN products ON cart.product_id = products.product_id WHERE user_id ${char}`, user_id !== null ? [user_id] : '', (err, result) => {  
       if (err) {
         return res.status(500).json({ error: err.message });
       }
