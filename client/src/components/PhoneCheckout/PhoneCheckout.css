@@ -1,0 +1,10 @@
+#phoneCheckout {
+    border: 1px solid blue;
+    width: 280px;
+    height: 40px;
+}
+
+input {
+    height: 30px;
+    border: 0px;
+}

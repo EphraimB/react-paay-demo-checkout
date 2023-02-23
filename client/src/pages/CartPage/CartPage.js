@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Grid from '@mui/material/Unstable_Grid2';
+import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -11,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 import {
     useDeleteItemMutation
 } from "../../features/api/apiSlice";
+import PhoneCheckout from '../../components/PhoneCheckout/PhoneCheckout';
 
 export default function CartPage({ itemsRefetch, setOpenSnackbar, setSnackbarMessage, itemsCount, items, totalPrice }) {
     const [deleteItem] = useDeleteItemMutation();
@@ -41,27 +43,30 @@ export default function CartPage({ itemsRefetch, setOpenSnackbar, setSnackbarMes
             <Typography variant="h2" gutterBottom>
                 Cart
             </Typography>
-            <Grid>
-                {items.map((item) => (
-                    <Card key={`product-${item.cart_id}`} sx={{ maxWidth: 512, m: 2 }} id={`cart-${item.cart_id}`}>
-                        <IconButton sx={{
-                            float: 'right'
-                        }} onClick={() => handleDeleteItem(item)}>
-                            <CloseIcon />
-                        </IconButton>
-                        <CardContent>
-                            <Typography gutterBottom variant="h5" component="div">
-                                {item.product_title}
-                            </Typography>
-                            <Typography variant="body2" color="text.secondary">
-                                {item.product_description}
-                            </Typography>
-                            <Typography variant="body2" color="text.secondary">
-                                {item.product_price}
-                            </Typography>
-                        </CardContent>
-                    </Card>
-                ))}
+            <Grid container direction="row">
+                <Grid item xs={12} md={9}>
+                    {items.map((item) => (
+                        <Card key={`product-${item.cart_id}`} sx={{ maxWidth: 512, m: 2 }} id={`cart-${item.cart_id}`}>
+                            <IconButton sx={{
+                                float: 'right'
+                            }} onClick={() => handleDeleteItem(item)}>
+                                <CloseIcon />
+                            </IconButton>
+                            <CardContent>
+                                <Typography gutterBottom variant="h5" component="div">
+                                    {item.product_title}
+                                </Typography>
+                                <Typography variant="body2" color="text.secondary">
+                                    {item.product_description}
+                                </Typography>
+                                <Typography variant="body2" color="text.secondary">
+                                    {item.product_price}
+                                </Typography>
+                            </CardContent>
+                        </Card>
+                    ))}
+                </Grid>
+                <PhoneCheckout />
             </Grid>
             {itemsCount > 0 ? <Fab variant="extended" color="primary" aria-label="Add to cart" sx={{
                 position: "absolute",
