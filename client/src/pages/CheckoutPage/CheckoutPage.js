@@ -313,7 +313,7 @@ export default function CheckoutPage({ items, totalPrice, itemsCount }) {
                             <Card key={`product-${item.cart_id}`} sx={{ maxWidth: 512, m: 2 }} id={`cart-${item.cart_id}`}>
                                 <CardContent>
                                     <Typography gutterBottom variant="h5" component="div">
-                                        {item.product_title}
+                                        {item.product_title} x {item.quantity}
                                     </Typography>
                                     <Typography variant="body2" color="text.secondary">
                                         {item.product_description}
