@@ -16,7 +16,7 @@ CREATE TABLE cart (
     cart_id SERIAL PRIMARY KEY,
     user_id integer REFERENCES users(user_id),
     product_id integer NOT NULL REFERENCES products(product_id),
-    quantity integer NOT NULL
+    quantity integer DEFAULT 1 NOT NULL
 );
 
 CREATE TABLE orders (
