@@ -25,7 +25,7 @@ export default function CheckoutPage({ items, totalPrice, itemsCount }) {
     const [billingEmail, setBillingEmail] = useState('');
     const [billingAddress, setBillingAddress] = useState('');
     const [billingAddress2, setBillingAddress2] = useState('');
-    const [billingCountry, setBillingCountry] = useState(0);
+    const [billingCountry, setBillingCountry] = useState('USA');
     const [billingState, setBillingState] = useState('');
     const [billingZip, setBillingZip] = useState('');
     const [shippingFirstName, setShippingFirstName] = useState('');
@@ -33,7 +33,7 @@ export default function CheckoutPage({ items, totalPrice, itemsCount }) {
     const [shippingEmail, setShippingEmail] = useState('');
     const [shippingAddress, setShippingAddress] = useState('');
     const [shippingAddress2, setShippingAddress2] = useState('');
-    const [shippingCountry, setShippingCountry] = useState(0);
+    const [shippingCountry, setShippingCountry] = useState('USA');
     const [shippingState, setShippingState] = useState('');
     const [shippingZip, setShippingZip] = useState('');
 
@@ -67,8 +67,27 @@ export default function CheckoutPage({ items, totalPrice, itemsCount }) {
             browserLanguage: window.navigator.language,
         }
 
+        const billing = {
+            line1: billingAddress,
+            line2: billingAddress2,
+            state: billingState,
+            postCode: billingZip,
+            country: billingCountry,
+        }
+
+        const shipping = {
+            line1: shippingAddress,
+            line2: shippingAddress2,
+            state: shippingState,
+            postCode: shippingZip,
+            country: shippingCountry,
+        }
+
         const body = {
             browser,
+            billing,
+            shipping,
+            pan: cardNumber,
             amount: Number(totalPrice.substring(1)),
             month: expDate.split('/')[0],
             year: expDate.split('/')[1],
@@ -157,7 +176,7 @@ export default function CheckoutPage({ items, totalPrice, itemsCount }) {
     const handleExpDate = (e) => {
         const value = e.target.value;
 
-        if(value.length === 2) {
+        if (value.length === 2) {
             setExpDate(value + '/');
             return;
         }
@@ -227,7 +246,7 @@ export default function CheckoutPage({ items, totalPrice, itemsCount }) {
                                         onChange={(e) => setBillingCountry(e.target.value)}
                                         fullWidth
                                     >
-                                        <MenuItem value={0}>United States</MenuItem>
+                                        <MenuItem value='USA'>United States</MenuItem>
                                     </Select>
                                 </Grid>
                                 <Grid item xs={12} md={4}>
@@ -274,7 +293,7 @@ export default function CheckoutPage({ items, totalPrice, itemsCount }) {
                                         onChange={(e) => setShippingCountry(e.target.value)}
                                         fullWidth
                                     >
-                                        <MenuItem value={0}>United States</MenuItem>
+                                        <MenuItem value='USA'>United States</MenuItem>
                                     </Select>
                                 </Grid>
                                 <Grid item xs={12} md={4}>
