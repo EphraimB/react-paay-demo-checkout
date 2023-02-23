@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import Grid from '@mui/material/Unstable_Grid2';
-import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
