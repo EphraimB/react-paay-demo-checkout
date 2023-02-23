@@ -7,34 +7,60 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import Fab from '@mui/material/Fab';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button';
 import { useNavigate } from "react-router-dom";
 import {
+    useEditItemMutation,
     useDeleteItemMutation
 } from "../../features/api/apiSlice";
 import PhoneCheckout from '../../components/PhoneCheckout/PhoneCheckout';
 
 export default function CartPage({ itemsRefetch, setOpenSnackbar, setSnackbarMessage, itemsCount, items, totalPrice }) {
+    const [editItem] = useEditItemMutation();
     const [deleteItem] = useDeleteItemMutation();
-    const [isDeleting, setIsDeleting] = useState(false);
 
     const navigate = useNavigate();
 
     const handleDeleteItem = async (item) => {
-        setIsDeleting(true);
         try {
             await deleteItem(item.cart_id);
-            setIsDeleting(false);
             itemsRefetch();
             setSnackbarMessage(`Deleted ${item.product_title} from your cart`);
             setOpenSnackbar(true);
         } catch (err) {
             console.error(err);
-            setIsDeleting(false);
         }
     }
 
     const handleCheckout = () => {
         navigate('/checkout');
+    }
+
+    const handleAddButton = async (item) => {
+        console.log(item);
+        try {
+            await editItem({
+                cart_id: item.cart_id,
+                quantity: item.quantity + 1
+            });
+            itemsRefetch();
+        } catch (err) {
+            console.error(err);
+        }
+    }
+
+    const handleSubtractButton = async (item) => {
+        try {
+            await editItem({
+                cart_id: item.cart_id,
+                quantity: item.quantity - 1
+            });
+            itemsRefetch();
+        } catch (err) {
+            console.error(err);
+        }
     }
 
     return (
@@ -61,6 +87,20 @@ export default function CartPage({ itemsRefetch, setOpenSnackbar, setSnackbarMes
                                 <Typography variant="body2" color="text.secondary">
                                     {item.product_price}
                                 </Typography>
+                                <Box sx={{
+                                    border: '2px solid black',
+                                }}>
+                                    <Typography variant="body2" color="text.secondary">
+                                        Quantity:
+                                    </Typography>
+                                    <Stack direction="row" justifyContent="center">
+                                        <Button variant='contained' disabled={item.quantity <= 1 ? true : false} onClick={() => handleSubtractButton(item)}>-</Button>
+                                        <Typography variant="h6" color="text.secondary">
+                                            {item.quantity}
+                                        </Typography>
+                                        <Button variant='contained' onClick={() => handleAddButton(item)}>+</Button>
+                                    </Stack>
+                                </Box>
                             </CardContent>
                         </Card>
                     ))}

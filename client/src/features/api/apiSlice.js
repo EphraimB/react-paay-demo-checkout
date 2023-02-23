@@ -41,6 +41,13 @@ export const apiSlice = createApi({
         body: items
       }),
     }),
+    editItem: builder.mutation({
+      query: (item) => ({
+        url: `/item/${item.cart_id}`,
+        method: 'PUT',
+        body: item,
+      }),
+    }),
     deleteItem: builder.mutation({
       query: (id) => ({
         url: `/item/${id}`,
@@ -82,6 +89,7 @@ export const {
   useDeleteProductMutation,
   useGetItemsQuery,
   useAddItemMutation,
+  useEditItemMutation,
   useDeleteItemMutation,
   useGetUserQuery,
   useLoginMutation,

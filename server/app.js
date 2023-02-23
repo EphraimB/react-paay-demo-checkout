@@ -155,8 +155,16 @@ app.post("/items", async (req, res) => {
   }
 });
 
-app.post('/login', passport.authenticate("local-login"), (req, res) => {
-  res.status(200).json({ message: "User logged in successfully" });
+app.put("/item/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { quantity } = req.body;
+    const updateCart = await pool.query("UPDATE cart SET quantity = $1 WHERE cart_id = $2", [quantity, id])
+
+    res.json("Cart was updated");
+  } catch (err) {
+    console.error(err.message);
+  }
 });
 
 app.delete("/item/:id", async (req, res) => {
@@ -168,6 +176,10 @@ app.delete("/item/:id", async (req, res) => {
   } catch (err) {
     console.error(err.message);
   }
+});
+
+app.post('/login', passport.authenticate("local-login"), (req, res) => {
+  res.status(200).json({ message: "User logged in successfully" });
 });
 
 app.get('/user', async (req, res) => {
