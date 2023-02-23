@@ -25,7 +25,7 @@ export default function CheckoutPage({ items, totalPrice, itemsCount }) {
     const [billingEmail, setBillingEmail] = useState('');
     const [billingAddress, setBillingAddress] = useState('');
     const [billingAddress2, setBillingAddress2] = useState('');
-    const [billingCountry, setBillingCountry] = useState('USA');
+    const [billingCountry, setBillingCountry] = useState('');
     const [billingState, setBillingState] = useState('');
     const [billingZip, setBillingZip] = useState('');
     const [shippingFirstName, setShippingFirstName] = useState('');
@@ -33,7 +33,7 @@ export default function CheckoutPage({ items, totalPrice, itemsCount }) {
     const [shippingEmail, setShippingEmail] = useState('');
     const [shippingAddress, setShippingAddress] = useState('');
     const [shippingAddress2, setShippingAddress2] = useState('');
-    const [shippingCountry, setShippingCountry] = useState('USA');
+    const [shippingCountry, setShippingCountry] = useState('');
     const [shippingState, setShippingState] = useState('');
     const [shippingZip, setShippingZip] = useState('');
 
