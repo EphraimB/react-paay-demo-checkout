@@ -55,10 +55,10 @@ export const apiSlice = createApi({
       }),
     }),
     checkout: builder.mutation({
-      query: (items) => ({
+      query: (phoneNumber) => ({
         url: '/checkout',
         method: 'POST',
-        body: items
+        body: phoneNumber
       }),
     }),
     getUser: builder.query({

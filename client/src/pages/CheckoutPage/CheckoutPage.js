@@ -237,7 +237,7 @@ export default function CheckoutPage({ items, totalPrice, itemsCount }) {
     }
 
     const handlePay = () => {
-        checkout(data);
+        checkout();
         navigate('/confirmation');
     }
 

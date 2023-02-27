@@ -184,14 +184,23 @@ app.post("/checkout", async (req, res) => {
   try {
     const user_id = req.session.passport ? req.session.passport.user.user_id : null;
     const char = user_id === null ? "IS NULL" : "= $1";
+    let paymentMethod = "Credit Card";
+    let confirmed = true;
+    let phoneNumber = null;
 
-    const newOrder = await pool.query("INSERT INTO orders (user_id, confirmed, payment_method) VALUES ($1, $2, $3) RETURNING *",
-      [user_id, true, "Credit Card"]
+    // Check if phoneNumber is in req.body. If so, create order with phoneTransaction as payment method and confirmed as false
+    if (req.body.phoneNumber) {
+      paymentMethod = "phone";
+      confirmed = false;
+      phoneNumber = req.body.phoneNumber;
+    }
+
+    const newOrder = await pool.query("INSERT INTO orders (user_id, confirmed, payment_method, phone_number) VALUES ($1, $2, $3, $4) RETURNING *",
+      [user_id, confirmed, paymentMethod, phoneNumber]
     );
 
     const order_id = newOrder.rows[0].order_id;
 
-    // const cartItems = await pool.query(`SELECT * FROM cart WHERE user_id ${char}`, [user_id]);
     // Get cart and join with products table to get product price
     const cartItems = await pool.query(`SELECT * FROM cart JOIN products ON cart.product_id = products.product_id WHERE user_id ${char}`, user_id !== null ? [user_id] : '');
 

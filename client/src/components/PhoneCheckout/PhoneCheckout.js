@@ -2,9 +2,17 @@ import React, { useState } from 'react';
 import './PhoneCheckout.css';
 import logo from '../../img/logo.png';
 import Button from "@mui/material/Button";
+import { useNavigate } from "react-router-dom";
+import {
+    useCheckoutMutation
+} from "../../features/api/apiSlice";
 
 export default function PhoneCheckout() {
     const [phoneNumber, setPhoneNumber] = useState('');
+
+    const navigate = useNavigate();
+
+    const [checkout] = useCheckoutMutation();
 
     const handleChange = (e) => {
         if (isNaN(e.target.value)) return;
@@ -13,8 +21,13 @@ export default function PhoneCheckout() {
         setPhoneNumber(e.target.value);
     }
 
+    const data = {
+        phoneNumber: phoneNumber
+    }
+
     const handleCheckout = () => {
-        alert('Phone checkout');
+        checkout(data);
+        navigate('/confirmation');
     }
 
     return (
