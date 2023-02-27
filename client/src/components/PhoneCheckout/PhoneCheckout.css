@@ -9,6 +9,10 @@ input {
     border: 0px;
 }
 
+input:focus {
+    outline: none;
+}
+
 img {
     padding-top: 5px;
 }

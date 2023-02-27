@@ -9,7 +9,7 @@ export default function PhoneCheckout() {
 
     return (
         <div id="phoneCheckout">
-            <img src={logo} height="20" />
+            <img src={logo} alt="logo" height="20" />
             <input type="text" placeholder="Phone number" />
             <Button variant="contained" onClick={handleCheckout}>GO</Button>
         </div>
