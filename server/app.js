@@ -5,6 +5,7 @@ const cors = require("cors");
 const passport = require('./passport');
 const pool = require("./db");
 const dotenv = require('dotenv');
+const bcrypt = require('bcrypt');
 const port = 5001;
 
 const app = express();
