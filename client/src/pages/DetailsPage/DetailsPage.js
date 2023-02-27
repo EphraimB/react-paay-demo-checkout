@@ -13,12 +13,15 @@ export default function DetailsPage() {
         isError,
         error,
         refetch
-    } = useGetProductQuery();
+    } = useGetProductQuery(2);
 
+    let content;
 
     return (
         <Box>
             <Typography variant="h6">Product details</Typography>
+
+            {isLoading ? content = 'Loading' : isSuccess ? content = <Typography variant="body2">{products.product_title}</Typography> : isError ? content = <Typography variant="body2">{error.toString()}</Typography> : null}
         </Box>
     )
 }
