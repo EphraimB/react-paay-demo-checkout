@@ -14,6 +14,9 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import PaidIcon from '@mui/icons-material/Paid';
 import Fab from '@mui/material/Fab';
+import {
+    useCheckoutMutation
+} from "../../features/api/apiSlice";
 
 export default function CheckoutPage({ items, totalPrice, itemsCount }) {
     const [nameOnCard, setNameOnCard] = useState('');
@@ -36,6 +39,8 @@ export default function CheckoutPage({ items, totalPrice, itemsCount }) {
     const [shippingCountry, setShippingCountry] = useState('');
     const [shippingState, setShippingState] = useState('');
     const [shippingZip, setShippingZip] = useState('');
+
+    const [checkout] = useCheckoutMutation();
 
     const [jwt, setJWT] = useState('');
 
@@ -190,7 +195,7 @@ export default function CheckoutPage({ items, totalPrice, itemsCount }) {
     }
 
     const handlePay = () => {
-        alert("Will be implemented later.");
+        checkout(data);
     }
 
     return (
