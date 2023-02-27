@@ -193,7 +193,7 @@ app.post("/checkout", async (req, res) => {
 
     // const cartItems = await pool.query(`SELECT * FROM cart WHERE user_id ${char}`, [user_id]);
     // Get cart and join with products table to get product price
-    const cartItems = await pool.query(`SELECT * FROM cart JOIN products ON cart.product_id = products.product_id WHERE user_id ${char}`, [user_id]);
+    const cartItems = await pool.query(`SELECT * FROM cart JOIN products ON cart.product_id = products.product_id WHERE user_id ${char}`, user_id !== null ? [user_id] : '');
 
     cartItems.rows.forEach(async (item) => {
       const newOrderItem = await pool.query("INSERT INTO order_items (order_id, product_id, quantity, price) VALUES ($1, $2, $3, $4) RETURNING *",
@@ -201,7 +201,7 @@ app.post("/checkout", async (req, res) => {
       );
     });
 
-    const deleteCart = await pool.query(`DELETE FROM cart WHERE user_id ${char}`, [user_id]);
+    const deleteCart = await pool.query(`DELETE FROM cart WHERE user_id ${char}`, user_id !== null ? [user_id] : '');
 
     res.status(200).json(newOrder.rows[0]);
   } catch (err) {
