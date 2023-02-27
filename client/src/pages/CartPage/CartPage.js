@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
 import Card from '@mui/material/Card';
@@ -105,7 +105,7 @@ export default function CartPage({ itemsRefetch, setOpenSnackbar, setSnackbarMes
                         </Card>
                     ))}
                 </Grid>
-                <PhoneCheckout />
+                {itemsCount > 0 ? <PhoneCheckout /> : null}
             </Grid>
             {itemsCount > 0 ? <Fab variant="extended" color="primary" aria-label="Add to cart" sx={{
                 position: "absolute",
