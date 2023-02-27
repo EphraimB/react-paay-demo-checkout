@@ -222,6 +222,7 @@ export default function CheckoutPage({ items, totalPrice, itemsCount }) {
 
     const handleShippingZip = (e) => {
         const value = e.target.value;
+        if (isNaN(value)) return;
         if (value.length > 5) return;
 
         setShippingZip(value);
@@ -229,6 +230,7 @@ export default function CheckoutPage({ items, totalPrice, itemsCount }) {
 
     const handleBillingZip = (e) => {
         const value = e.target.value;
+        if (isNaN(value)) return;
         if (value.length > 5) return;
 
         setBillingZip(value);
