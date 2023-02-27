@@ -5,12 +5,15 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import AdminProductMenu from './AdminProductMenu';
+import { useNavigate } from "react-router-dom";
 import {
     useAddItemMutation
 } from "../../features/api/apiSlice";
 
 export default function Product({ product, setOpen, setMessage, isAdmin, itemsRefetch }) {
     const [addItem] = useAddItemMutation();
+
+    const navigate = useNavigate();
 
     const params = {
         product_id: product.product_id
@@ -41,7 +44,7 @@ export default function Product({ product, setOpen, setMessage, isAdmin, itemsRe
             </CardContent>
             <CardActions>
                 <Button size="small" onClick={handleAddToCart}>Add to cart</Button>
-                <Button size="small">Details</Button>
+                <Button size="small" onClick={() => navigate(`/details/${product.product_id}`)}>Details</Button>
             </CardActions>
         </Card>
     )
