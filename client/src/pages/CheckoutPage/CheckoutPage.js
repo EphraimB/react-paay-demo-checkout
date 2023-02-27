@@ -177,7 +177,7 @@ export default function CheckoutPage({ items, totalPrice, itemsCount }) {
         setCardNumber(value);
     }
 
-    const handleCardNumberBlur = (e) => {
+    const handleCardNumberBlur = () => {
         if (cardNumber.length === 19) authenticate3ds();
     }
 
@@ -195,6 +195,41 @@ export default function CheckoutPage({ items, totalPrice, itemsCount }) {
 
     const handleExpDateBlur = (e) => {
         if (expDate.length === 5) authenticate3ds();
+    }
+
+    const handleCVV = (e) => {
+        const value = e.target.value;
+        if (value.length > 4) return;
+
+        setCVV(value);
+    }
+
+    const handleBillingState = (e) => {
+        const value = e.target.value.toUpperCase();
+        if (value.length > 2) return;
+
+        setBillingState(value);
+    }
+
+    const handleShippingState = (e) => {
+        const value = e.target.value.toUpperCase();
+        if (value.length > 2) return;
+
+        setShippingState(value);
+    }
+
+    const handleShippingZip = (e) => {
+        const value = e.target.value;
+        if (value.length > 5) return;
+
+        setShippingZip(value);
+    }
+
+    const handleBillingZip = (e) => {
+        const value = e.target.value;
+        if (value.length > 5) return;
+
+        setBillingZip(value);
     }
 
     const handlePay = () => {
@@ -223,7 +258,7 @@ export default function CheckoutPage({ items, totalPrice, itemsCount }) {
                                     <TextField id="expdate" label="Expiration date" variant="standard" helperText="xx/xx format" value={expDate} onChange={handleExpDate} onBlur={handleExpDateBlur} fullWidth />
                                 </Grid>
                                 <Grid item xs={12} md={6}>
-                                    <TextField type="number" inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }} id="cvv" label="CVV" variant="standard" helperText="3 digit number" value={cvv} onChange={(e) => setCVV(e.target.value)} fullWidth />
+                                    <TextField type="number" inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }} id="cvv" label="CVV" variant="standard" helperText="3 digit number" value={cvv} onChange={handleCVV} fullWidth />
                                 </Grid>
                             </Grid>
                         </FormControl>
@@ -259,10 +294,10 @@ export default function CheckoutPage({ items, totalPrice, itemsCount }) {
                                     </Select>
                                 </Grid>
                                 <Grid item xs={12} md={4}>
-                                    <TextField id="state" label="State" variant="standard" value={billingState} onChange={(e) => setBillingState(e.target.value)} fullWidth />
+                                    <TextField id="state" label="State" variant="standard" value={billingState} onChange={handleBillingState} fullWidth />
                                 </Grid>
                                 <Grid item xs={12} md={4}>
-                                    <TextField id="zip" label="Zip code" variant="standard" value={billingZip} onChange={(e) => setBillingZip(e.target.value)} fullWidth />
+                                    <TextField id="zip" label="Zip code" variant="standard" value={billingZip} onChange={handleBillingZip} fullWidth />
                                 </Grid>
                             </Grid>
                         </FormControl>
@@ -306,10 +341,10 @@ export default function CheckoutPage({ items, totalPrice, itemsCount }) {
                                     </Select>
                                 </Grid>
                                 <Grid item xs={12} md={4}>
-                                    <TextField id="state" label="State" variant="standard" value={shippingState} onChange={(e) => setShippingState(e.target.value)} fullWidth />
+                                    <TextField id="state" label="State" variant="standard" value={shippingState} onChange={handleShippingState} fullWidth />
                                 </Grid>
                                 <Grid item xs={12} md={4}>
-                                    <TextField id="zip" label="Zip code" variant="standard" value={shippingZip} onChange={(e) => setShippingZip(e.target.value)} fullWidth />
+                                    <TextField id="zip" label="Zip code" variant="standard" value={shippingZip} onChange={handleShippingZip} fullWidth />
                                 </Grid>
                             </Grid>
                         </FormControl>
