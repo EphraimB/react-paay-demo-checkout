@@ -173,7 +173,9 @@ export default function CheckoutPage({ items, totalPrice, itemsCount }) {
 
     const handleCardNumber = (e) => {
         const value = e.target.value;
+        if (isNaN(value)) return;
         if (value.length > 19) return;
+
         setCardNumber(value);
     }
 
