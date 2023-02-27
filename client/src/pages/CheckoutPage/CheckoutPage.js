@@ -14,6 +14,7 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import PaidIcon from '@mui/icons-material/Paid';
 import Fab from '@mui/material/Fab';
+import { useNavigate } from "react-router-dom";
 import {
     useCheckoutMutation
 } from "../../features/api/apiSlice";
@@ -39,6 +40,8 @@ export default function CheckoutPage({ items, totalPrice, itemsCount }) {
     const [shippingCountry, setShippingCountry] = useState('');
     const [shippingState, setShippingState] = useState('');
     const [shippingZip, setShippingZip] = useState('');
+
+    const navigate = useNavigate();
 
     const [checkout] = useCheckoutMutation();
 
@@ -196,6 +199,7 @@ export default function CheckoutPage({ items, totalPrice, itemsCount }) {
 
     const handlePay = () => {
         checkout(data);
+        navigate('/confirmation');
     }
 
     return (

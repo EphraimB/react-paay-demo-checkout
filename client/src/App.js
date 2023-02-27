@@ -4,6 +4,7 @@ import { Routes, Route } from "react-router-dom"
 import HomePage from "./pages/HomePage/HomePage";
 import CartPage from './pages/CartPage/CartPage';
 import CheckoutPage from './pages/CheckoutPage/CheckoutPage';
+import ConfirmationPage from './pages/ConfirmationPage/ConfirmationPage';
 import AppBar from './components/AppBar/AppBar';
 import NavDrawer from './components/NavDrawer/NavDrawer';
 import Alert from '@mui/material/Alert';
@@ -81,6 +82,8 @@ function App() {
         <Route path="/" element={<HomePage isAdmin={isAdmin} itemsRefetch={itemsRefetch} setOpenSnackbar={setOpenSnackbar} setSnackbarMessage={setSnackbarMessage} />} />
         <Route path="/cart" element={<CartPage itemsRefetch={itemsRefetch} itemsCount={itemsCount} items={items} totalPrice={totalPrice} setOpenSnackbar={setOpenSnackbar} setSnackbarMessage={setSnackbarMessage} />} />
         <Route path="/checkout" element={<CheckoutPage items={items} totalPrice={totalPrice} itemsCount={itemsCount} />} />
+        <Route path="/confirmation" element={<ConfirmationPage />} />
+        <Route path="*" element={<h1>404</h1>} />
       </Routes>
       <Snackbar
         open={openSnackbar}
