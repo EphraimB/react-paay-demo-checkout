@@ -179,6 +179,36 @@ app.delete("/item/:id", async (req, res) => {
   }
 });
 
+// Post cart items to orders and order_items tables and delete from cart
+app.post("/checkout", async (req, res) => {
+  try {
+    const user_id = req.session.passport ? req.session.passport.user.user_id : null;
+    const char = user_id === null ? "IS NULL" : "= $1";
+
+    const newOrder = await pool.query("INSERT INTO orders (user_id, confirmed, payment_method) VALUES ($1, $2, $3) RETURNING *",
+      [user_id, true, "Credit Card"]
+    );
+
+    const order_id = newOrder.rows[0].order_id;
+
+    // const cartItems = await pool.query(`SELECT * FROM cart WHERE user_id ${char}`, [user_id]);
+    // Get cart and join with products table to get product price
+    const cartItems = await pool.query(`SELECT * FROM cart JOIN products ON cart.product_id = products.product_id WHERE user_id ${char}`, [user_id]);
+
+    cartItems.rows.forEach(async (item) => {
+      const newOrderItem = await pool.query("INSERT INTO order_items (order_id, product_id, quantity, price) VALUES ($1, $2, $3, $4) RETURNING *",
+        [order_id, item.product_id, item.quantity, item.product_price]
+      );
+    });
+
+    const deleteCart = await pool.query(`DELETE FROM cart WHERE user_id ${char}`, [user_id]);
+
+    res.status(200).json(newOrder.rows[0]);
+  } catch (err) {
+    console.error(err.message);
+  }
+});
+
 app.post('/login', passport.authenticate("local-login"), (req, res) => {
   res.status(200).json({ message: "User logged in successfully" });
 });

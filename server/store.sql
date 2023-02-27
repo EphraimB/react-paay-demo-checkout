@@ -31,14 +31,14 @@ CREATE TABLE IF NOT EXISTS orders (
     created_at timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
     confirmed boolean DEFAULT false NOT NULL,
     payment_method varchar(64) NOT NULL,
-    phone_number varchar(20) NOT NULL,
+    phone_number varchar(20),
     date_created TIMESTAMP NOT NULL,
     date_modified TIMESTAMP NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS order_items (
     item_id SERIAL PRIMARY KEY,
-    order_id integer REFERENCES orders(order_id),
+    order_id integer NOT NULL REFERENCES orders(order_id),
     product_id integer NOT NULL REFERENCES products(product_id),
     quantity integer NOT NULL,
     price money NOT NULL,
