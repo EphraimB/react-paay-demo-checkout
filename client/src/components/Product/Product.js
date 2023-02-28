@@ -1,11 +1,13 @@
 import React from 'react';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
+import CardMedia from '@mui/material/CardMedia';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import AdminProductMenu from './AdminProductMenu';
 import { useNavigate } from "react-router-dom";
+import placeholderImage from '../../img/image.png'
 import {
     useAddItemMutation
 } from "../../features/api/apiSlice";
@@ -31,6 +33,12 @@ export default function Product({ product, setOpen, setMessage, isAdmin, itemsRe
             {isAdmin === 1 ? (
                 <AdminProductMenu id={product.product_id} />
             ) : null}
+            <CardMedia
+                component="img"
+                height="auto"
+                image={placeholderImage}
+                title="Placeholder image"
+            />
             <CardContent>
                 <Typography gutterBottom variant="h5" component="div">
                     {product.product_title}
