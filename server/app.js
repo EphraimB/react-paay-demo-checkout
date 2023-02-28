@@ -85,7 +85,7 @@ app.put("/products/:id", upload.single("product_image"), async (req, res) => {
   try {
     const { id } = req.params;
     const { product_title, product_description, product_price } = req.body;
-    const product_image = req.file.filename;
+    const product_image = req.file ? req.file.filename : null;
 
     const updateTodo = await pool.query("UPDATE products SET product_title = $1, product_description = $2, product_price = $3, product_image = $4 WHERE product_id = $5", [product_title, product_description, product_price, product_image, id])
 
@@ -109,7 +109,7 @@ app.delete("/products/:id", async (req, res) => {
 app.post("/products", upload.single("product_image"), async (req, res) => {
   try {
     const { product_title, product_description, product_price } = req.body;
-    const product_image = req.file.filename;
+    const product_image = req.file ? req.file.filename : null;
 
     const newProduct = await pool.query("INSERT INTO products (product_image, product_title, product_description, product_price) VALUES ($1, $2, $3, $4) RETURNING *",
       [product_image, product_title, product_description, product_price]
