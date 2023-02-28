@@ -13,7 +13,7 @@ export default function DetailsPage() {
         isError,
         error,
         refetch
-    } = useGetProductQuery({ id: window.location.pathname.split('/').substring(1) });
+    } = useGetProductQuery({ id: window.location.pathname.split('/')[2] });
 
     let content;
 
