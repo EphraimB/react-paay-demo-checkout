@@ -36,8 +36,8 @@ export default function Product({ product, setOpen, setMessage, isAdmin, itemsRe
             <CardMedia
                 component="img"
                 height="140"
-                image={product.product_image ? product.product_image : placeholderImage}
-                title="Placeholder image"
+                image={product.product_image ? `http://localhost:5001/data/uploads/${product.product_image}` : placeholderImage}
+                title={product.product_image ? product.product_title : "Placeholder image"}
             />
             <CardContent>
                 <Typography gutterBottom variant="h5" component="div">

@@ -14,19 +14,22 @@ import {
 export default function AddProductForm({ setShowAddProductForm, refetch, setOpen, setMessage }) {
     const [addProduct] = useAddProductMutation();
 
+    const [image, setImage] = useState(null);
     const [title, setTitle] = useState(null);
     const [description, setDescription] = useState(null);
     const [price, setPrice] = useState(null);
 
-    const params = {
-        product_title: title,
-        product_description: description,
-        product_price: price
-    }
-
     const submitForm = async (e) => {
         e.preventDefault();
-        await addProduct(params);
+        const formData = new FormData();
+        const fileInput = document.querySelector('input[type="file"]')
+        console.log(fileInput.files[0]);
+        formData.append('product_image', fileInput.files[0]);
+        formData.append('product_title', title);
+        formData.append('product_description', description);
+        formData.append('product_price', price);
+
+        await addProduct(formData);
         setShowAddProductForm(false);
         refetch();
         setMessage(`Added ${title} to your products`);
@@ -44,6 +47,7 @@ export default function AddProductForm({ setShowAddProductForm, refetch, setOpen
                 </IconButton>
             </Box>
             <CardContent>
+                <input type="file" id="image" name="product_image" value={image} onChange={(e) => setImage(e.target.value)} accept="image/jpeg" />
                 <Typography gutterBottom variant="h5" component="div">
                     <TextField id="title" label="Title" value={title} onChange={(e) => setTitle(e.target.value)} variant="standard" required />
                 </Typography>

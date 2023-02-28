@@ -1,4 +1,5 @@
 const express = require('express');
+const multer  = require('multer')
 const session = require('express-session');
 const pgSession = require('connect-pg-simple')(session);
 const cors = require("cors");
@@ -9,6 +10,17 @@ const bcrypt = require('bcrypt');
 const port = 5001;
 
 const app = express();
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, './public/data/uploads/')
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.fieldname + '.jpg')
+  }
+})
+
+const upload = multer({ storage: storage })
 
 dotenv.config({ override: true });
 
@@ -40,6 +52,9 @@ app.use(session({
 
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.use(express.static('public'));
+
 
 app.get('/', (req, res) => {
   res.send("<h1 style='text-align: center'>PAAY demo checkout</h1>")
@@ -89,9 +104,11 @@ app.delete("/products/:id", async (req, res) => {
   }
 });
 
-app.post("/products", async (req, res) => {
+app.post("/products", upload.single("product_image"), async (req, res) => {
   try {
-    const { product_title, product_description, product_price, product_image } = req.body;
+    const { product_title, product_description, product_price } = req.body;
+    const product_image = req.file.filename;
+
     const newProduct = await pool.query("INSERT INTO products (product_image, product_title, product_description, product_price) VALUES ($1, $2, $3, $4) RETURNING *",
       [product_image, product_title, product_description, product_price]
     );
