@@ -84,7 +84,7 @@ function App() {
         <Route path="/cart" element={<CartPage itemsRefetch={itemsRefetch} itemsCount={itemsCount} items={items} totalPrice={totalPrice} setOpenSnackbar={setOpenSnackbar} setSnackbarMessage={setSnackbarMessage} />} />
         <Route path="/checkout" element={<CheckoutPage items={items} totalPrice={totalPrice} itemsCount={itemsCount} />} />
         <Route path="/confirmation" element={<ConfirmationPage />} />
-        <Route path="/details/:id" element={<DetailsPage />} />
+        <Route path="/details/:id" element={<DetailsPage itemsRefetch={itemsRefetch} />} />
         <Route path="*" element={<h1>404</h1>} />
       </Routes>
       <Snackbar

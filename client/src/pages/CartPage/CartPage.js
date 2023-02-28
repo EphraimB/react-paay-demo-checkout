@@ -12,7 +12,6 @@ import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import { useNavigate } from "react-router-dom";
 import placeholderImage from '../../img/image.png'
-import CardMedia from '@mui/material/CardMedia';
 import {
     useEditItemMutation,
     useDeleteItemMutation
