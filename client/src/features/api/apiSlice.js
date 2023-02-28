@@ -20,7 +20,7 @@ export const apiSlice = createApi({
     }),
     editProduct: builder.mutation({
       query: (product) => ({
-        url: `/products/${product.product_id}`,
+        url: `/products/${product.get("product_id")}`,
         method: 'PUT',
         body: product,
       }),

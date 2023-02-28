@@ -17,21 +17,24 @@ export default function EditForm({ product, refetch }) {
     const [title, setTitle] = useState(product.product_title);
     const [description, setDescription] = useState(product.product_description);
     const [price, setPrice] = useState(product.product_price.substring(1));
+    const [image, setImage] = useState(null);
 
     const dispatch = useDispatch();
 
     const [editForm] = useEditProductMutation();
 
-    const params = {
-        product_title: title,
-        product_description: description,
-        product_price: price,
-        product_id: product.product_id
-    }
-
     const handleEditForm = (e) => {
         e.preventDefault();
-        editForm(params);
+
+        const formData = new FormData();
+        const fileInput = document.querySelector('input[type="file"]')
+        formData.append('product_image', fileInput.files[0]);
+        formData.append('product_title', title);
+        formData.append('product_description', description);
+        formData.append('product_price', price);
+        formData.append('product_id', product.product_id);
+
+        editForm(formData);
         dispatch(viewModeAction(product.product_id));
         refetch();
     }
@@ -52,6 +55,7 @@ export default function EditForm({ product, refetch }) {
             </Box>
             <CardContent>
                 <input type="hidden" name="id" value={product.product_id} />
+                <input type="file" id="image" name="product_image" value={image} onChange={(e) => setImage(e.target.value)} accept="image/jpeg" />
                 <Typography gutterBottom variant="h5" component="div">
                     <TextField id="title" label="Title" value={title} onChange={(e) => setTitle(e.target.value)} variant="standard" required />
                 </Typography>
