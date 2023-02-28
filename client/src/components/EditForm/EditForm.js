@@ -27,7 +27,7 @@ export default function EditForm({ product, refetch }) {
         e.preventDefault();
 
         const formData = new FormData();
-        const fileInput = document.querySelector('input[type="file"]')
+        const fileInput = document.querySelector('input[type="file"]');
         formData.append('product_image', fileInput.files[0]);
         formData.append('product_title', title);
         formData.append('product_description', description);
