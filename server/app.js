@@ -69,8 +69,8 @@ app.get("/products/:id", async (req, res) => {
 app.put("/products/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const { product_title, product_description, product_price } = req.body;
-    const updateTodo = await pool.query("UPDATE products SET product_title = $1, product_description = $2, product_price = $3 WHERE product_id = $4", [product_title, product_description, product_price, id])
+    const { product_title, product_description, product_price, product_image } = req.body;
+    const updateTodo = await pool.query("UPDATE products SET product_title = $1, product_description = $2, product_price = $3, product_image = $4 WHERE product_id = $5", [product_title, product_description, product_price, product_image, id])
 
     res.json("Product was updated");
   } catch (err) {
@@ -91,12 +91,12 @@ app.delete("/products/:id", async (req, res) => {
 
 app.post("/products", async (req, res) => {
   try {
-    const { product_title, product_description, product_price } = req.body;
-    const newProduct = await pool.query("INSERT INTO products (product_title, product_description, product_price) VALUES ($1, $2, $3) RETURNING *",
-      [product_title, product_description, product_price]
+    const { product_title, product_description, product_price, product_image } = req.body;
+    const newProduct = await pool.query("INSERT INTO products (product_image, product_title, product_description, product_price) VALUES ($1, $2, $3, $4) RETURNING *",
+      [product_image, product_title, product_description, product_price]
     );
 
-    res.json(newProduct.rows[0], newProduct.rows[1], newProduct.rows[2]);
+    res.json(newProduct.rows[0], newProduct.rows[1], newProduct.rows[2], newProduct.rows[3]);
   } catch (err) {
     console.error(err.message);
   }

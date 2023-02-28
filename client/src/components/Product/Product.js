@@ -35,8 +35,8 @@ export default function Product({ product, setOpen, setMessage, isAdmin, itemsRe
             ) : null}
             <CardMedia
                 component="img"
-                height="auto"
-                image={placeholderImage}
+                height="140"
+                image={product.product_image ? product.product_image : placeholderImage}
                 title="Placeholder image"
             />
             <CardContent>

@@ -1,5 +1,6 @@
 CREATE TABLE IF NOT EXISTS products (
     product_id SERIAL PRIMARY KEY,
+    product_image varchar(2048),
     product_title varchar(128) NOT NULL,
     product_description varchar(2048) NOT NULL,
     product_price money NOT NULL,
