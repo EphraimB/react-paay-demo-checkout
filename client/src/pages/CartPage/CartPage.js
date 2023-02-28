@@ -11,6 +11,8 @@ import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import { useNavigate } from "react-router-dom";
+import placeholderImage from '../../img/image.png'
+import CardMedia from '@mui/material/CardMedia';
 import {
     useEditItemMutation,
     useDeleteItemMutation
@@ -78,6 +80,11 @@ export default function CartPage({ itemsRefetch, setOpenSnackbar, setSnackbarMes
                                 <CloseIcon />
                             </IconButton>
                             <CardContent>
+                                <img
+                                    width="150"
+                                    src={item.product_image ? `http://localhost:5001/data/uploads/${item.product_image}` : placeholderImage}
+                                    alt={item.product_image ? item.product_title : "Placeholder image"}
+                                />
                                 <Typography gutterBottom variant="h5" component="div">
                                     {item.product_title}
                                 </Typography>
