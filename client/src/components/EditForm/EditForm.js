@@ -23,7 +23,11 @@ export default function EditForm({ product, refetch }) {
 
     const [editForm] = useEditProductMutation();
 
-    const handleEditForm = (e) => {
+    const id = {
+        product_id: product.product_id
+    }
+
+    const handleEditForm = async (e) => {
         e.preventDefault();
 
         const formData = new FormData();
@@ -34,7 +38,8 @@ export default function EditForm({ product, refetch }) {
         formData.append('product_price', price);
         formData.append('product_id', product.product_id);
 
-        editForm(formData);
+        await editForm(formData);
+
         dispatch(viewModeAction(product.product_id));
         refetch();
     }

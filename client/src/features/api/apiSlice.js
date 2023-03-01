@@ -19,10 +19,10 @@ export const apiSlice = createApi({
       }),
     }),
     editProduct: builder.mutation({
-      query: (product) => ({
-        url: `/products/${product.get("product_id")}`,
+      query: (data) => ({
+        url: `/products/${data.get("product_id")}`,
         method: 'PUT',
-        body: product,
+        body: data,
       }),
     }),
     deleteProduct: builder.mutation({
