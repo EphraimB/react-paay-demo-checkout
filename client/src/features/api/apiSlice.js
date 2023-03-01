@@ -12,10 +12,10 @@ export const apiSlice = createApi({
       query: ({ id }) => `/products/${id}`,
     }),
     addProduct: builder.mutation({
-      query: (product) => ({
+      query: (data) => ({
         url: '/products',
         method: 'POST',
-        body: product
+        body: data
       }),
     }),
     editProduct: builder.mutation({

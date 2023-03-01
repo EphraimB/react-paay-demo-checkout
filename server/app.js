@@ -40,8 +40,8 @@ const createUploadMiddleware = (getId) => {
 }
 
 app.use(cors(corsOptions));
-app.use(customMiddleware);
 app.use(express.json());
+app.use(customMiddleware);
 
 dotenv.config({ override: true });
 
@@ -124,16 +124,16 @@ app.post("/products", async (req, res) => {
     const { product_title, product_description, product_price } = req.body;
     const product_image = req.file ? req.file.filename : null;
 
+    console.log(req.body);
+
     const newProduct = await pool.query("INSERT INTO products (product_image, product_title, product_description, product_price) VALUES ($1, $2, $3, $4) RETURNING *",
       [product_image, product_title, product_description, product_price]
     );
 
     const product_id = newProduct.rows[0];
     const uploadMiddleware = createUploadMiddleware(() => product_id);
-
-    uploadMiddleware(req, res, () => {
-      res.json(newProduct.rows);
-    });
+    uploadMiddleware.single('product_image');
+    res.json(newProduct.rows);
   } catch (err) {
     console.error(err.message);
   }
