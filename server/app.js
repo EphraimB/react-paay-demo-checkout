@@ -1,4 +1,5 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 const multer = require('multer')
 const session = require('express-session');
 const pgSession = require('connect-pg-simple')(session);
@@ -40,7 +41,7 @@ const createUploadMiddleware = (getId) => {
 }
 
 app.use(cors(corsOptions));
-app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(customMiddleware);
 
 dotenv.config({ override: true });
