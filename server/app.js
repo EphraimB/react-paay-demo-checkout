@@ -133,7 +133,7 @@ app.post("/products", async (req, res) => {
     const product_id = newProduct.rows[0];
     const uploadMiddleware = createUploadMiddleware(() => product_id);
     uploadMiddleware.single('product_image');
-    
+
     res.json(newProduct.rows);
   } catch (err) {
     console.error(err.message);
