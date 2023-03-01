@@ -21,6 +21,7 @@ export default function AddProductForm({ setShowAddProductForm, refetch, setOpen
 
     const submitForm = async (e) => {
         e.preventDefault();
+
         const formData = new FormData();
         const fileInput = document.querySelector('input[type="file"]');
         formData.append('product_image', fileInput.files[0]);
