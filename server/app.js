@@ -1,5 +1,5 @@
 const express = require('express');
-const multer  = require('multer')
+const multer = require('multer')
 const session = require('express-session');
 const pgSession = require('connect-pg-simple')(session);
 const cors = require("cors");
@@ -11,18 +11,10 @@ const port = 5001;
 
 const app = express();
 
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, './public/data/uploads/')
-  },
-  filename: function (req, file, cb) {
-    cb(null, file.fieldname + '-' + req.id + '.jpg')
-  }
-})
-
-const upload = multer({ storage: storage })
-
-dotenv.config({ override: true });
+const customMiddleware = (req, res, next) => {
+  req.product_id_for_file = null;
+  next();
+};
 
 const corsOptions = {
   origin: 'http://localhost:3000',
@@ -30,8 +22,28 @@ const corsOptions = {
   optionSuccessStatus: 200
 }
 
+const createUploadMiddleware = (getId) => {
+  const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      const id = getId(req);
+      console.log("In multer: " + id);
+      cb(null, './public/data/uploads/')
+    },
+    filename: function (req, file, cb) {
+      const id = getId(req);
+      console.log("In multer: " + id);
+      cb(null, file.fieldname + '-' + id + '.jpg')
+    }
+  })
+
+  return multer({ storage: storage });
+}
+
 app.use(cors(corsOptions));
+app.use(customMiddleware);
 app.use(express.json());
+
+dotenv.config({ override: true });
 
 app.use(session({
   name: "user",
@@ -81,13 +93,12 @@ app.get("/products/:id", async (req, res) => {
   }
 });
 
-app.put("/products/:id", upload.single("product_image"), async (req, res) => {
+app.put("/products/:id", createUploadMiddleware((req) => req.params.id).single('product_image'), async (req, res) => {
   try {
     const { id } = req.params;
+
     const { product_title, product_description, product_price } = req.body;
     const product_image = req.file ? req.file.filename : null;
-
-    req.id = id;
 
     const updateTodo = await pool.query("UPDATE products SET product_title = $1, product_description = $2, product_price = $3, product_image = $4 WHERE product_id = $5", [product_title, product_description, product_price, product_image, id])
 
@@ -108,7 +119,7 @@ app.delete("/products/:id", async (req, res) => {
   }
 });
 
-app.post("/products", upload.single("product_image"), async (req, res) => {
+app.post("/products", async (req, res) => {
   try {
     const { product_title, product_description, product_price } = req.body;
     const product_image = req.file ? req.file.filename : null;
@@ -117,9 +128,12 @@ app.post("/products", upload.single("product_image"), async (req, res) => {
       [product_image, product_title, product_description, product_price]
     );
 
-    req.id = newProduct.rows[0].product_id;
+    const product_id = newProduct.rows[0];
+    const uploadMiddleware = createUploadMiddleware(() => product_id);
 
-    res.json(newProduct.rows[0], newProduct.rows[1], newProduct.rows[2], newProduct.rows[3]);
+    uploadMiddleware(req, res, () => {
+      res.json(newProduct.rows);
+    });
   } catch (err) {
     console.error(err.message);
   }
@@ -141,11 +155,11 @@ app.get("/items", (req, res) => {
       items = result.rows.map((row) => row);
     }
 
-    pool.query(`SELECT SUM(products.product_price * cart.quantity) FROM cart JOIN products ON cart.product_id = products.product_id WHERE user_id ${char}`, user_id !== null ? [user_id] : '', (err, result) => {  
+    pool.query(`SELECT SUM(products.product_price * cart.quantity) FROM cart JOIN products ON cart.product_id = products.product_id WHERE user_id ${char}`, user_id !== null ? [user_id] : '', (err, result) => {
       if (err) {
         return res.status(500).json({ error: err.message });
       }
-  
+
       if (result.rows.length > 0) {
         totalPrice = result.rows[0].sum;
       }
