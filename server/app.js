@@ -105,7 +105,18 @@ app.put("/products/:id", createUploadMiddleware((req) => req.params.id).single('
 app.delete("/products/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const deleteProduct = await pool.query("DELETE FROM products WHERE product_id = $1", [id]);
+
+    const product = await pool.query("SELECT * FROM products WHERE product_id = $1", [id]);
+
+    if (product.rows[0].product_image !== null) {
+      fs.unlink(`./public/data/uploads/${product.rows[0].product_image}`, async (err) => {
+        if (err) {
+          console.error(err)
+          return
+        }
+        await pool.query("DELETE FROM products WHERE product_id = $1", [id]);
+      });
+    }
 
     res.json("Product was deleted");
   } catch (err) {
@@ -129,17 +140,17 @@ app.post("/products", createUploadMiddleware(() => 0).single("product_image"), a
 
     if (product_image !== null) {
       fs.rename(`./public/data/uploads/${product_image}`, `./public/data/uploads/${newFileName}`, async (err) => {
-        if ( err ) console.log('ERROR: ' + err);
+        if (err) console.log('ERROR: ' + err);
 
         const updateProduct = await pool.query("UPDATE products SET product_image = $1 WHERE product_id = $2", [newFileName, rows.product_id]);
       });
     }
 
     res.json(newProduct.rows);
-    } catch (err) {
-      console.error(err.message);
-    }
-  });
+  } catch (err) {
+    console.error(err.message);
+  }
+});
 
 app.get("/items", (req, res) => {
   const user_id = req.session.passport ? req.session.passport.user.user_id : null;
