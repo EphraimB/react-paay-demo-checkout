@@ -23,12 +23,10 @@ const createUploadMiddleware = (getId) => {
   const storage = multer.diskStorage({
     destination: function (req, file, cb) {
       const id = getId(req);
-      console.log("In multer: " + id);
       cb(null, './public/data/uploads/')
     },
     filename: function (req, file, cb) {
       const id = getId(req);
-      console.log("In multer: " + id);
       cb(null, file.fieldname + '-' + id + '.jpg')
     }
   })
@@ -126,16 +124,13 @@ app.post("/products", createUploadMiddleware(() => 0).single("product_image"), a
 
     const rows = newProduct.rows[0];
 
-    console.log(rows.product_id);
-
-
     // Edit the file name to include the product id
     const newFileName = product_image.replace('product_image-0', `product_image-${rows.product_id}`);
 
     if (product_image !== null) {
       fs.rename(`./public/data/uploads/${product_image}`, `./public/data/uploads/${newFileName}`, async (err) => {
         if ( err ) console.log('ERROR: ' + err);
-        
+
         const updateProduct = await pool.query("UPDATE products SET product_image = $1 WHERE product_id = $2", [newFileName, rows.product_id]);
       });
     }
