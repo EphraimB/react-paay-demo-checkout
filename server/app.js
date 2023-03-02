@@ -116,6 +116,8 @@ app.delete("/products/:id", async (req, res) => {
         }
         await pool.query("DELETE FROM products WHERE product_id = $1", [id]);
       });
+    } else {
+      await pool.query("DELETE FROM products WHERE product_id = $1", [id]);
     }
 
     res.json("Product was deleted");
@@ -135,10 +137,10 @@ app.post("/products", createUploadMiddleware(() => 0).single("product_image"), a
 
     const rows = newProduct.rows[0];
 
-    // Edit the file name to include the product id
-    const newFileName = product_image.replace('product_image-0', `product_image-${rows.product_id}`);
-
     if (product_image !== null) {
+      // Edit the file name to include the product id
+      const newFileName = product_image.replace('product_image-0', `product_image-${rows.product_id}`);
+
       fs.rename(`./public/data/uploads/${product_image}`, `./public/data/uploads/${newFileName}`, async (err) => {
         if (err) console.log('ERROR: ' + err);
 
