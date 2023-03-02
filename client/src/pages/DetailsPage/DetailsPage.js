@@ -48,7 +48,7 @@ export default function DetailsPage({ itemsRefetch }) {
             <Box sx={{ m: 2 }} >
                 <Grid container spacing={2} direction="row" sx={{ alignItems: "center" }}>
                     <Grid item xs={12} md={2}>
-                        <img src={product.product_image ? `http://localhost:5001/data/uploads/${product.product_image}` : placeholderImage} alt={product.product_title} />
+                        <img src={product.product_image ? `http://localhost:5001/data/uploads/${product.product_image}` : placeholderImage} alt={product.product_title} width={500} />
                     </Grid>
                     <Grid item xs={12} md={4}>
                         <Typography variant="h6">{product.product_title}</Typography>
