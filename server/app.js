@@ -1,4 +1,5 @@
 const express = require('express');
+const fs = require('fs');
 const bodyParser = require('body-parser');
 const multer = require('multer')
 const session = require('express-session');
@@ -11,11 +12,6 @@ const bcrypt = require('bcrypt');
 const port = 5001;
 
 const app = express();
-
-const customMiddleware = (req, res, next) => {
-  req.product_id_for_file = null;
-  next();
-};
 
 const corsOptions = {
   origin: 'http://localhost:3000',
@@ -41,8 +37,7 @@ const createUploadMiddleware = (getId) => {
 }
 
 app.use(cors(corsOptions));
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(customMiddleware);
+app.use(bodyParser.json());
 
 dotenv.config({ override: true });
 
@@ -120,26 +115,36 @@ app.delete("/products/:id", async (req, res) => {
   }
 });
 
-app.post("/products", async (req, res) => {
+app.post("/products", createUploadMiddleware(() => 0).single("product_image"), async (req, res) => {
   try {
     const { product_title, product_description, product_price } = req.body;
     const product_image = req.file ? req.file.filename : null;
-
-    console.log(req.body);
 
     const newProduct = await pool.query("INSERT INTO products (product_image, product_title, product_description, product_price) VALUES ($1, $2, $3, $4) RETURNING *",
       [product_image, product_title, product_description, product_price]
     );
 
-    const product_id = newProduct.rows[0];
-    const uploadMiddleware = createUploadMiddleware(() => product_id);
-    uploadMiddleware.single('product_image');
+    const rows = newProduct.rows[0];
+
+    console.log(rows.product_id);
+
+
+    // Edit the file name to include the product id
+    const newFileName = product_image.replace('product_image-0', `product_image-${rows.product_id}`);
+
+    if (product_image !== null) {
+      fs.rename(`./public/data/uploads/${product_image}`, `./public/data/uploads/${newFileName}`, async (err) => {
+        if ( err ) console.log('ERROR: ' + err);
+        
+        const updateProduct = await pool.query("UPDATE products SET product_image = $1 WHERE product_id = $2", [newFileName, rows.product_id]);
+      });
+    }
 
     res.json(newProduct.rows);
-  } catch (err) {
-    console.error(err.message);
-  }
-});
+    } catch (err) {
+      console.error(err.message);
+    }
+  });
 
 app.get("/items", (req, res) => {
   const user_id = req.session.passport ? req.session.passport.user.user_id : null;
