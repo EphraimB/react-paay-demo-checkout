@@ -26,7 +26,7 @@ export default function PhoneCheckout({ openPhoneCheckoutModal, setOpenPhoneChec
     }
 
     const handleCheckout = () => {
-        // checkout(data);
+        checkout(data);
         setOpenPhoneCheckoutModal(true);
     }
 
