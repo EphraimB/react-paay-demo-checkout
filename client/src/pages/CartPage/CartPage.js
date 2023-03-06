@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
 import Card from '@mui/material/Card';
@@ -11,7 +11,8 @@ import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import { useNavigate } from "react-router-dom";
-import placeholderImage from '../../img/image.png'
+import placeholderImage from '../../img/image.png';
+import PhoneCheckoutModal from '../../components/PhoneCheckoutModal/PhoneCheckoutModal';
 import {
     useEditItemMutation,
     useDeleteItemMutation
@@ -21,6 +22,8 @@ import PhoneCheckout from '../../components/PhoneCheckout/PhoneCheckout';
 export default function CartPage({ itemsRefetch, setOpenSnackbar, setSnackbarMessage, itemsCount, items, totalPrice }) {
     const [editItem] = useEditItemMutation();
     const [deleteItem] = useDeleteItemMutation();
+
+    const [openPhoneCheckoutModal, setOpenPhoneCheckoutModal] = useState(false);
 
     const navigate = useNavigate();
 
@@ -111,8 +114,9 @@ export default function CartPage({ itemsRefetch, setOpenSnackbar, setSnackbarMes
                         </Card>
                     ))}
                 </Grid>
-                {itemsCount > 0 ? <PhoneCheckout /> : null}
+                {itemsCount > 0 ? <PhoneCheckout openPhoneCheckoutModal={openPhoneCheckoutModal} setOpenPhoneCheckoutModal={setOpenPhoneCheckoutModal} /> : null}
             </Grid>
+            <PhoneCheckoutModal openPhoneCheckoutModal={openPhoneCheckoutModal} setOpenPhoneCheckoutModal={setOpenPhoneCheckoutModal} />
             {itemsCount > 0 ? <Fab variant="extended" color="primary" aria-label="Add to cart" sx={{
                 position: "absolute",
                 bottom: 16,

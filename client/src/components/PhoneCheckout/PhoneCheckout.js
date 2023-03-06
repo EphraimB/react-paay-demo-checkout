@@ -7,7 +7,7 @@ import {
     useCheckoutMutation
 } from "../../features/api/apiSlice";
 
-export default function PhoneCheckout() {
+export default function PhoneCheckout({ openPhoneCheckoutModal, setOpenPhoneCheckoutModal }) {
     const [phoneNumber, setPhoneNumber] = useState('');
 
     const navigate = useNavigate();
@@ -26,8 +26,8 @@ export default function PhoneCheckout() {
     }
 
     const handleCheckout = () => {
-        checkout(data);
-        navigate('/confirmation');
+        // checkout(data);
+        setOpenPhoneCheckoutModal(true);
     }
 
     return (
