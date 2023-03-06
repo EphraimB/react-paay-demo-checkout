@@ -270,6 +270,24 @@ app.post("/checkout", async (req, res) => {
   }
 });
 
+app.get("/orders", async (req, res) => {
+  try {
+    const user_id = req.session.passport ? req.session.passport.user.user_id : null;
+    const char = user_id === null ? "IS NULL" : "= $1";
+    let orders = [];
+
+    const userOrders = await pool.query(`SELECT * FROM orders WHERE user_id ${char} AND confirmed = false`, user_id !== null ? [user_id] : '');
+
+    if (userOrders.rows.length > 0) {
+      orders = userOrders.rows.map((row) => row);
+    }
+
+    res.status(200).json(orders);
+  } catch (err) {
+    console.error(err.message);
+  }
+});
+
 app.post('/login', passport.authenticate("local-login"), (req, res) => {
   res.status(200).json({ message: "User logged in successfully" });
 });
