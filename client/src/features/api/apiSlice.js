@@ -61,6 +61,9 @@ export const apiSlice = createApi({
         body: phoneNumber
       }),
     }),
+    getOrders: builder.query({
+      query: () => '/orders',
+    }),
     getUser: builder.query({
       query: () => '/user',
     }),
@@ -99,6 +102,7 @@ export const {
   useEditItemMutation,
   useDeleteItemMutation,
   useCheckoutMutation,
+  useGetOrdersQuery,
   useGetUserQuery,
   useLoginMutation,
   useLogoutMutation,

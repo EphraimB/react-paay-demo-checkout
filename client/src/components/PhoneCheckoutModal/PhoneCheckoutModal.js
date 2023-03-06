@@ -7,8 +7,19 @@ import { Link } from "react-router-dom";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from '@mui/icons-material/Close';
 import Button from "@mui/material/Button";
+import {
+    useGetOrdersQuery
+} from "../../features/api/apiSlice";
 
 export default function PhoneCheckoutModal({ openPhoneCheckoutModal, setOpenPhoneCheckoutModal }) {
+    const {
+        data: orders,
+        isLoading,
+        isSuccess,
+        isError,
+        error,
+    } = useGetOrdersQuery();
+
     const style = {
         position: 'absolute',
         color: 'white',
@@ -32,6 +43,8 @@ export default function PhoneCheckoutModal({ openPhoneCheckoutModal, setOpenPhon
         setOpenPhoneCheckoutModal(false);
     }
 
+    const content = isLoading ? <Typography variant="h5" color="white" component="p">Loading...</Typography> : (isSuccess && orders.confirmed === true) ? <Typography variant="h5" color="white" component="p">Payment confirmed!</Typography> : (isSuccess && orders[0].confirmed === false) ? <Typography variant="h5" color="white" component="p">Please check your phone now to approve this payment.</Typography> : null;
+
     return (
         <Modal
             open={openPhoneCheckoutModal}
@@ -45,7 +58,7 @@ export default function PhoneCheckoutModal({ openPhoneCheckoutModal, setOpenPhon
                         <CloseIcon />
                     </IconButton>
                 </Box>
-                <Typography variant="h5" color="white" component="p">Please check your phone now to approve this payment.</Typography>
+                {content}
                 <Stack direction="row" sx={{
                     mt: 5,
                     color: "white",
