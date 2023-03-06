@@ -51,7 +51,7 @@ export default function PhoneCheckoutModal({ openPhoneCheckoutModal, setOpenPhon
                     color: "white",
                     justifyContent: "space-between",
                 }}>
-                    <Link to="" style={linkStyle}>CANCEL</Link>
+                    <Link to="" style={linkStyle} onClick={handleClose}>CANCEL</Link>
                     <Button variant="contained" color="primary">RESEND ALERT</Button>
                     <Link to="" style={linkStyle}>HELP</Link>
                 </Stack>
