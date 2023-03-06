@@ -10,8 +10,14 @@ import Button from "@mui/material/Button";
 import {
     useGetOrdersQuery
 } from "../../features/api/apiSlice";
+import { w3cwebsocket as WebSocket } from 'websocket';
+import { useEffect, useState } from "react";
 
 export default function PhoneCheckoutModal({ openPhoneCheckoutModal, setOpenPhoneCheckoutModal }) {
+    const ws = new WebSocket('ws://localhost:5002/');
+
+    const [paymentStatus, setPaymentStatus] = useState('');
+
     const {
         data: orders,
         isLoading,
@@ -43,20 +49,21 @@ export default function PhoneCheckoutModal({ openPhoneCheckoutModal, setOpenPhon
         setOpenPhoneCheckoutModal(false);
     }
 
-    let content;
-
-    if (isLoading) {
-        content = <Typography variant="h5" color="white" component="p">Loading...</Typography>
-    } else if (isSuccess) {
-        console.log(orders[0].confirmed)
-        if (orders[0].confirmed === false) {
-            content = <Typography variant="h5" color="white" component="p">Please check your phone now to approve this payment.</Typography>
-        } else if (orders[0].confirmed === true) {
-            content = <Typography variant="h5" color="white" component="p">Payment successful!</Typography>
+    useEffect(() => {
+        if (isLoading) {
+            setPaymentStatus("Loading...");
+        } else if (isSuccess) {
+            if (orders.length > 0) {
+                setPaymentStatus("Please check your phone now to approve this payment.");
+            }
+        } else if (isError) {
+            setPaymentStatus(`Error: {error.message}`);
         }
-    } else if (isError) {
-        content = <Typography variant="h5" color="white" component="p">Error: {error.message}</Typography>
-    }
+
+        ws.onmessage = (event) => {
+            setPaymentStatus("Payment successful!");
+        }
+    }, [isError, isLoading, isSuccess, orders, error, ws]);
 
     return (
         <Modal
@@ -71,7 +78,7 @@ export default function PhoneCheckoutModal({ openPhoneCheckoutModal, setOpenPhon
                         <CloseIcon />
                     </IconButton>
                 </Box>
-                {content}
+                <Typography variant="h5" color="white" component="p">{paymentStatus}</Typography>
                 <Stack direction="row" sx={{
                     mt: 5,
                     color: "white",

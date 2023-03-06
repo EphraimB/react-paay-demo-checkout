@@ -1,5 +1,6 @@
 const express = require('express');
 const fs = require('fs');
+const WebSocket = require('ws');
 const bodyParser = require('body-parser');
 const multer = require('multer')
 const session = require('express-session');
@@ -12,6 +13,15 @@ const bcrypt = require('bcrypt');
 const port = 5001;
 
 const app = express();
+
+const wss = new WebSocket.Server({ port: 5002 });
+
+wss.on('connection', (ws) => {
+  console.log('Client connected');
+  ws.on('message', (message) => {
+    console.log(`Received message => ${message}`);
+  });
+});
 
 const corsOptions = {
   origin: 'http://localhost:3000',

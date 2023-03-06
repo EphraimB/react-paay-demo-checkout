@@ -72,6 +72,15 @@ BEGIN
 END;
 $$ language 'plpgsql';
 
+CREATE OR REPLACE FUNCTION notify_changes()
+RETURNS trigger AS $$
+DECLARE
+BEGIN
+  PERFORM pg_notify('Payment successful', 'Payment is successful');
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
 CREATE TRIGGER update_products_dates
 BEFORE INSERT OR UPDATE ON products
 FOR EACH ROW
@@ -96,3 +105,8 @@ CREATE TRIGGER update_order_items_dates
 BEFORE INSERT OR UPDATE ON order_items
 FOR EACH ROW
 EXECUTE PROCEDURE update_dates();
+
+CREATE TRIGGER column_change_trigger
+AFTER UPDATE OF confirmed ON orders
+FOR EACH ROW
+EXECUTE FUNCTION notify_changes();
