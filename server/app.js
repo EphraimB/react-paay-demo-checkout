@@ -276,7 +276,7 @@ app.get("/orders", async (req, res) => {
     const char = user_id === null ? "IS NULL" : "= $1";
     let orders = [];
 
-    const userOrders = await pool.query(`SELECT * FROM orders WHERE user_id ${char} AND confirmed = false`, user_id !== null ? [user_id] : '');
+    const userOrders = await pool.query(`SELECT * FROM orders WHERE user_id ${char}`, user_id !== null ? [user_id] : '');
 
     if (userOrders.rows.length > 0) {
       orders = userOrders.rows.map((row) => row);
