@@ -43,7 +43,17 @@ export default function PhoneCheckoutModal({ openPhoneCheckoutModal, setOpenPhon
         setOpenPhoneCheckoutModal(false);
     }
 
-    const content = isLoading ? <Typography variant="h5" color="white" component="p">Loading...</Typography> : (isSuccess && orders.confirmed === true) ? <Typography variant="h5" color="white" component="p">Payment confirmed!</Typography> : (isSuccess && orders[0].confirmed === false) ? <Typography variant="h5" color="white" component="p">Please check your phone now to approve this payment.</Typography> : null;
+    let content;
+
+    if (isLoading) {
+        content = <Typography variant="h5" color="white" component="p">Loading...</Typography>
+    } else if (isSuccess && orders.confirmed === true) {
+        content = <Typography variant="h5" color="white" component="p">Payment confirmed!</Typography>
+    } else if (isSuccess && orders.confirmed === false) {
+        content = <Typography variant="h5" color="white" component="p">Please check your phone now to approve this payment.</Typography>
+    } else if (isError) {
+        content = <Typography variant="h5" color="white" component="p">Error: {error.message}</Typography>
+    }
 
     return (
         <Modal
