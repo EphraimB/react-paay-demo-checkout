@@ -1,6 +1,5 @@
 const express = require('express');
 const fs = require('fs');
-const WebSocket = require('ws');
 const bodyParser = require('body-parser');
 const multer = require('multer')
 const session = require('express-session');
@@ -14,14 +13,17 @@ const port = 5001;
 
 const app = express();
 
-const wss = new WebSocket.Server({ port: 5002 });
+async function handleNotification(payload) {
+  console.log('Received notification:', payload);
+  // handle the notification payload here
+}
 
-wss.on('connection', (ws) => {
-  console.log('Client connected');
-  ws.on('message', (message) => {
-    console.log(`Received message => ${message}`);
-  });
-});
+(async () => {
+  const client = await pool.connect();
+  await client.query('LISTEN message');
+  console.log('Listening for notifications on channel_name...');
+  client.on('notification', handleNotification);
+})().catch(err => console.error(err.stack));
 
 const corsOptions = {
   origin: 'http://localhost:3000',

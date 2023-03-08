@@ -14,8 +14,7 @@ import { w3cwebsocket as WebSocket } from 'websocket';
 import { useEffect, useState } from "react";
 
 export default function PhoneCheckoutModal({ openPhoneCheckoutModal, setOpenPhoneCheckoutModal }) {
-    const ws = new WebSocket('ws://localhost:5002/');
-
+    const [ws, setWs] = useState(null);
     const [paymentStatus, setPaymentStatus] = useState('');
 
     const {
@@ -60,9 +59,33 @@ export default function PhoneCheckoutModal({ openPhoneCheckoutModal, setOpenPhon
             setPaymentStatus(`Error: {error.message}`);
         }
 
-        ws.onmessage = (event) => {
-            setPaymentStatus("Payment successful!");
+        if (!ws) {
+            const newWs = new WebSocket("ws://localhost:5001");
+
+            newWs.onopen = () => {
+                console.log('WebSocket connection established.');
+                setWs(newWs);
+                newWs.send('SUBSCRIBE channel_name'); // <-- fixed here
+            };
+
+            newWs.onerror = (error) => {
+                console.log('WebSocket error:', error);
+            };
+
+            // Set up the message event handler outside of the else block
+            newWs.onmessage = (event) => {
+                console.log(event.data);
+                setPaymentStatus("Payment successful!");
+            };
         }
+
+        // Return a cleanup function that closes the WebSocket connection and sets the ws variable to null
+        return () => {
+            if (ws) {
+                ws.close();
+                setWs(null);
+            }
+        };
     }, [isError, isLoading, isSuccess, orders, error, ws]);
 
     return (

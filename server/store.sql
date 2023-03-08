@@ -76,7 +76,7 @@ CREATE OR REPLACE FUNCTION notify_changes()
 RETURNS trigger AS $$
 DECLARE
 BEGIN
-  PERFORM pg_notify('Payment successful', 'Payment is successful');
+  PERFORM pg_notify('message', 'Payment is successful');
   RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
@@ -109,4 +109,5 @@ EXECUTE PROCEDURE update_dates();
 CREATE TRIGGER column_change_trigger
 AFTER UPDATE OF confirmed ON orders
 FOR EACH ROW
+WHEN (NEW.confirmed = true AND OLD.confirmed = false)
 EXECUTE FUNCTION notify_changes();
